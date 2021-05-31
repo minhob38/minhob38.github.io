@@ -6,4 +6,4 @@ author_profile: true
 taxonomy: algorithm
 ---
 
-알고리즘 끄적
+알고리즘 끄적끄적
