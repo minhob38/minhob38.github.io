@@ -1,7 +1,10 @@
 ---
 layout: post
 title: Remove Duplicate Letters
-categories: Algorithm
+categories: 
+  - algorithm
+tags: 
+  - recursive
 date: 2021-05-31 12:30:00 +0900
 ---
 
