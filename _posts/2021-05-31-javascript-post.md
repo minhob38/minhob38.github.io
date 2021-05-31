@@ -97,6 +97,9 @@ describe(("<Component />", () => {
 <br>
 
 ### 비동기 작업
+[Async Methods](https://testing-library.com/docs/dom-testing-library/api-async)를 통해 비동기 작업을 다룰 수 있습니다.
+
+<br>
 
 ### 서버 요청
 [Mock Service Worker](https://mswjs.io/)를 통해 서버 요청을 모사할 수 있습니다. (axios-mock-adapter, nock etc)
