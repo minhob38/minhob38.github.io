@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Remove Duplicate Letters"
 categories: 
   - algorithm
