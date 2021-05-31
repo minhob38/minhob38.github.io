@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Remove Duplicate Letters
+title: "Remove Duplicate Letters"
 categories: 
   - algorithm
 tags: 
