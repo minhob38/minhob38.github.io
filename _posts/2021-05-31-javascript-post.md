@@ -40,28 +40,63 @@ React에서 Testing Library에 대해 살펴보겠습니다.
 - ByDisplayValue
 - ByTitle
 - ByTestId
-요소를 못 찾을 경우 get은 error, query는 null, find는 reject를 반환합니다.
+  
+<u>요소를 못 찾을 경우 get은 error, query는 null, find는 reject를 반환합니다.</u>
 
 ```
 import React from "react";
 import { render } from "@testing-library/react";
 
 function Component({ content }) {
-  <p>{content}</p>
-  <div testId="testing-libirary">Testing Library</div>
+  return (
+    <p>{content}</p>
+    <div testID="testing-libirary">Testing Library</div>
+  );
 }
 
 describe(() => {
   test(() => {
-    const { queryByText, queryById } = render(<Component content={"React TEST"}>)
-    const $p = queryByText("React TEST");
+    const { queryByText, queryById } = render(<Component content={"REACT TEST"}>)
+    const $p = queryByText("REACT TEST");
     const $div = queryByTestId("testing-libirary");
+    
+    expect($p).not.toBeNull();
+    expect($div).not.toBeNull();
   });
 });
 ```
 
 ### 사용자 이벤트
+[fireEvent](https://testing-library.com/docs/dom-testing-library/api-events)를 통해, 사용자 이벤트를 모사할 수 있습니다.
+```
+import React from "react";
+import { render, fireEvent } from "@testing-library/react";
+
+function Component({ onClick }) {
+  return (
+    <button onClick={onClick} >
+      Click
+    </button>
+  );
+}
+
+describe(() => {
+  test(() => {
+    const mockFn = jest.fn();
+    const { queryByText } = render(<Component onClick={mockFn}>)
+    const $button = queryByText("Click");
+
+    fireEvent.click($button);
+   
+    expect(mockFn).toHaveBeenCalledTimes(1);
+  });
+});
+```
 
 ### 비동기 작업
 
 ### 서버 요청
+
+### 비고
+Third-party 라이브러리 테스트
+https://medium.com/xebia/de-mystifying-jest-snapshot-test-mocks-8e7183d109ea
