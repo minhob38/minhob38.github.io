@@ -2,14 +2,10 @@
 title: "Remove Duplicate Letters"
 categories: 
   - algorithm
-tags: 
-  - recursive
 date: 2021-05-31 12:30:00 +0900
+last_modified_at: 2021-05-31 12:30:00 +0900
 ---
 
-# Alogrithm
-
-## Remove Duplicate Letters
 문자열을 lexicographical order (사전적 순서)를 유지하며 중복된 문자열을 제거하는 문제입니다.  
 예로 들어 cbacdcbc를 문제 조건에 따라 중복문자를 제거하면 acdb가 되어야 합니다.  
 [Leet Code](https://leetcode.com/problems/remove-duplicate-letters)
