@@ -54,8 +54,8 @@ function Component({ content }) {
   );
 }
 
-describe(() => {
-  test(() => {
+describe("<Component />", () => {
+  test("find element", () => {
     const { queryByText, queryById } = render(<Component content={"REACT TEST"}>)
     const $p = queryByText("REACT TEST");
     const $div = queryByTestId("testing-libirary");
@@ -65,6 +65,8 @@ describe(() => {
   });
 });
 ```
+
+<br>
 
 ### 사용자 이벤트
 [fireEvent](https://testing-library.com/docs/dom-testing-library/api-events)를 통해, 사용자 이벤트를 모사할 수 있습니다.
@@ -80,8 +82,8 @@ function Component({ onClick }) {
   );
 }
 
-describe(() => {
-  test(() => {
+describe(("<Component />", () => {
+  test("user event", () => {
     const mockFn = jest.fn();
     const { queryByText } = render(<Component onClick={mockFn}>)
     const $button = queryByText("Click");
@@ -92,10 +94,49 @@ describe(() => {
   });
 });
 ```
+<br>
 
 ### 비동기 작업
 
 ### 서버 요청
+[Mock Service Worker](https://mswjs.io/)를 통해 서버 요청을 모사할 수 있습니다. (axios-mock-adapter, nock etc)
+```
+import React from "react";
+import { render, fireEvent, waitFor } from "@testing-library/react-native";
+import { rest } from "msw";
+import { setupServer } from "msw/node";
+
+function Component({ onClick }) {
+  return (
+    <button onClick={() => fetch("http://localhost:3000/api", { method: "GET })} >
+      Click
+    </button>
+  );
+}
+
+jest.mock("react-native-vector-icons/Ionicons", () => "Icon");
+
+describe("<Component />", () => {
+  const server = setupServer(
+    rest.get("http://localhost:3000/api", (req, res, ctx) => {
+      return res(ctx.json({ message: "sucess", data: "hello", error: null }));
+    })
+  );
+
+  beforeAll(() => server.listen());
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
+
+  test("server request", async () => {
+    const { queryByText } = render(<Component onClick={mockFn}>)
+    const $button = queryByText("Click");
+
+    fireEvent.click($button);
+   
+    await waitFor(() => expect(...));
+  });
+});
+```
 
 ### 비고
 Third-party 라이브러리 테스트
