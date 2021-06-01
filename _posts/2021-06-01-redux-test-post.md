@@ -22,7 +22,7 @@ describe("action creator", () => {
       payload,
     })
   
-    const actions = types.addToDo("payload");
+    const action = types.addToDo("payload");
     const expectedAction = { type: types.ADD_TO_DO, payload: "payload" }
 
     expect(action).toEqual(expectedAction);
@@ -33,6 +33,45 @@ describe("action creator", () => {
 <br>
 
 ### Async Action Creator
+비동기로 Action이 실행되는지 Test합니다.
+
+```
+import thunk from "redux-thunk";
+import configureMockStore from "redux-mock-store";
+
+function Component() {
+  const action = () => async (dispatch) => {
+    disaptch({ type: "FETCH_REQUEST" })
+    await fetch("http://localhost:8000, { method: "GET }");
+    disaptch({ type: "FETCH_COMPLETION" })
+  };
+  
+  return <Button onClick={() => dispatch(action())}>Click</Button>
+}
+
+describe("action creator", () => {
+  test("test", () => {
+    const store = configureMockStore([thunk])();
+    await store.dispatch(action())
+  
+    const expectedActions = [
+      { type: "FETCH_REQUEST" },
+      { type: "FETCH_COMPLETION" },
+    ];
+    
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+});
+```
+
+✏️ Jest가 Fetch를 못 찾을 경우, cross-fetch와 localstorage polyfill을 가져오면 문제가 해결됩니다.
+
+```
+import "cross-fetch/polyfill";
+import "localstorage-polyfill"
+```
+
+<br>
 
 ### Reducer
 [Async Methods](https://testing-library.com/docs/dom-testing-library/api-async)를 통해 비동기 작업을 다룰 수 있습니다.
