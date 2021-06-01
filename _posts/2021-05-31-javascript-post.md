@@ -105,7 +105,7 @@ describe(("<Component />", () => {
 [Mock Service Worker](https://mswjs.io/)를 통해 서버 요청을 모사할 수 있습니다. (axios-mock-adapter, nock etc)
 ```
 import React from "react";
-import { render, fireEvent, waitFor } from "@testing-library/react-native";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
@@ -116,8 +116,6 @@ function Component({ onClick }) {
     </button>
   );
 }
-
-jest.mock("react-native-vector-icons/Ionicons", () => "Icon");
 
 describe("<Component />", () => {
   const server = setupServer(
@@ -142,5 +140,5 @@ describe("<Component />", () => {
 ```
 
 ### 비고
-Third-party 라이브러리 테스트
+Third-party 라이브러리 테스트  
 https://medium.com/xebia/de-mystifying-jest-snapshot-test-mocks-8e7183d109ea
