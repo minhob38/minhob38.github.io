@@ -1,7 +1,7 @@
 ---
 title: "redux test"
 categories: 
-  - javascript
+  - programming
 date: 2021-06-01 01:00:00 +0900
 last_modified_at: 2021-06-01 01:00:00 +0900
 ---
