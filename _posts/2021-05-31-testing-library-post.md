@@ -1,7 +1,7 @@
 ---
 title: "testing library react / react native"
 categories: 
-  - javascript
+  - programming
 date: 2021-05-31 14:55:00 +0900
 last_modified_at: 2021-05-31 14:55:00 +0900
 ---
