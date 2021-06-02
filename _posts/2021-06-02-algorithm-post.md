@@ -7,7 +7,7 @@ last_modified_at: 2021-06-02 01:00:00 +0900
 ---
 
 중복되지 않는 제일 긴 문자열의 길이를 찾는 문제입니다..  
-예로 들어 pwwkew 중복되지 않는 제일 긴 문자열은 abc, bca, cab이며, 이때 문자열 길이는 3입니다.
+예로 들어 abcabcbb의 중복되지 않는 제일 긴 문자열은 abc, bca, cab이며, 이때 문자열 길이는 3입니다.
 
 [Leet Code](https://leetcode.com/problems/longest-substring-without-repeating-characters/submissions/)
 
@@ -33,7 +33,7 @@ function lengthOfLongestSubstring(s) {
     const length = end - start + 1;
     answer = length > answer ? length :  answer;
 
-    map.set(cur, i)
+    map.set(cur, i);
   }
 
   return answer;
