@@ -1,3 +1,11 @@
+---
+title: "async / await"
+categories: 
+  - programming
+date: 2021-06-05 01:00:00 +0900
+last_modified_at: 2021-06-05 01:00:00 +0900
+---
+
 ## async & await
 프로미스가 비동기 코드를 동기 코드로 바꾸기 위해 나온것처럼, async & await 또한 더 편한게 코드를 작성하기 위해 도입되었습니다.
 
