@@ -1,9 +1,9 @@
 ---
-title: "동기 / 비동기"
+title: "Synchronous / Asynchronous"
 categories: 
   - programming
-date: 2021-06-01 01:00:00 +0900
-last_modified_at: 2021-06-01 01:00:00 +0900
+date: 2021-06-04 01:00:00 +0900
+last_modified_at: 2021-06-04 01:00:00 +0900
 ---
 
 ## 동기 / 비동기 개념
