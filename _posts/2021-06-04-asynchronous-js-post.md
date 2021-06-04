@@ -1,5 +1,5 @@
 ---
-title: "Synchronous / Asynchronous"
+title: "동기 / "
 categories: 
   - programming
 date: 2021-06-04 01:00:00 +0900
