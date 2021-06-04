@@ -1,5 +1,5 @@
 ---
-title: "클로저 & "
+title: "클로저 & 실행컨텍스트"
 categories: 
   - programming
 date: 2021-06-05 01:00:00 +0900
