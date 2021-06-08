@@ -1,3 +1,11 @@
+---
+title: "Stack / Queue"
+categories: 
+  - programming
+date: 2021-06-08 01:00:00 +0900
+last_modified_at: 2021-06-08 01:00:00 +0900
+---
+
 # 스택 & 큐
 ## 스택 (stack)
 스택은 선형구조로써 뜻 그대로 데이터를 쌓으면서 저장하는 방법입니다.
