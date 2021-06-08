@@ -20,7 +20,7 @@ locale                   : "en-US"
 title                    : "프로그래밍 끄적끄적"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
-name                     : "Your Name"
+name                     : "minho"
 description              : "Programming's Note."
 url                      : "https://minhob38.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
@@ -97,8 +97,8 @@ analytics:
 author:
   name             : "Kwon, Minho"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I am an **amazing** person."
-  location         : "Somewhere"
+  bio              : "단순한 코드를 좋아하는 개발자입니다."
+#   location         : "Somewhere"
   email            : "minhob38@gmail.com"
   links:
     - label: "Email"
@@ -115,7 +115,7 @@ author:
       # url: "https://facebook.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url: "https://github.com/"
+      url: "https://github.com/minhob38"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       # url: "https://instagram.com/"
