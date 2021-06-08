@@ -97,7 +97,8 @@ analytics:
 author:
   name             : "Kwon, Minho"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "단순한 코드를 좋아하는 개발자입니다.  👷🏻 Notion을 Github으로 옮기는 중입니다."
+  bio              : "단순한 코드를 좋아하는 개발자입니다.
+  (👷🏻 Notion을 Github으로 옮기는 중입니다.)"
 #   location         : "Somewhere"
   email            : "minhob38@gmail.com"
   links:
