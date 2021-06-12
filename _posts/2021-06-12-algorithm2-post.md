@@ -8,7 +8,7 @@ last_modified_at: 2021-06-12 01:00:00 +0900
 
 정렬된 배열에서 합이 목표와 같은 두 요소를 찾는 문제입니다. 
 
-[Leet Code](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/submissions/)
+[Leet Code](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted)
 
 ### JavaScript 풀이
 - 배열이 정렬되어 있으므로, Two Pointer를 사용할 수 있습니다.
