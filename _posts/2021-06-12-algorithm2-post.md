@@ -6,7 +6,7 @@ date: 2021-06-12 01:00:00 +0900
 last_modified_at: 2021-06-12 01:00:00 +0900
 ---
 
-배열에 해당 요소를 찾는, 이진 탐색 문제입니다. 
+정렬된 배열에서 합이 목표와 같은 두 요소를 찾는 문제입니다. 
 
 [Leet Code](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/submissions/)
 
