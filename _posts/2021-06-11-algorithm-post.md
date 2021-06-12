@@ -8,7 +8,7 @@ last_modified_at: 2021-06-11 01:00:00 +0900
 
 배열에 해당 요소를 찾는, 이진 탐색 문제입니다. 
 
-[Leet Code](https://leetcode.com/problems/binary-search/submissions/)
+[Leet Code](https://leetcode.com/problems/binary-search)
 
 ### JavaScript 풀이
 - 배열은 오름차순 또는 내림차순으로 정렬되어 있어야 합니다.
