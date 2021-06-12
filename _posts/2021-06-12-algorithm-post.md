@@ -8,7 +8,7 @@ last_modified_at: 2021-06-12 01:00:00 +0900
 
 두 배열에서 중복되는 요소를 찾는 문제입니다. 
 
-[Leet Code](https://leetcode.com/problems/intersection-of-two-arrays/submissions/)
+[Leet Code](https://leetcode.com/problems/intersection-of-two-arrays)
 
 ### JavaScript 풀이
 - 중복된 요소를 제거하기 위해 Set을 이용합니다.
