@@ -1,5 +1,5 @@
 ---
-title: "Search a 2D Matrix ||"
+title: "Search a 2D Matrix II"
 categories: 
   - algorithm
 date: 2021-06-12 01:00:00 +0900
