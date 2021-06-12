@@ -8,7 +8,7 @@ last_modified_at: 2021-06-11 01:00:00 +0900
 
 회전된 배열에서 해당 요소를 찾는 문제입니다. 
 
-[Leet Code](https://leetcode.com/problems/search-in-rotated-sorted-array/submissions/)
+[Leet Code](https://leetcode.com/problems/search-in-rotated-sorted-array)
 
 ### JavaScript 풀이
 - 회전 배열(Rotated Array)의 정의는 다음과 같습니다.
