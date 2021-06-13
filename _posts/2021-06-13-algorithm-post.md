@@ -6,7 +6,7 @@ date: 2021-06-13 01:00:00 +0900
 last_modified_at: 2021-06-13 01:00:00 +0900
 ---
 
-인접한 요소들로 구성된 sub array의 최대값을 구하는 문제입니다. 
+계단에 올라갈 수 있는 조합의 수를 구하는 문제입니다.
 
 [Leet Code](https://leetcode.com/problems/climbing-stairs)
 
