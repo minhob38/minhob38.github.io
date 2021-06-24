@@ -2,8 +2,8 @@
 title: "Sequalize"
 categories: 
   - programming
-date: 2021-06-14 01:00:00 +0900
-last_modified_at: 2021-06-14 01:00:00 +0900
+date: 2021-06-22 01:00:00 +0900
+last_modified_at: 2021-06-22 01:00:00 +0900
 ---
 
 # Sequelize
@@ -26,44 +26,60 @@ npm을 통해 sequelize-cli를 설치합니다. sequelize-cli는 터미널에서
 ```
 npm install --save-dev sequelize-cli
 ```
-## Config
-애플리케이션 안에 Database의 빈프로젝트를 초기화 해줍니다. 빈프로젝트는 config, migrations, models, seeders 폴더 트리로 구성되어 있습니다.
+## 설정하기
+sequelize-cli로 애플리케이션 안에 Database의 빈프로젝트를 초기화 해줍니다. 빈프로젝트는 config, migrations, models, seeders 폴더 트리로 구성되어 있습니다.
 ```
 npx sequelize-cli init
 ```
 
-### config
+### database configuration
+config.js에 sequelizer와 연동할 Database를 설정을 합ㄴ디ㅏ.
 ```
 {
   "development": {
-    "username": "postgres",
-    "password": "passwordsqldb",
-    "database": "vos_assignment",
-    "host": "34.64.125.55",
+    "username": "db-username",
+    "password": "db-password",
+    "database": "db-name",
+    "host": "dp-address",
     "dialect": "postgres"
   },
   "test": {
-    "username": "postgres",
-    "password": "passwordsqldb",
-    "database": "vos_assignment",
-    "host": "34.64.125.55",
+    "username": "db-username",
+    "password": "db-password",
+    "database": "db-name",
+    "host": "dp-address",
     "dialect": "postgres"
   },
   "production": {
-    "username": "postgres",
-    "password": "passwordsqldb",
-    "database": "vos_assignment",
-    "host": "34.64.125.55",
+    "username": "db-username",
+    "password": "db-password",
+    "database": "db-name",
+    "host": "dp-address",
     "dialect": "postgres"
   }
 }
 ```
-- Local Database
+
+### sequelize configuration
+[.sequelizerc](https://sequelize.org/master/manual/migrations.html#the--code--sequelizerc--code--file)는 sequelize-cli의 환경을 설정할 수 있는 파일입니다.
+```
+const path = require('path');
+
+module.exports = {
+  'config': path.resolve('config', 'database.json'),
+  'models-path': path.resolve('db', 'models'),
+  'seeders-path': path.resolve('db', 'seeders'),
+  'migrations-path': path.resolve('db', 'migrations')
+};
+```
+
+- Local Database  
 터미널에 whoami를 입력하여 user name을 확인할 수 있습니다.
 - Google Cloud SQL Database  
-<img src="../assets/images/google_cloud_sql_username_password.png" alt="image" width="50%">
+<img src="../assets/images/google_cloud_sql_username_password.png" alt="image" width="50%" >
 
 ## sequelize cli
+sequelize cli를 통해 Model, Migration, Seed 단계를 거쳐 Database를 만들 수 있습니다.  
 [Migration](https://sequelize.org/master/manual/migrations.html)이란 Model Schema를 정의하고, 이를 테이블에 옮기는 것을 의미합니다.  
 
 ### Model 만들기
@@ -98,24 +114,9 @@ npx sequelize-cli seed:generate --name demo-user
 npx sequelize-cli db:seed:all
 ```
 
-**Seed**
+**Seed 취소하기**
 ```
 npx sequelize-cli db:seed:undo
-```
-
-
-
-### sequelize configuration
-[.sequelizerc](https://sequelize.org/master/manual/migrations.html#the--code--sequelizerc--code--file)는 sequelize-cli의 환경을 설정할 수 있는 파일입니다.
-```
-const path = require('path');
-
-module.exports = {
-  'config': path.resolve('config', 'database.json'),
-  'models-path': path.resolve('db', 'models'),
-  'seeders-path': path.resolve('db', 'seeders'),
-  'migrations-path': path.resolve('db', 'migrations')
-};
 ```
 
 ## API
@@ -134,9 +135,11 @@ sequelize는 table을 만들때, 자동으로 createdAt, updatedAt을 column에 
 
 **[Column Option](https://sequelize.org/master/manual/model-basics.html#column-options)**
 
+
+**Model Define Example Code**
 ```
 module.exports = (sequelize, DataTypes) => {
-  const LandValue = sequelize.define("LandValue", {
+  const User = sequelize.define("User", {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -148,9 +151,14 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
-  return LandValue;
+  return User;
 }
+```
 
+**Model-DB Connection Example Code**
+```
+const db = require("./database/models");
+db.sequelize.sync().then((req) => console.log("model is synchronized with db"));
 ```
 
 ### Validation
@@ -168,31 +176,53 @@ Database를 [조회](https://sequelize.org/master/manual/model-querying-finders.
 ``findOrCreate``: 조건에 맞는 Database를 조회하고 없으면 Databae를 만듭니다.  
 ``findAndCountAll``: 전체 Database를 조회하고 갯수 반환합니다.  
 
+### 탐색 Sequelize Query
+[Model API](https://sequelize.org/v5/class/lib/model.js~Model.html)를 통해 다양한 조건으로 탐색할 수 있습니다.  
+attribute를 통해 특정 coulumn만 가져올 수 있습니다.  
+where을 통해 탐색 조건을 정의할 수 있습니다. (where은 기본적으로 and와 같습니다.)  
+[op](https://sequelize.org/master/variable/index.html#static-variable-Op)를 통해 다양한 조건 연산을 할 수 있습니다.  
+[order](https://sequelize.org/v5/manual/querying.html#ordering)를 통해 정렬된 Data를 받을 수 있습니다.
+[limit](https://sequelize.org/master/manual/model-querying-basics.html#limits-and-pagination)를 통해 가져올 Data 개수를 정의할 수 있습니다.
+
+```js
+const { User } = require("./models");
+const { Op } = require("sequelize");
+
+User.findAll({
+  attributes: ["name", "age"],
+  where: {
+    name: "minho"
+    age: {
+      [Op.gt]: 30
+    },
+    [Op.or]: [
+      { location: "yong-in" },
+      { occupation: "engineer" }
+    ]
+    order: [
+      ["birth", "DESC"]
+    ]
+  }
+})
+
+
+```
+
 
 
 [where](https://sequelize.org/v5/variable/index.html#static-variable-Op)
 
-
-
-
-https://www.youtube.com/watch?v=eISxHn-ddvc
+## 참조 자료
 model 테이블 스키마 정의
 migration 모델을 테이블에 옮기며, 모델 변화를 기억하고 잇음
 seed 데이터베이스에 데이터 넣는과정
 
-https://www.youtube.com/watch?v=Zhi7Y1oi5qs
 https://blog.devari.kr/2020/nodejs/nodejs-sequelize
-https://srk911028.tistory.com/146
-https://www.youtube.com/watch?v=Crk_5Xy8GMA
-https://smoh.tistory.com/305
-https://sihus.tistory.com/13
-https://www.youtube.com/watch?v=Eu-h3iUk45o
-https://velog.io/@eddie_kim/Sequelize-cli%EC%99%80-PostgreSQL%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%B4%EC%84%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-Migration-%EB%B0%8F-Seed%ED%95%98%EA%B8%B0
-https://leanylabs.com/blog/js-csv-parsers-benchmarks/
-https://stackabuse.com/reading-and-writing-csv-files-with-node-js
-https://sequelize.org/v3/api/datatypes/
 
-modle은 column정의만,, Migration이 스키마정의...
+
+[sequelize quick tutorial](https://www.youtube.com/watch?v=Eu-h3iUk45o)
+
+(삭제할것)
 https://baeharam.netlify.app/posts/Node.js/Node.js-Sequelize-%EB%8B%A4%EB%A3%A8%EA%B8%B0
 
 검색
@@ -209,9 +239,7 @@ https://velog.io/@gillog/SQL-Index%EC%9D%B8%EB%8D%B1%EC%8A%A4
 crud 보기
 https://www.youtube.com/watch?v=Crk_5Xy8GMA&t=4s
 
-https://velog.io/@gillog/SQL-Index%EC%9D%B8%EB%8D%B1%EC%8A%A4
-https://brunch.co.kr/@skeks463/25
-
-index
+[index](https://velog.io/@gillog/SQL-Index%EC%9D%B8%EB%8D%B1%EC%8A%A4)  
+[index](https://brunch.co.kr/@skeks463/25)  
+[index](https://mangkyu.tistory.com/96)  
 update / delete하면 기존거는 사용안하고, 새로운게 삽입되서 무거워짐...
-https://mangkyu.tistory.com/96
