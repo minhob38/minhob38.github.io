@@ -193,6 +193,10 @@ str.replace(re, 'bye');
 **개행 공백 제거**  
 eventId = eventId.replace(/\n| /g, "");
 
+**연도**  
+YYYY의 정규식입니다.
+
+
 함수 인자 / 몸체 분리
 
 ```js

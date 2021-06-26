@@ -127,7 +127,19 @@ npx sequelize-cli db:seed:undo
 `sequelize.define`: 함수를 통해 모델을 정의할 수 있습니다.  
 `extends model`: 상속을 통해 모델을 정의할 수 있습니다.
 
-**[Model Sync](https://sequelize.org/master/manual/model-basicshtml#model-synchronization)**  
+모델의 [스키마 데이터 타입](https://sequelize.org/master/manual/model-basics.html#data-types)은 다음과 같습니다.
+- STRING
+- TEXT
+- BOOLEAN
+- INT
+- REAL
+- DOUBLE
+- DECIMAL
+- ...
+
+모델 [Validation](https://sequelize.org/master/manual/validations-and-constraints.html)
+
+**[Model Sync](https://sequelize.org/master/manual/model-basics.html#model-synchronization)**  
 `sequelize.sync`를 통해 Database와 Model을 동기화 합니다.
 
 **[Time Stamp](https://sequelize.org/master/manual/model-basics.html#timestamps)**  
@@ -243,3 +255,4 @@ https://www.youtube.com/watch?v=Crk_5Xy8GMA&t=4s
 [index](https://brunch.co.kr/@skeks463/25)  
 [index](https://mangkyu.tistory.com/96)  
 update / delete하면 기존거는 사용안하고, 새로운게 삽입되서 무거워짐...
+[sql vs sequelide 문법 비교](https://spicycookie.me/Nodejs/sequelizecrud/)
