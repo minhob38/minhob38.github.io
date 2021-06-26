@@ -1,5 +1,5 @@
 ---
-title: "Sequalize"
+title: "Sequelize"
 categories: 
   - programming
 date: 2021-06-22 01:00:00 +0900
@@ -33,7 +33,7 @@ npx sequelize-cli init
 ```
 
 ### database configuration
-config.js에 sequelizer와 연동할 Database를 설정을 합ㄴ디ㅏ.
+config.js에 sequelizer와 연동할 Database를 설정을 합니다.
 ```
 {
   "development": {
