@@ -272,7 +272,7 @@ compress_html:
 defaults:
   # _posts
   - scope:
-      path: "assets/images"
+      path: ""
       type: posts
     values:
       layout: single
@@ -281,4 +281,3 @@ defaults:
       comments: # true
       share: true
       related: true
-      image: true
