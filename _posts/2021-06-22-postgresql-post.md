@@ -9,7 +9,7 @@ last_modified_at: 2021-06-22 01:00:00 +0900
 # PostgreSQL
 ## 환경설정
 
-### 설치하기
+### • 설치하기
 
 **PostgreSQL**
 
@@ -26,6 +26,7 @@ echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/pat
 
 PostgreSQL의 GUI 환경으로, [공식 홈페이지](https://www.pgadmin.org/download/)에서 pgAdmin을 설치할 수 있습니다.
 
+<br>
 
 ## pgAdmin
 ### • Server 만들기
