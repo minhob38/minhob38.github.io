@@ -10,7 +10,7 @@ last_modified_at: 2021-06-23 01:00:00 +0900
 [정규표현식]((https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/%EC%A0%95%EA%B7%9C%EC%8B%9D))은 문자열에서, 특정 문자를 검색, 삽입 등에 사용됩니다. RegExp의 exec, test 메소드와 String의 match, replace, search, split 메소드와 함께 사용됩니다.
 
 ## 정규표현식 만들기
-정규표현식은 리터럴 표기법, RegExp객체 두가지 방법으로 만들 수 있습니다. 
+정규표현식은 리터럴 표기법, RegExp객체 두가지 방법으로 만들 수 있습니다.
 
 **리터럴 표기법**
 
