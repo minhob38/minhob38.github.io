@@ -9,7 +9,7 @@ last_modified_at: 2021-06-27 01:00:00 +0900
 # 트리
 트리는 비선형구조로 데이터를 아래 그림처럼 계층적으로 저장하는 방법입니다. 선형구조자료와 달리 단순한 데이터 저장이 아닌, 계층적 관계를 표현하기 위해 데이터가 저장됩니다. 이 그림에서 트리 관련 용어에 대해 살펴보겠습니다.
 
-<img src="../assets/images/tree1.png" alt="image" width="30%">
+<img src="/assets/images/tree1.png" alt="image" width="30%">
 
 - 노드(Node) : 트리의 마디점 (A, B, C, D, E, F)
 - 간선(Edge) : 노드와 노드끼리 연결하는 선
@@ -31,20 +31,20 @@ last_modified_at: 2021-06-27 01:00:00 +0900
 ### • 빅오
 트리의  삽입/탐색/삭제의 빅오에 대해 알아보겠습니다. 아래는 트리를 보여주며, 어떤 값이 들어있는지 모릅니다.
 
-<img src="../assets/images/tree2.png" alt="image" width="30%">
+<img src="/assets/images/tree2.png" alt="image" width="30%">
 
 이러한 트리에 데이터를 삽입할려면 어떻게 해야할까요? 자료크기에 상관없이 노드를 지정하여 삽입하면 되기때문에 빅오는 O(1)입니다. (트리에서 데이터 추가는 삽입과 동일합니다.)
 
-<img src="../assets/images/tree3.png" alt="image" width="30%">
+<img src="/assets/images/tree3.png" alt="image" width="30%">
 
 
 데이터를 찾을 때, 루트노드부터 탐색해야 되기 때문에 빅오는 O(n)이 됩니다.
 
-<img src="../assets/images/tree4.png" alt="image" width="25%">
+<img src="/assets/images/tree4.png" alt="image" width="25%">
 
 데이터 삭제를 위해, 데이터가 담긴 노드를 찾은 후 삭제해야 되기 떄문에 빅오는 O(n)이 됩니다.
 
-<img src="../assets/images/tree5.png" alt="image" width="30%">
+<img src="/assets/images/tree5.png" alt="image" width="30%">
 
 <br>
 
@@ -58,9 +58,54 @@ function Tree (value) {
   const tree = {};
   tree.value = value;
   tree.children = [];
-  tree.addChild = function () {};
-  tree.contain = function () {};
-  tree.remove = function () {};
+
+  tree.addChild = function (value) {
+    tree.children.push(Tree(value));
+  }
+
+  tree.contain = function (target) {
+    if (target === this.value) {
+      return true;
+    }
+
+    for (let i = 0; i < this.children.length; i++) {
+      if (this.children[i].contain(target)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  tree.bfs = function () {
+    const search = [];
+    const queue = [];
+    queue.push(tree);
+
+    while(queue.length) {
+      const currentNode = queue.shift();
+
+      queue.push(.currentNode.children);
+      search.push(currentNode.value);
+    }
+
+    return search;
+  }
+
+  tree.dfs = function () {
+    const search = [];
+    const stack = [];
+    stack.push(tree);
+
+    while(stack.length) {
+      const currentNode = stack.shift();
+
+      stack.unshift(.currentNode.children);
+      search.push(currentNode.value);
+    }
+
+    return search;
+  }
 
   return tree;
 }
@@ -69,8 +114,8 @@ function Tree (value) {
 ## 이진 트리 (Binary Tree)
 두개 이하의 자식노드를 가지고 있는 트리를 이진트리로 정의합니다. 아래 그림은 이진트리를 보여줍니다. 특별히 모든 레벨(계층 깊이)이 노드로 가득 차있는 트리를 포화 이진 트리(Full Binary Tree)라 부르며, 모든 노드가 두개의 자식 노드를 가지고 있는 트리를 완전 이진 트리(Complete Binary Tree)라 부릅니다.
 
-<img src="../assets/images/tree6.png" alt="image" width="30%">
-<img src="../assets/images/tree7.png" alt="image" width="30%">
+<img src="/assets/images/tree6.png" alt="image" width="30%">
+<img src="/assets/images/tree7.png" alt="image" width="30%">
 
 ### • 이진 트리 순회
 \- 전위 순회 : 루트 노드를 먼저 순회합니다. (루트 노드 → 왼쪽 노드 → 오른쪽 노드)
