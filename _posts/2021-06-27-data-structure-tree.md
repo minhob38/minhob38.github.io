@@ -17,16 +17,12 @@ last_modified_at: 2021-06-27 01:00:00 +0900
 - 단말 노드(Terminal Node) : 하위 노드가 없는 노드 (C, D, E, F)
 - 내부 노드(Internal Node) : 단말 노드를 제외한 노드 (A, B)
 
-<br>
-
 ## 일반 트리
 
 ### 예시
 
 - DOM
 - File System
-
-<br>
 
 ### • 빅오
 트리의  삽입/탐색/삭제의 빅오에 대해 알아보겠습니다. 아래는 트리를 보여주며, 어떤 값이 들어있는지 모릅니다.
@@ -45,8 +41,6 @@ last_modified_at: 2021-06-27 01:00:00 +0900
 데이터 삭제를 위해, 데이터가 담긴 노드를 찾은 후 삭제해야 되기 떄문에 빅오는 O(n)이 됩니다.
 
 <img src="/assets/images/tree5.png" alt="image" width="30%">
-
-<br>
 
 ### • 일반 트리 코드
 \- 트리는 value, children 속성과 add, remove, contain 메소드를 가집니다.
@@ -122,12 +116,8 @@ function Tree (value) {
 \- 중위 순회 : 루트 노드를 중간에 순회합니다. (왼쪽 노드 → 루투 노드 → 오른쪽 노드)
 \- 후위 순회 : 루트 노드를 마지막에 순회합니다. (왼쪽 노드 → 오른쪽 노드 → 루트 노드)
 
-<br>
-
 ### • 빅오
 이진트리의 삽입/탐색/삭제의 빅오는 일반트리와 동일합니다.
-
-<br>
 
 ### • 이진 트리 코드
 - 트리는 value, left, right 속성과 addChild, contain, remove 메소드를 가집니다.
@@ -150,8 +140,6 @@ function BinaryTree (value) {
 }
 ```
 
-<br>
-
 ## 이진 탐색 트리 (Binary Search Tree)
 탐색을 위해, 특정 조건을 가지고 이진 트리를 만든 것을 이진 탐색 트리라 합니다. 이진 탐색 트리는 아래와 같은 특징이 있습니다.  
 \- 노드 값은 유일합니다.  
@@ -161,12 +149,8 @@ function BinaryTree (value) {
 ### • 예시
 \- Searching in an ordered data
 
-<br>
-
 ### • 빅오
 이진 탐색 트리의 삽입/탐색/삭제의 빅오는 균형트리에서 log(n), 불균형트리에서 n입니다.
-
-<br>
 
 ## AVL 트리
 [AVL 트리]((https://ko.wikipedia.org/wiki/AVL_%ED%8A%B8%EB%A6%AC))는 스스로 균형을 잡는 이진탐색트리입니다. 발명자인 아델손 벨스키(Georgy **A**delson-**V**elsky)와 에브게니 란디스(Evgenil **L**andis)의 이름을 따왔으며, 이진탐색트리에서 왼쪽과 오른쪽의 높이차가 1보다 커지면, 노드들을 재구성(회전)하여 양쪽 높이의 균형을 잡습니다. 이를 통해 이진탐색트리를 균형트리로 만들 수 있습니다.
@@ -175,13 +159,9 @@ function BinaryTree (value) {
 
 AVL트리는 균형트리이기 때문에, 삽입/탐색/삭제의 빅오는 log(n)입니다.
 
-<br>
-
 ## Red Black Tree
 
 [Red/Black Tree](https://www.cs.usfca.edu/~galles/visualization/RedBlack.html)
-
-<br>
 
 ## 참고 자료
 - [AVL Tree #1](https://m.blog.naver.com/PostView.nhn?blogId=dhdh6190&logNo=221062784111&proxyReferer=https:%2F%2Fwww.google.com%2F)

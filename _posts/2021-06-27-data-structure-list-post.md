@@ -25,8 +25,6 @@ last_modified_at: 2021-06-27 01:00:00 +0900
 앞에서부터 순서대로 저장됩니다. (메모리 물리적 위치도 순서대로)
 <img src="/assets/images/list1.png" alt="image" width="80%">
 
-<br>
-
 ### • 데이터 삽입
 데이터가 삽입되면 뒤쪽 데이터가 밀립니다.
 <img src="/assets/images/list2.png" alt="image" width="80%">
@@ -34,8 +32,6 @@ last_modified_at: 2021-06-27 01:00:00 +0900
 ↓
 
 <img src="/assets/images/list3.png" alt="image" width="80%">
-
-<br>
 
 ### • 데이터 삭제
 데이터가 삭제되면 뒤쪽 데이터가 빈공간을 채웁니다.
@@ -47,8 +43,6 @@ last_modified_at: 2021-06-27 01:00:00 +0900
 <img src="/assets/images/list5.png" alt="image" width="80%">
 
 순차 리스트는 메모리가 정적으로 할당됩니다. 따라서 할당된 저장공간을 바꿀 수 없기 때문에, 저장공간을 넘는 데이터를 저장 못하는 등 몇몇 문제점이 있습니다. 이러한 한계점은, 메모리를 동적으로 구성하여 데이터를 저장하는(동적자료구조) 연결리스트로 해결될 수 있습니다.
-
-<br>
 
 ### • 빅오
 순차리스트의 추가/삭제/탐색/삽입의 빅오에 대해 알아보겠습니다. 아래는 순차리스트를 보여주며, 어떤 값이 들어있는지 모릅니다.
@@ -71,8 +65,6 @@ last_modified_at: 2021-06-27 01:00:00 +0900
 
 <img src="/assets/images/list10.png" alt="image" width="70%">
 
-<br>
-
 ## 연결리스트
 
 연결리스트는 선형구조로 데이터와 다음 노드 위치(메모리 주소)를 담고 있는 노드들이 연결되어 있는 자료구조입니다. 이러한 특성과 함께 다음 노드위치만 가리키면 되기 때문에 메모리를 동적으로 사용할 수 있습니다.
@@ -89,19 +81,13 @@ last_modified_at: 2021-06-27 01:00:00 +0900
 
 <img src="/assets/images/single_list.png" alt="image" width="80%">
 
-<br>
-
 ### • 이중 연결리스트 (Double Linked List)
 
 <img src="/assets/images/linked_list.png" alt="image" width="80%">
 
-<br>
-
 ### • 환형 연결리스트 (Circular Linked List)
 
 <img src="/assets/images/circular_list.png" alt="image" width="80%">
-
-<br>
 
 이처럼 요소끼리 서로의 메모리 주소를 참조하기 때문에, 데이터 수정(삽입/삭제 등)이 있을지라도 메모리 할당을 동적으로 사용할 수 있습니다.
 
