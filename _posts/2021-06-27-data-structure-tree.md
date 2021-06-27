@@ -159,7 +159,7 @@ function BinaryTree (value) {
 
 AVL트리는 균형트리이기 때문에, 삽입/탐색/삭제의 빅오는 log(n)입니다.
 
-## Red Black Tree
+## • Red Black Tree
 
 [Red/Black Tree](https://www.cs.usfca.edu/~galles/visualization/RedBlack.html)
 
@@ -168,4 +168,4 @@ AVL트리는 균형트리이기 때문에, 삽입/탐색/삭제의 빅오는 log
 
 - [AVL Tree #2](https://www.cs.usfca.edu/~galles/visualization/AVLtree.html)
 
-- [nlong](https://hackernoon.com/what-does-the-time-complexity-o-log-n-actually-mean-45f94bb5bfbf)
+- [nlogn](https://hackernoon.com/what-does-the-time-complexity-o-log-n-actually-mean-45f94bb5bfbf)
