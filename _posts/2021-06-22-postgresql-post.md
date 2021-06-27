@@ -22,22 +22,18 @@ sudo mkdir -p /etc/paths.d &&
 echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/paths.d/postgresapp
 ```
 
-**PGadmin**
+**pgAdmin**
 
 PostgreSQL의 GUI 환경으로, [공식 홈페이지](https://www.pgadmin.org/download/)에서 pgAdmin을 설치할 수 있습니다.
 
 
 ## pgAdmin
-### Server 만들기
-<img src="../assets/images/pgAdmin_create_server1.png" alt="image" width="30%">
-<img src="../assets/images/pgAdmin_create_server2.png" alt="image" width="30%">
-<img src="../assets/images/pgAdmin_create_server3.png" alt="image" width="30%">
+### • Server 만들기
+<img src="/assets/images/pgAdmin_create_server1.png" alt="image" width="30%">
+<img src="/assets/images/pgAdmin_create_server2.png" alt="image" width="30%">
+<img src="/assets/images/pgAdmin_create_server3.png" alt="image" width="30%">
 
-### Google Cloud SQL
-[Google Cloud SQL](https://cloud.google.com/sql)에서 SQL Database를 저장할 수 있습니다.  
-[Manual](https://cloud.google.com/sql/docs/postgres/quickstart?hl=ko)
+### • Google Cloud SQL
+[Google Cloud SQL](https://cloud.google.com/sql)에서 SQL Database를 저장할 수 있습니다. 클라우드를 만드는 법은 [공식홈페이지](https://cloud.google.com/sql/docs/postgres/quickstart?hl=ko)에 기술되어 있습니다.
 - PostgreSQL 인스턴스 만들기
 - Cloud SQL 연결하기
-
-
-http://www.devkuma.com/books/pages/1442
