@@ -23,28 +23,28 @@ last_modified_at: 2021-06-27 01:00:00 +0900
 
 ### • 데이터 저장
 앞에서부터 순서대로 저장됩니다. (메모리 물리적 위치도 순서대로)
-<img src="../assets/images/list1.png" alt="image" width="80%">
+<img src="/assets/images/list1.png" alt="image" width="80%">
 
 <br>
 
 ### • 데이터 삽입
 데이터가 삽입되면 뒤쪽 데이터가 밀립니다.
-<img src="../assets/images/list2.png" alt="image" width="80%">
+<img src="/assets/images/list2.png" alt="image" width="80%">
 
 ↓
 
-<img src="../assets/images/list3.png" alt="image" width="80%">
+<img src="/assets/images/list3.png" alt="image" width="80%">
 
 <br>
 
 ### • 데이터 삭제
 데이터가 삭제되면 뒤쪽 데이터가 빈공간을 채웁니다.
 
-<img src="../assets/images/list4.png" alt="image" width="80%">
+<img src="/assets/images/list4.png" alt="image" width="80%">
 
 ↓
 
-<img src="../assets/images/list5.png" alt="image" width="80%">
+<img src="/assets/images/list5.png" alt="image" width="80%">
 
 순차 리스트는 메모리가 정적으로 할당됩니다. 따라서 할당된 저장공간을 바꿀 수 없기 때문에, 저장공간을 넘는 데이터를 저장 못하는 등 몇몇 문제점이 있습니다. 이러한 한계점은, 메모리를 동적으로 구성하여 데이터를 저장하는(동적자료구조) 연결리스트로 해결될 수 있습니다.
 
@@ -53,23 +53,23 @@ last_modified_at: 2021-06-27 01:00:00 +0900
 ### • 빅오
 순차리스트의 추가/삭제/탐색/삽입의 빅오에 대해 알아보겠습니다. 아래는 순차리스트를 보여주며, 어떤 값이 들어있는지 모릅니다.
 
-<img src="../assets/images/list6.png" alt="image" width="70%">
+<img src="/assets/images/list6.png" alt="image" width="70%">
 
 이러한 순차리스트에 데이터를 추가할려면 어떻게 해야할까요? 자료크기에 상관없이 끝에 데이터만 추가하면 되기때문에 빅오는 O(1)입니다.
 
-<img src="../assets/images/list7.png" alt="image" width="80%">
+<img src="/assets/images/list7.png" alt="image" width="80%">
 
 데이터 삭제 또한 추가와 동일하게, 끝의 데이터를 삭제하면 되며, 빅오는 O(1)이 됩니다.
 
-<img src="../assets/images/list8.png" alt="image" width="80%">
+<img src="/assets/images/list8.png" alt="image" width="80%">
 
 데이터를 찾을 때, 처음부터 탐색해야 되기 때문에 빅오는 O(n)이 됩니다.
 
-<img src="../assets/images/list9.png" alt="image" width="80%">
+<img src="/assets/images/list9.png" alt="image" width="80%">
 
 데이터를 특정 위치에 삽입을 하기 위해서, 우선 특정 위치를 탐색하고 삽입해야 되기 때문에 빅오는 O(n)이 됩니다.
 
-<img src="../assets/images/list10.png" alt="image" width="70%">
+<img src="/assets/images/list10.png" alt="image" width="70%">
 
 <br>
 
@@ -87,19 +87,19 @@ last_modified_at: 2021-06-27 01:00:00 +0900
 
 ### • 단일 연결리스트 (Single Linked List)
 
-<img src="../assets/images/single_list.png" alt="image" width="80%">
+<img src="/assets/images/single_list.png" alt="image" width="80%">
 
 <br>
 
 ### • 이중 연결리스트 (Double Linked List)
 
-<img src="../assets/images/linked_list.png" alt="image" width="80%">
+<img src="/assets/images/linked_list.png" alt="image" width="80%">
 
 <br>
 
 ### • 환형 연결리스트 (Circular Linked List)
 
-<img src="../assets/images/circular_list.png" alt="image" width="80%">
+<img src="/assets/images/circular_list.png" alt="image" width="80%">
 
 <br>
 
@@ -206,10 +206,8 @@ function Node (value) {
 ```
 
 ### 이중 연결리스트 코드
-
-- **JavaScript**
-    - 이중 연결 리스트는 head, tail 속성과 add, remove, contain, insert + (reverse, cycle) 메소드를 가집니다.
-    - 노드는 value, next 속성을 가지며, next는 다음 노드를 가리킵니다.
+\- 이중 연결 리스트는 head, tail 속성과 add, remove, contain, insert + (reverse, cycle) 메소드를 가집니다.
+\- 노드는 value, next 속성을 가지며, next는 다음 노드를 가리킵니다.
 
 ```js
 function LinkedList () {
