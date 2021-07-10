@@ -297,3 +297,4 @@ var str = 'hello';
 console.log(str.charCodeAt(0)); //첫번째 문자 유니코드
 console.log(str.charCodeAt(4)); //첫번째 문자 유니코드
 ```
+git
