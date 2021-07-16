@@ -182,11 +182,11 @@ https://sequelize.org/v5/manual/models-definition.html#validations
 
 ## Read
 Database를 [조회](https://sequelize.org/master/manual/model-querying-finders.html)합니다.  
-``findAll``: 전체 Database를 조회합니다.  
-``findByPk``: Primary Key로 Database를 조회합니다.  
-``findOne``: 조건에 맞는 Database 한개를 조회합니다.  
-``findOrCreate``: 조건에 맞는 Database를 조회하고 없으면 Databae를 만듭니다.  
-``findAndCountAll``: 전체 Database를 조회하고 갯수 반환합니다.  
+\- [findAll](https://sequelize.org/v5/class/lib/model.js~Model.html#static-method-findAll): 전체 Database를 조회합니다.  
+\- findByPk: Primary Key로 Database를 조회합니다.  
+\- findOne: 조건에 맞는 Database 한개를 조회합니다.  
+\- findOrCreate: 조건에 맞는 Database를 조회하고 없으면 Databae를 만듭니다.  
+\- findAndCountAll: 전체 Database를 조회하고 갯수 반환합니다.  
 
 ### 탐색 Sequelize Query
 [Model API](https://sequelize.org/v5/class/lib/model.js~Model.html)를 통해 다양한 조건으로 탐색할 수 있습니다.  
