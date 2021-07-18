@@ -7,7 +7,7 @@ last_modified_at: 2021-06-22 01:00:00 +0900
 ---
 
 # PostgreSQL
-PostgreSQL은 오픈소스 관계형 데이터베이스로 대용량 Transaction 처리, GIS에 유용한 특징을 가지고 있습니다.
+PostgreSQL은 오픈소스 관계형 데이터베이스로 대용량 Transaction 처리, GIS에 유용한 특징을 가지고 있습니다.  
 🔎 관계형데이터베이스는 정규화된 테이블로 이루어져 있습니다.
 (column(attribute) row(tuple))
 
@@ -20,6 +20,9 @@ PostgreSQL은 오픈소스 관계형 데이터베이스로 대용량 Transaction
 sudo mkdir -p /etc/paths.d &&
 echo /Applications/Postgres.app/Contents/Versions/latest/bin | sudo tee /etc/paths.d/postgresapp
 ```
+
+**psql**  
+psql은 postgres cli입니다.
 
 **pgAdmin**  
 PostgreSQL의 GUI 환경으로, [공식 홈페이지](https://www.pgadmin.org/download/)에서 pgAdmin을 설치할 수 있습니다.
@@ -142,6 +145,14 @@ SELECT column, ... from table ORDER BY column, ... ASC;
 ### • postgreSQL 연산자
 postgreSQL [연산자](https://www.tutorialspoint.com/postgresql/postgresql_operators.htm)는 산술, 비교, 논리, 비트 연산자가 있습니다.
 
+### • postgreSQL 자료형
+
+### • postgreSQL 날짜 다루기
+```
+select
+  date('2020-3-1') - date('2020-2-28')
+```
+
 ## pgAdmin
 ### • Server(Database) 만들기
 <img src="/assets/images/pgAdmin_create_server1.png" alt="image" width="30%">
@@ -153,17 +164,10 @@ postgreSQL [연산자](https://www.tutorialspoint.com/postgresql/postgresql_oper
 - PostgreSQL 인스턴스 만들기
 - Cloud SQL 연결하기
 
-## psql
-psql은 postgres cli입니다.
-
-## SQL
-Structrued Query Language  
-SQL은 관계형 데이터베이스에서 사용되는 언어
-SELECT `row` from `table`
-
-테이블은 row, column으로 구성되어 있음
-
 ## 참고 자료
 [• 유튜브 강의](https://www.youtube.com/watch?v=qw--VYLpxG4)  
 [• postgreSQL document](https://www.postgresql.org/docs/13/index.html)  
 [• postgreSQL tutorial](https://www.postgresql.org/docs/online-resources/)
+
+함수
+https://www.tutorialspoint.com/postgresql/postgresql_useful_functions.htm
