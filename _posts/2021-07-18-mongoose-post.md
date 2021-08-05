@@ -291,7 +291,7 @@ model.create({
 const schema = new mongoose.Schema(
   a: { type: Number, min: 0, max: 10 }
 
-model.create({a: 15});
+model.create({ a: 15 å});
 ```
 
 **enum : ?**  
@@ -305,7 +305,7 @@ model.create({a: 15});
 const schema = new mongoose.Schema(
   a: { type: String, minLength: 5, maxLength: 10 },
 
-model.create({a: "abcdefghijklmn"});
+model.create({ a: "abcdefghijklmn" });
 ```
 
 **lowercase / uppercase**
@@ -315,17 +315,11 @@ model.create({a: "abcdefghijklmn"});
 const schema = new mongoose.Schema(
   a: { type: String, uppercase: true },
 
-model.create({a: "aBcDeFgHi"});
+model.create({ a: "aBcDeFgHi" });å
 ```
 
 **trim**  
 문자열 앞뒤 공백을 제거하여 저장합니다. (JavaScript `Trim`과 동일합니다.)
-```js
-const schema = new mongoose.Schema(
-  a: { type: String, uppercase: true },
-
-model.create({a: "aBcDeFgHi"});
-```
 
 **match**  
 정규식과 일치하는지 검증합니다.
