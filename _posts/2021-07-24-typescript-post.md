@@ -22,7 +22,7 @@ npm install --save-dev typescript
 ```js
 // tsconfig.json
 {
-  {
+  "compilerOptions": {
       "strict": true,
       "target": "ES6",
       "lib": ["ES2015", "DOM"],
@@ -123,6 +123,32 @@ a = 1;
 a = 'hello';
 ```
 
+**\- intersection**  
+type을 조합하여, 또 다른 type을 정의합니다.
+```js
+type A = {
+  k: string,
+  p: string,
+  q: number
+};
+
+type B = {
+  k: string,
+  m: string,
+  n: boolean
+};
+
+type C = A & B;
+
+const c: C = {
+  k: 'typescript',
+  p: 'hello',
+  q: 1,
+  m: 'typescript',
+  n: true
+};
+```
+
 **\- literal**  
 literal type입니다.
 ```js
@@ -143,6 +169,24 @@ function func(): void {
   throw new Error();
 }
 ```
+
+**\- Optional**
+해당 변수가 있거나 없거나의 type을 선택적으로 정의합니다.
+```js
+interface M {
+  a: string;
+  b?: string;
+}
+
+const c: M = {
+  a: 'hello'
+}
+
+```
+
+**\- TypeGuard**
+**\- !**
+
 
 ### • Type Alias
 type을 alias할 수 있습니다.
@@ -193,57 +237,299 @@ function func(m: string, cb: (n: string) => void): void {
   cb(m.toString());
 };
 ```
+
 ## Class & Interface
 ### • Class
+typescript는 class를 type으로 가질 수 있습니다.
 ```js
-class M {
-  c: string;
-  private d: string[] = [];
-
-  constructor(b: string) {
-    this.c = b;
-  }
-
-  func(this: M) {
-    console.log(this.c);
+class Vehicle {
+  color: string;
+  constructor (color: string) {
+    this.color = color;
   }
 }
 
-const m = new M('hello')
+const vehicle: Vehicle = new Vehicle('red')
+
+console.log(vehicle.color); // non error
+console.log(vehicle.wheel); // error
 ```
-readonly
-은닉화 (메소드로만 조작해야하는걸 숨김)
+
+
+**\- constructor**  
+Vehicle의 인스턴스를 초기화하기 위해, constructor의 매개변수 및 멤버변수 type을 정의해주어야 합니다.
+```js
+class Vehicle {
+  color: string;
+
+  constructor (color: string) {
+    this.color = color;
+  }
+}
+
+const vehicle: Vehicle = new Vehicle('blue');
+```
+
+**\- 메소드**  
+this의 type을 정의해주는 것을 제외하고, 함수 type 정의와 같습니다.
+```js
+class Vehicle {
+  ignite(ignition: boolean): void {
+      if (ignition) {
+        console.log('start');
+      }
+  }
+
+  inform(this: Vehicle) {
+      console.log(this)
+  }
+}
+
+const vehicle: Vehicle = new Vehicle()
+const mockVehicle = {
+  inform: vehicle.inform
+}
+
+vehicle.inform(); // non error
+mockVehicle.inform(); // error
+```
+
+**\- 상속**  
+this의 type을 정의해주는 것을 제외하고, 함수 type 정의와 같습니다.
+```js
+class Vehicle {
+  color: string;
+
+  constructor (color: string) {
+    this.color = color;
+  }
+
+  ignite(ignition: boolean): void {
+      if (ignition) {
+        console.log('start');
+      }
+  }
+
+  inform(this: Vehicle) {
+      console.log(this)
+  }
+}
+
+class Car extends Vehicle {
+  model: string;
+  constructor (color: string, model: string) {
+    super(color);
+    this.model = model;
+  }
+}
+
+const carA: Vehicle = new Car('blue', 'i30');
+const carB: Car = new Car('black', 'tesla s');
+
+carA.inform()
+carB.inform()
+
+console.log(carA.model); // error
+console.log(carB.model); // non error
+```
+
+**\- public / private / protected**  
+접근권한에 따라 public, private, protected로 변수를 선언할 수 있습니다. public은 외부/같은 클래스/자식 클래스, private는 같은 클래스, protected는 같은 클래스/자식 클래스에서 접근이 가능합니다.
+```js
+class Vehicle {
+  public color: string;
+  private _price: number;
+  protected _owner: string;
+
+  constructor (color: string, price: number, owner: string) {
+    this.color = color;
+    this._price = price;
+    this._owner = owner;
+  }
+
+  get(this: Vehicle) {
+    console.log(this.color); // non error
+    console.log(this._price); // non error
+    console.log(this._owner); // non error
+  }
+}
+
+class Car extends Vehicle {
+  model: string;
+  constructor (color: string, price: number, owner: string, model: string) {
+    super(color, price, owner);
+    this.model = model;
+  }
+  get(this: Car) {
+      console.log(this.color); // non error
+      console.log(this._price); // error
+      console.log(this._owner); // non error
+  }
+}
+
+const vehicle: Vehicle = new Vehicle('blue', 1000, 'me');
+const car: Car = new Car('blue', 1000, 'me', 'i30');
+
+console.log(vehicle.color) // non error
+console.log(vehicle.price) // error
+console.log(vehicle.owner) // error
+
+console.log(car.color) // non error
+console.log(car.price) // error
+console.log(car.owner) // error
+
+```
+
+**\- readonly**  
+readonly는 읽기만 가능한 type입니다.
+```js
+class Vehicle {
+  readonly color: string;
+  model: string;
+
+  constructor (color: string, model: string) {
+    this.color = color;
+    this.model = model;
+  }
+}
+const vehicle: Vehicle = new Vehicle('blue', 'i30');
+
+vehicle.model = 'tesla s'; // non error
+vehicle.color = 'black'; // error
+```
+
+
+🔎 public / private / protected / readonly 키워드를 constructor 매개변수에 정의하면, 초기화를 하지 않아도 됩니다.
+```js
+class Vehicle {
+  color: string;
+  price: number;
+  owner: string;
+  model: string;
+
+  constructor (color: string, price: number, owner: string, model: string) {
+    this.color = color;
+    this.price = price;
+    this.owner = owner;
+    this.model = model;
+  }
+}
+
+const vehicle: Vehicle = new Vehicle('blue', 1000, 'me', 'i30);
+```
+```js
+class Vehicle {
+  constructor (public color: string, private price: number, protected owner: string, readonly model: string) {
+  }
+}
+
+const vehicle: Vehicle = new Vehicle('blue', 1000, 'me', 'i30);
+```
 
 ### • Interface
 객체의 구조(인터페이스) 타입을 정의합니다. type가 유사하지만 명확히 타입을지정할 수 있으며 class interface와 함께 사용될 수 있습니다.  
-```
-interface M {
-  a: string;
-  b: number;
-  func(c: number): string {
+```js
+interface Vehicle {
+  color: string;
+}
 
+const vehicle: Vehicle = { color: 'blue' };
+```
+
+**\- extends**  
+interface는 class처럼 type을 상속받을 수 있습니다.
+```js
+interface Vehicle {
+  color: string;
+}
+
+interface Car extends Vehicle{
+  model: string;
+}
+
+const vehicle: Vehicle = { color: 'blue' };
+const car: Car = { color: 'blue', model: 'i30' };
+```
+
+**\- implements**  
+interface는 class처럼 type을 정의할 수 있습니다. (interface에 없는 멤버, 메소드를 허용합니다.)
+```js
+interface IVehicle {
+  color: string;
+}
+
+class Vehicle implements IVehicle {
+  color: string;
+  model: string; // non error
+  constructor (color: string, model: string) {
+    this.color = color;
+    this.model = model;
   }
 }
 
-const d: M = {
-  a: 'hello',
-  b: 1,
-  func(c: number): string {
+const vehicle: Vehicle = { color: 'blue', model: 'i30' };
+```
 
-  }
+## Type Casting
+외부에서 오는 변수처럼, 해당 변수의 type을 모를때 type casting을 합니다.
+
+아래 코드에서 typescript는 $input이 input dom인지 알 수 없기에 오류가 발생합니다.
+```js
+const $input = document.getElementById('input');
+$input.value = 'hello'; // error 발생
+```
+아래처럼 두가지 방식으로 type casting을 하면 올바른 type을 정의하기에 오류가 발생하지 않습니다.
+```js
+const $input = <HTMLInputElement>document.getElementById('input');
+$input.value = 'hello';
+```
+```js
+const $input = document.getElementById('input')! as HTMLInputElement;
+// null이 아닐때 !를 붙이고, null일 수 있다면 !를 붙이지 않습니다.
+$input.value = 'hello';
+```
+
+## Generics
+Generic이란...
+### • Generic Function 만들기
+```js
+function merge<T extends object, U extends object>(objA: T, objB: U) {
+  return Object.assign(objA, objB);
+}
+
+const mergedObj = merge({ name: "jerry" }, { age: "30" });
+```
+keyof constraint
+
+```js
+function func<T extends object, U extends keyof T>(obj: T, key: U) {
+  return obj[key];
 }
 ```
 
-**\- Optional**
-```
-interface M {
-  a: string;
-  b?: string;
-}
+### • Generic Class 만들기
 
-const c: M = 
 
+### • Generic Utillity Type
+**\- Partial**
+interface b의 모든 key를 optional type으로 정의합니다.
+```js
+interface b = {
+  p: string,
+  q: number
+};
+const a: Partial<b> = {};
 ```
+
+**\- Readonly**
+interface b의 모든 key를 optional type으로 정의합니다.
+```js
+const a: Readonly<string[]> = ['hello', 'typescript'];
+a.push('^___^'); // error
+```
+
+## Decorator
+Generic이란...
 
 
 JavaScript vs TypesScript
