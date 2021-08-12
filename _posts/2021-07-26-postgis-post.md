@@ -49,199 +49,136 @@ shp2pgsql -s 4326 /Users/minho/Desktop/Coding-Study/sdb_data/BAEA_Nests.shp | ps
 ```
 
 
-Vector Gemoety Model
-Point: (x, y) 또는 (x, y, z)
-Line String: Point의 배열 (Opened)
-Polygon: line string의 배열 (Closed)
-Multi-part Gemometry: Multi Poing, Multi Line String, Multi Polygon
-Features: Geometry, Attributes(fields, proterties ...)
+## Vector Gemoety Model
+Point: (x, y) 또는 (x, y, z)  
+Line String: Point의 배열 (Opened)  
+Polygon: line string의 배열 (Closed)  
+Multi-part Gemometry: Multi Poligon, Multi Line String, Multi Polygon  
+Features: Geometry, Attributes(fields, proterties ...)  
 
+## Spatial Reference ID
+SRID(Spatial Reference ID - 공간 참조 식별자)는 Coordinate Reference System(공간 참조 시스템)의 식별자입니다. SRID는 아래 특성을 가지고 있습니다.  
+🔎 `select * from spatial_ref_sys`로 SRID를 확인할 수 있습니다.  
+\- Coordinate System  
+\- Projection  
+\- Zone  
+\- Datum  
 
-<br>
+## Geometry / Geography
+\- Geometry  
+평면 기반이며 좌표시스템에 따라 달라집니다. 또한 2차원이기에 수식이 단순하며 많은 함수들을 가지고 있습니다. 하지만 공간이 넓어지면 정확도가 떨어지는 단점이 있습니다.
 
-## Terminal
-터미널로 database를 다루기 위해서, postgreSQL cli인 psql이 먼저 설치되어 있어야합니다.
+\- Geography  
+구(지구)기반이며 하나의 좌표시스템(위도/경도)을 사용합니다. 또한 3차원이기에 수식이 복잡하며 적은 함수들을 가지고 있습니다. 하지만 정확도는 높다는 장점이 있습니다.
 
-### • Database 만들기
-psql 환경으로 들어간 후, `CREATE DATABASE [DB이름];`을 통해 database를 만들 수 있습니다.
-
-### • Database 지우기
-psql 환경으로 들어간 후, `DROP DATABASE [DB이름];`을 통해 database를 지울 수 있습니다.
-
-### • Database 연결하기
-`psql [Option]... [DBNAME [USERNAME]]`를 통해 database에 연결 할 수 있으며, 아래는 예시 입력입니다.  
+### • Geometry Basic Function
+**\- geometrytype**  
+[geometrytype](https://postgis.net/docs/GeometryType.html)은 geometry의 vector geometry type을 반환합니다.
+```sql
+select geometrytype(geom) from sdb
 ```
-psql -h localhost -p 5432 -U minho [DB이름]
+**\- st_coorddim**  
+[st_coorddim](https://postgis.net/docs/ST_CoordDim.html)은 geometry의 좌표 차원을 반환합니다.
+```sql
+select st_coorddim(geom) from sdb
 ```
-🔎 Option은 `psql --help`를 터미널에 입력하여 볼 수 있습니다.
-
-### • Table 만들기
-table은 아래와 같이 `CREATE TABLE [table 이름] ([column 이름] [Data Type])`으로 만들며, `\d`로 database에 있는 table들을 또는 `\d [table 이름]`으로 table의 column들을 볼 수 있습니다.
+**\- st_dimension**  
+[st_dimension](https://postgis.net/docs/ST_Dimension.html)은 geometry의 위상 차원을 반환합니다.
+```sql
+select st_dimenstion(geom) from sdb
 ```
-CREATE TABLE table_name (
-  column datatype constraint
-  ...
-);
+**\- st_srid**  
+[st_srid](https://postgis.net/docs/ST_SRID.html)는 geometry의 srid를 반환합니다.
+```sql
+select st_srid(geom) from sdb
 ```
-
-### • Table 지우기
-`DROP TABLE [table 이름]`으로 table을 지울 수 있습니다.
+**\- st_iscollection**  
+[st_iscollection](https://postgis.net/docs/ST_IsCollection.html)은 geometry가 collection(geometrycollection, compoundcurve, multi...)인지 ture/false로 반환합니다.
+```sql
+select st_iscollection(geom) from sdb
 ```
-DROP TABLE table;
+**\- st_numgeometries**  
+[st_numgeometries](https://postgis.net/docs/ST_NumGeometries.html)는 geometry의 갯수를 반환합니다.
+**\- st_numinteriorrings**??  
+```sql
+select st_numinteriorrings(geom) from sdb
 ```
-### • Table에 Record(Row) 삽입하기
-`INSERT INTO [talbe 이름] ([column 이름])` `VALUE ([column 값])`으로 table에 record를 삽입할 수 있습니다.
+**\- st_npoints**  
+[st_npoints](https://postgis.net/docs/ST_NPoints.html)는 geometry의 점 갯수를 반환합니다.
+```sql
+select st_numpoints(geom) from sdb
 ```
-INSERT INTO table_name (column, ...)
-VALUE (value, ...);
+**\- st_issimple**  
+```sql
+select st_issimple(geom) from sdb
 ```
-🔎 Option은 `/i`를 통해 sql파일로부터 record를 삽입할 수 있습니다.
-
-\- Data Constraint
-Data의 [Constraint](https://www.postgresql.org/docs/13/ddl.html)를 정의할 수 있습니다.
-
-\- Data Constraint
-[Data Type](https://www.postgresql.org/docs/13/datatype.html)을 정의할 수 있습니다.
-
-### • Table 조회하기
-아래와 같이 [SELECT](https://www.tutorialspoint.com/postgresql/postgresql_select_query.htm)을 통해 table을 조회할 수 있습니다.  
-`SELECT [column 이름] FROM [table 이름]`
+**\- st_isempty**  
+```sql
+select st_isempty(geom) from sdb
 ```
-SELECT column, ... FROM table;
+**\- st_isclosed**  
+```sql
+select st_isclosed(geom) from sdb
 ```
-또한, [DISTINCT](https://www.tutorialspoint.com/postgresql/postgresql_distinct_keyword.htm)를 통해 중복값을 없애고 조회할 수 있습니다.  
-`SELECT DISTINCT[column 이름] FROM [table 이름]`
+**\- st_isring**  
+```sql
+select st_isring(geom) from sdb
 ```
-SELECT DISTINCT column, ... FROM table;
+**\- st_isvalid**  
+[st_isvalid](https://postgis.net/docs/ST_IsValid.html)는 유효한 geometry인지 true/false를 반환합니다.
+```sql
+select st_isvalid(geom) from sdb
 ```
-🔎 ON 키워드를 통해 중복된 특정 column을 정의할 수 있습니다.
-
-SELECT는 WHERE, LIMIT 등을 통해 여러가지 형태로 table을 조회할 수 있습니다.
-
-\- WHERE  
-[WHERE](https://www.tutorialspoint.com/postgresql/postgresql_where_clause.htm)은 여러 조건 [AND/OR](https://www.tutorialspoint.com/postgresql/postgresql_and_or_clauses.htm), IN, NOT IN, BETWEEN, [LIKE](https://www.tutorialspoint.com/postgresql/postgresql_like_clause.htm), NOT LIKE, IS NULL, IS NOT NULL 조합을 통해 조건에 맞는 record만 조회할 수 있습니다.  
-`SELECT [column 이름] FROM [table 이름] WHERE [조건]`
+**\- st_isvalidreason**  
+[st_isvalidreason](https://postgis.net/docs/ST_IsValidReason.html)은 geometry의 근거를 반환합니다.
+```sql
+select st_isvalidreason(geom) from sdb
 ```
-SELECT column, ... FROM table
-WHERE column = ... AND ... OR ... IN ... NOT IN ... BETWEEN ... NOT BETWEEN ... LIKE ... NOT LIKE ... IS NULL ... IS NOT NULL ...;
+**\- st_setsrid**  
+```sql
+select st_setsrid(geom) from sdb
 ```
-```
-WHERE column = a AND column = b;
-WHERE column = a OR column = b;
-WHERE column IN (a, b);
-WHERE column NOT IN (a, b);
-WHERE column BETWEEN a AND b;
-WHERE column NOT BETWEEN a AND b;
-WHERE column LIKE a%;
-WHERE column NOT LIKE a_;
-WHERE column IS NULL;
-WHERE column IS NOT NULL;
-```
-
-\- LIMIT  
-[LIMIT](https://www.tutorialspoint.com/postgresql/postgresql_limit_clause.htm)를 통해 조회하는 row 수를 제한합니다. OFFSET과 같이 사용될 수 있습니다.  
-`SELECT [column 이름] FROM [table 이름] LIMIT [가져올 record 수]`
-`SELECT [column 이름] FROM [table 이름] OFFSET [시작행] LIMIT [가져올 record 수]`
-```
-SELECT column, ... FROM table LIMIT number;
-SELECT column, ... FROM table OFFSET row LIMIT number;
-```
-🔎 단지, SELECT로 조회한 row에서 보여주는 수를 제한합니다.
-
-\- FETCH  
-FETCH를 통해 조회하는 row 수를 제한합니다. OFFSET, FETCH와 같이 사용될 수 있습니다.  
-`SELECT [column 이름] FROM [table 이름] FETCH FIRST [가져올 record 수] ROW ONLY`
-`SELECT [column 이름] FROM [table 이름] OFFSET [시작행] FETCH FIRST [가져올 record 수] ROW ONLY`
-```
-SELECT column, ... FROM table FETCH FIRST number ROW ONLY;
-SELECT column, ... FROM table OFFSET row FETCH FIRST number ROW ONLY;
-```
-🔎 단지, SELECT로 조회한 row에서 보여주는 수를 제한합니다.
-
-\- GROUP BY
-[GROUP BY](https://www.tutorialspoint.com/postgresql/postgresql_group_by.htm)에서 COUNT, SUM 등의 [aggreation 함수](https://www.postgresql.org/docs/13/functions-aggregate.html)를 통해 group의 정보(통계)를 알 수 있습니다. [HAVING](https://www.tutorialspoint.com/postgresql/postgresql_having_clause.htm)과 함께 사용될 수 있습니다.  
-`SELECT [column 이름] 통계식 FROM [table 이름] GROUP BY [기준 column]`
-```
-SELECT column, ... FROM table GROUP BY column;
+**\- st_transform**  
+```sql
+select st_transform(geom) from sdb
 ```
 
-### • Table 정렬하기
-아래와 같이 [ORDER BY](https://www.tutorialspoint.com/postgresql/postgresql_order_by.htm)를 통해 table을 정렬할 수 있습니다.  
-`SELECT [column 이름] FROM [table 이름] ORDER BY [기준 column] [오름차순/내림차순]`
-```
-SELECT column, ... from table ORDER BY column, ... ASC;
-```
-
-### • Table 연결하기
-아래와 같이 [Join](https://www.tutorialspoint.com/postgresql/postgresql_using_joins.htm)을 통해 table을 연결할 수 있습니다. 조건에 따라 join을 하면 기준 테이블 옆에 join되는 테이블이 붙어 새로운 테이블이 만들어 집니다.  
-**\- (Inner) Join**  
-inner join은 on 조건에 맞는 table a와 table b의 행들을 연결하여 새로운 테이블을 만듭니다.  
-`SELECT [column 이름] FROM [table a 이름] JOIN [table b 이름] ON [table a's common column] = [table b's common column]`  
-`SELECT [column 이름] FROM [table a 이름] JOIN [table b 이름] USING [tables' common column]`  
-```
-SELECT * FROM table_a JOIN table_b ON table_a's common_column = table_b's common_column
-```
-```
-SELECT * FROM table_a JOIN table_b USING common_column
-```
-🔎 table b의 common_column은 foreign key로 primary key가 되어야 합니다.
-
-**\- Left(Outer) Join**  
-left join은 왼쪽 테이블을 기준으로, on 조건에 맞는 table b의 행들을 연결하여 새로운 테이블을 만듭니다.  
-`SELECT [column 이름] FROM [table a 이름] LEFT JOIN [table b 이름] ON [table a's common column] = [table b's common column]`  
-```
-SELECT * FROM table_a LEFT JOIN table_b ON table_a's common_column = table_b's common_column
-```
-**\- Right(Outer) Join**  
-right join은 오른쪽 테이블을 기준으로, on 조건에 맞는 table b의 행들을 연결하여 새로운 테이블을 만듭니다.  
-`SELECT [column 이름] FROM [table a 이름] RIGHT JOIN [table b 이름] ON [table a's common column] = [table b's common column]`  
-```
-SELECT * FROM table_a RIGHT JOIN table_b ON table_a's common_column = table_b's common_column
-```
-**\- Full(Outer) Join**  
-full join은 왼쪽/오른쪽 테이블을 기준으로, on 조건에 맞는 table b의 행들을 연결하여 새로운 테이블을 만듭니다.  
-`SELECT [column 이름] FROM [table a 이름] FULL JOIN [table b 이름] ON [table a's common column] = [table b's common column]`  
-```
-SELECT * FROM table_a FULL JOIN table_b ON table_a's common_column = table_b's common_column
-```
-**\- Cross Join**  
-cross join은 왼쪽/오른쪽 테이블을 서로 교차한 행들을 연결하여 새로운 테이블을 만듭니다. 따라서, 왼쪽 테이블이 n행이고 오른쪽 테이블이 m행이라면 n * m행의 테이블이 만들어지게 됩니다.  
-`SELECT [column 이름] FROM [table a 이름] CROSS JOIN [table b 이름]`  
-```
-SELECT * FROM table_a CROSS JOIN table_b
-```
-**\- Self Join**  
-**\- Nautral Join**  
-**\- COALESCE**  
-
-### • postgreSQL 연산자
-postgreSQL [연산자](https://www.tutorialspoint.com/postgresql/postgresql_operators.htm)는 산술, 비교, 논리, 비트 연산자가 있습니다.
-
-### • postgreSQL 자료형
-
-### • postgreSQL 날짜 다루기
-```
-select
-  date('2020-3-1') - date('2020-2-28')
+**\- st_asewkt**
+[st_asewkt](https://postgis.net/docs/ST_AsEWKT.html)는 geometry를 sri와 함께 wkt(Well-Known Text)형태로 반환합니다.
+```sql
+select st_asewkt(geom) from sdb
 ```
 
-## pgAdmin
-### • Server(Database) 만들기
-<img src="/assets/images/pgAdmin_create_server1.png" alt="image" width="30%">
-<img src="/assets/images/pgAdmin_create_server2.png" alt="image" width="30%">
-<img src="/assets/images/pgAdmin_create_server3.png" alt="image" width="30%">
+### • Geometry Measurement Function
+**\- st_length**  
+[st_length](https://postgis.net/docs/ST_Length.html)은 geometry의 거리를 반환합니다. 이때, geometry는 위도/경도의 2d cartesian length(degree)를 geography는 타원에서의 length(meter)를 계산합니다.
+```sql
+select st_length(geom) from sdb
+```
+**\- st_3dlength**  
 
-### • Google Cloud SQL
-[Google Cloud SQL](https://cloud.google.com/sql)에서 SQL Database를 저장할 수 있습니다. 클라우드를 만드는 법은 [공식홈페이지](https://cloud.google.com/sql/docs/postgres/quickstart?hl=ko)에 기술되어 있습니다.
-- PostgreSQL 인스턴스 만들기
-- Cloud SQL 연결하기
+**\- st_area**  
+[st_area](https://postgis.net/docs/ST_Area.html)은 geometry의 넓이를 반환합니다. 이때, geometry는 위도/경도의 2d cartesian area(degree^2)를 geography는 타원에서의 넓이(meter^2)를 계산합니다.
+```sql
+select st_isvalidreason(geom) from sdb
+```
 
-### • Google Cloud SQL
-jsonb_build_object  
-jsonb_agg  
-::jsonb  
+**\- st_distance**  
 
-https://postgresql.kr/blog/postgresql_jsonb.html
+**\- st_3ddistance**  
+
+**\- st_distancesphere**  
+
+**\- st_3ddistancesphere**  
+
+**\- st_closespoint**  
+
+**\- st_shortesline**  
+
+**\- st_maxdistance**  
+
+**\- st_longgestdistance**  
+
 
 ## 참고 자료
 [• 유튜브 강의](https://www.youtube.com/watch?v=qw--VYLpxG4)  

@@ -293,7 +293,15 @@ select
 |적은 json 함수 및 연산|많은 json 함수 및 연산|
 |생성이 빠름|미리 parsing된것처럼 빠름| <- 더 알아보자...
  
-jsonb_build_object  
+**\- jsonb_build_object**  
+jsonb 객체를 만듭니다.
+```sql
+select jsonb_build_object('name', first_name||' '||last_name, 'contact', jsonb_build_object('email', email, 'phone', phone_number)) from users;
+```
+```
+{"name": "Kate Deedes", "contact": {"email": "kdeedes0@wikipedia.org", "phone": "766-876-2982"}}
+```
+
 jsonb_agg  
 ::jsonb   (:: type cast)
 
