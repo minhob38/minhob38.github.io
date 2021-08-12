@@ -227,11 +227,13 @@ https://www.tutorialspoint.com/postgresql/postgresql_data_types.htm
 **\- boolean:** TRUE, FALSE, NULL (TRUE, 'true', 'false', 't', 'f', 'y', 'n', 'yes', '1', '0')  
 
 **\- string:** CHARACTER(n)/CHAR(n) 고정된 길이, CHARACTER VARYING(n)/VARCHAR(n) 변할수 있는 길이 (+제한 길이), TEXT/VARCHAR 길이제한 없음
+
 |||
 |-|-|
 |||
 
 **\- number:**  
+
 ||||
 |-|-|-|
 |smallint|2byte|-32768 ~ 32767|
@@ -245,6 +247,7 @@ https://www.tutorialspoint.com/postgresql/postgresql_data_types.htm
 |bigserial|8byte|1 ~ 9223372036854775807|
 
 **\- decimal:**  
+
 ||||
 |-|-|-|
 |numeric(n, m), decimal |variable|소수점 앞, 소수점 뒤|
@@ -252,6 +255,7 @@ https://www.tutorialspoint.com/postgresql/postgresql_data_types.htm
 |double precision|8byte|유효 소수점 15자리|
 
 **\- date / time:**  
+
 ||||
 |-|-|-|
 |date |날짜|YYYY-MM-DD|
