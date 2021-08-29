@@ -7,17 +7,12 @@ last_modified_at: 2021-07-26 01:00:00 +0900
 ---
 
 # PostGIS
-PostgreSQL은 오픈소스 관계형 데이터베이스로 대용량 Transaction 처리, GIS에 유용한 특징을 가지고 있습니다.  
-🔎 관계형데이터베이스는 정규화된 테이블로 이루어져 있습니다.
-(column(attribute) row(tuple))
-
-QGIS
-Enterpris GIS
-Spatial Database
-PostGIS
+QGIS  
+Enterprise GIS  
+Spatial Database  
+PostGIS  
 
 ## Spatial Datbase
-
 
 ## 환경설정
 ### • 설치하기
@@ -143,12 +138,6 @@ select st_setsrid(geom) from sdb
 select st_transform(geom) from sdb
 ```
 
-**\- st_asewkt**
-[st_asewkt](https://postgis.net/docs/ST_AsEWKT.html)는 geometry를 sri와 함께 wkt(Well-Known Text)형태로 반환합니다.
-```sql
-select st_asewkt(geom) from sdb
-```
-
 ### • Geometry Measurement Function
 **\- st_length**  
 [st_length](https://postgis.net/docs/ST_Length.html)은 geometry의 거리를 반환합니다. 이때, geometry는 위도/경도의 2d cartesian length(degree)를 geography는 타원에서의 length(meter)를 계산합니다.
@@ -180,10 +169,139 @@ select st_isvalidreason(geom) from sdb
 **\- st_longgestdistance**  
 
 
-## 참고 자료
-[• 유튜브 강의](https://www.youtube.com/watch?v=qw--VYLpxG4)  
-[• postgreSQL document](https://www.postgresql.org/docs/13/index.html)  
-[• postgreSQL tutorial](https://www.postgresql.org/docs/online-resources/)
+### • Geometry Coordinates Function
+**\- st_asewkt**  
+[st_asewkt](https://postgis.net/docs/ST_AsEWKT.html)는 geometry를 sri와 함께 wkt(Well-Known Text)형태로 반환합니다.
+```sql
+select st_asewkt(geom) from sdb
+```
+**\- st_astext**  
+[st_astext](https://postgis.net/docs/ST_AsText.html)는 geometry를 wkt형태로 반환합니다.
+```sql
+select st_astext(geom) from sdb
+```
+**\- st_ asgeojson**  
+[st_asgeojson](https://postgis.net/docs/ST_AsGeoJSON.html)은 geometry를 geojson형태로 반환합니다.  
+```sql
+select st_asgeojson(geom) from sdb
+```
+FeatureCollection은 st_asgeojson과 json_agg를 통해 만들 수 있습니다.
+```sql
+select json_build_object(
+  'type', 'FeatureCollection',
+  'features', json_agg(ST_AsGeoJSON(t.*)::json)
+)
+from (
+  values
+    (1, 'one', 'POINT(1 1)'::geometry),
+    (2, 'two', 'POINT(2 2)'),
+    (3, 'three', 'POINT(3 3)')
+) as t(id, name, geom);
+```
 
-함수
-https://www.tutorialspoint.com/postgresql/postgresql_useful_functions.htm
+```
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [1, 1] },
+      "properties": { "id": 1, "name": "one" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [2, 2] },
+      "properties": { "id": 2, "name": "two" }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [3, 3] },
+      "properties": { "id": 3, "name": "three" }
+    }
+  ]
+}
+
+```
+
+🔎  [geojson](https://ko.wikipedia.org/wiki/GeoJSON)은 위치정보를 표현하기 위한 표준형식입니다.  
+**\- st_ asgml**
+[st_asgml](https://postgis.net/docs/ST_AsGML.html)은 geometry를 GML(Geometry Markup Language)형태로 반환합니다.  
+```sql
+select st_asgml(geom) from sdb
+```
+**\- st_ askml**
+[st_askml](https://postgis.net/docs/ST_AsKML.html)은 geometry를 KML(Keyhole Markup Language)형태로 반환합니다.  
+```sql
+select st_askml(geom) from sdb
+```
+**\- st_ asmvt**  
+
+**\- st_ z**  
+[st_x](https://postgis.net/docs/ST_X.html)은 geometry(point)의 x좌표를 반환합니다.  
+```sql
+select st_x(geom) from sdb
+```
+**\- st_ y**  
+[st_y](https://postgis.net/docs/st_y.html)은 geometry(point)의 y좌표를 반환합니다.  
+```sql
+select st_y(geom) from sdb
+```
+**\- st_ z**  
+[st_z](https://postgis.net/docs/ST_z.html)은 geometry(point)의 z좌표를 반환합니다.  
+```sql
+select st_z(geom) from sdb
+```
+**\- st_ m**
+
+**\- st_ startpoint**  
+[st_startpoint](https://postgis.net/docs/ST_StartPoint.html)는 geometry(line string)의 시작 점을 반환합니다.  
+```sql
+select st_startpoint(geom) from sdb
+```
+**\- st_ endpoint**  
+[st_endpoint](https://postgis.net/docs/ST_EndPoint.html)는 geometry(line string)의 끝점을 반환합니다.  
+```sql
+select st_endpoint(geom) from sdb
+```
+**\- st_ pointn**
+
+**\- st_ lineinerpolatepoint**
+
+**\- st_ geometyn**
+
+**\- st_ exteriorring**
+
+**\- st_ interiorringn**
+
+
+### • Geometry Relationship Function
+**\- st_intersects**
+
+**\- st_disjoint**
+
+**\- st_contains**
+
+**\- st_covers**
+
+**\- st_within**
+
+**\- st_coveredby**
+
+**\- st_crosses**
+
+**\- st_dwithin**
+
+**\- st_dfullywithin**
+
+**\- st_equals**
+
+**\- st_overlaps**
+
+**\- st_touches**
+
+**\- st_relate**
+
+
+
+
+st_envelop

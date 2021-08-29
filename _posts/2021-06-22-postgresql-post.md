@@ -61,21 +61,50 @@ CREATE TABLE table_name (
 ```
 DROP TABLE table;
 ```
-### • Table에 Record(Row) 삽입하기
-`INSERT INTO [talbe 이름] ([column 이름])` `VALUE ([column 값])`으로 table에 record를 삽입할 수 있습니다.
-```
-INSERT INTO table_name (column, ...)
-VALUE (value, ...);
-```
-🔎 Option은 `/i`를 통해 sql파일로부터 record를 삽입할 수 있습니다.
 
-\- Data Constraint
-Data의 [Constraint](https://www.postgresql.org/docs/13/ddl.html)를 정의할 수 있습니다.
+### • Table 수정하기
+https://www.postgresql.org/docs/10/sql-altertable.html
 
-\- Data Constraint
-[Data Type](https://www.postgresql.org/docs/13/datatype.html)을 정의할 수 있습니다.
+**\- column 추가하기**  
+`ALTER TABLE [table 이름] ADD [column 이름] [Data Type]`으로 table에 column을 추가할 수 있습니다.  
+**\- table 이름 바꾸기**  
+`ALTER TABLE [현재 table 이름] RENAME TO [새로운 table 이름]`으로 table의 column 이름을 바꿀 수 있습니다.  
+**\- column 이름 바꾸기**  
+`ALTER TABLE [table 이름] RENAME [현재 column 이름] COLUMN  TO [새로운 column 이름]`으로 table의 column 이름을 바꿀 수 있습니다.  
+**\- column 지우기**  
+`ALTER TABLE [table 이름] DROP COLUMN [column 이름]`으로 table의 column을 지울 수 있습니다.  
+**\- column 자료형 바꾸기**  
+`ALTER TABLE [table 이름] ALTER COLUMN [column 이름] TYPE [Data Type]`으로 column의 Data Type을 바꿀 수 있습니다.  
+**\- constraint 수정하기**  
+`ALTER TABLE [table 이름] ADD CONTRAINT...`으로 column의 constraint를 바꿀 수 있습니다.  
 
-### • Table 조회하기
+
+### • Row 수정하기
+아래와 같이 [UPDATE](https://www.tutorialspoint.com/postgresql/postgresql_update_query.htm)을 통해 table의 해당 row, coulmn을 업데이트 할 수 있습니다.  
+`UPDATE [table 이름] SET [column 이름] = [새로운 값] WHERE [조건]`  
+`WHERE`이 없다면 모든 row에 대해 업데이트를 수행합니다.  
+`UPDATE [table 이름] SET [column 이름] = [새로운 값]`  
+`RETURNING`을 통해 업데이트 된 행을 볼 수 있습니다.  
+`UPDATE [table 이름] SET [column 이름] = [새로운 값] WHERE [조건] RETURNING *`  
+🔎 UPSERT
+UPSERT란 해당 조건에 맞는 row가 있으면 update하고, 없다면 insert하는 것을 의미합니다.  
+`INSERT INTO [table 이름] ([column 이름]) VALUES ([column 값]) ON CONFLICT [충돌 조건] `이며, 충돌 조건 다음에 오는 syntax는 아래 두가지가 있습니다.  
+`DO UPDATE SET [column 이름] = [새로운 값] WHERE [조건]`,
+`DO NOTHING`
+
+### • Row 삽입하기
+아래와 같이 [INSERT](https://www.tutorialspoint.com/postgresql/postgresql_insert_query.htm)를 통해 해당 table에 row(record)를 삽입할 수 있습니다.  
+`INSERT INTO [talbe 이름] ([column 이름])` `VALUES ([column 값]), ...`  
+`RETURNING`을 통해 삽입된 행을 볼 수 있습니다.  
+`INSERT INTO [talbe 이름] ([column 이름]) VALUES ([column 값]), ... RETURNING *`  
+
+### • Row 삭제하기
+아래와 같이 [DELETE](https://www.tutorialspoint.com/postgresql/postgresql_delete_query.htm)을 통해 table의 해당 row를 삭제 할 수 있습니다.  
+`DELETE FROM [table 이름] WHERE [조건]`  
+`WHERE`이 없다면 모든 행을 지웁니다.  
+`DELETE FROM [table 이름]`  
+
+### • Row 조회하기
 아래와 같이 [SELECT](https://www.tutorialspoint.com/postgresql/postgresql_select_query.htm)을 통해 table을 조회할 수 있습니다.  
 `SELECT [column 이름] FROM [table 이름]`
 ```
@@ -144,6 +173,72 @@ SELECT column, ... FROM table GROUP BY column;
 SELECT column, ... from table ORDER BY column, ... ASC;
 ```
 
+### • Constraint 만들기
+table 및 column에 제한을 걸어, 테이블의 신뢰성을 높일 수 있습니다.  
+**\- NOT NULL**  
+해당 column은 null을 허용하지 않습니다. (값을 가져야합니다.)
+```sql
+CREATE TABLE [table 이름] (
+  [column 이름] [data type] NOT NULL
+);
+
+ALTER TABLE [table 이름] ALTER COLUMN [column 이름] SET NOT NULL;
+```
+**\- UNIQUE**  
+해당 column에 고유한 값이 저장되며, 이를 위해 데이터를 저장할때마다 검사합니다.
+```sql
+CREATE TABLE [table 이름] (
+  [column 이름] [data type] UNIQUE
+);
+
+ALTER TABLE [table 이름] ADD [constraint 이름] CONSTRAINT UNIQUE ([column 이름]);
+```
+**\- DEFAULT**  
+값이 입력되지 않으면, default 값을 저장합니다.  
+```sql
+CREATE TABLE [table 이름] (
+  [column 이름] [data type] DEFAULT [default value]
+);
+
+ALTER TABLE [table 이름] ALTER COLUMN [column 이름] SET DEFAULT [dafault value];
+```
+
+**\- PRIMARY KEY**  
+table에서 row를 식별할 수 있는 고유 key입니다. primary key는 table에 하나만 존재해야 하며, 여러개의 column으로 만들어진 primary key를 composite key로 부릅니다. primary key는 `UNIQUE NOT NULL`과 같습니다.  
+```sql
+CREATE TABLE [table 이름] (
+  [column 이름] [data type] PRIMARY KEY
+);
+
+ALTER TABLE [table 이름] ADD [constraint 이름] CONSTRAINT PRIMARY KEY ([column 이름]);
+```
+
+**\- FOREIGN KEY**  
+foreign key는 다른 table의 primary key를 참조하는 column입니다. foreign key로 두 테이블은 연결되어 있기에 foreign table에 없는 값을 저장하면 오류가 발생합니다.
+```sql
+CREATE TABLE [table a 이름] (
+  [column a 이름] [data type]
+  FOREIGN KEY [column a 이름] REFERENCES [table b 이름] [column b 이름]
+);
+
+CREATE TABLE [table b 이름] (
+  [column b 이름] [data type] PRIMARY KEY
+);
+
+ALTER TABLE [table 이름] ADD [constraint 이름] CONSTRAINT PRIMARY KEY ([column 이름]);
+```
+🔎 table a는 column a(foreign key)를 통해 table b(foreign table)를 참조합니다.
+
+**\- CHECK**
+저장될 값이 어떠한 조건을 만족하는지 검사합니다.
+
+### • Constraint 지우기
+아래 sql을 통해 constraint를 지울 수 있습니다.
+```sql
+ALTER TABLE [table 이름] DROP CONSTRAINT [constraint 이름]
+```
+
+
 ### • Table 연결하기
 아래와 같이 [Join](https://www.tutorialspoint.com/postgresql/postgresql_using_joins.htm)을 통해 table을 연결할 수 있습니다. 조건에 따라 join을 하면 기준 테이블 옆에 join되는 테이블이 붙어 새로운 테이블이 만들어 집니다.  
 **\- (Inner) Join**  
@@ -187,18 +282,20 @@ SELECT * FROM table_a CROSS JOIN table_b
 **\- COALESCE**  
 
 ### • Subquery
-아래와 같이 다른 쿼리문 안에 감싸져 있는 쿼리를 서브쿼리라 합니다. 서브쿼리는 SELECT, INSERT, UPDATE, DELETE와 함께 사용됩니다.
-서브쿼리 규칙은 아래와 같습니다.
-\- 서브쿼리는 ()안에 작성됩니다.
-\- SELECT 서브쿼리는 하나의 행을 반환해야 합니다.  
-\- SELECT 서브쿼리는 IN, EXISTS, NOT IN, ANY, SOME, ALL 연산자와 함께 하나의 행 이상을 반환할 수 있습니다.  
-\- ORDER BY는 사용될 수 없습니다.  
-\- 서브쿼리는 BETWEEN과 함께 사용될 수 없습니다. (서브쿼리 안에서는 BEWEEN을 사용할 수 있습니다.)
-
-`SELECT * FROM [table a 이름] WHERE 조건 (SELECET ... FROM [table b 이름])`  
-```
-SELECT * FROM table_a WHERE column_a = (SELECT column_b FROM table_b)
-```
+아래와 같이 다른 쿼리문 안에 감싸져 있는 쿼리를 서브쿼리라 합니다. 서브쿼리는 SELECT, INSERT, UPDATE, DELETE와 함께 사용됩니다. 서브쿼리는 단일행, 다중행, 연관 서브쿼리, 인라인뷰가 있습니다.  
+**\- Single Row 서브쿼리**  
+서브쿼리의 결과는 단일행, 단일열이며 비교연산자와 함께 사용됩니다.  
+`SELECT * FROM [table a 이름] WHERE [비교 조건] (SELECT [단일 column] FROM [table b 이름])`  
+**\- Multiple Row 서브쿼리**  
+서브쿼리의 결과는 다중행, 단일열이며 in, exists, not in, any, some, all 연산자와 함께 사용됩니다.  
+`SELECT * FROM [table a 이름] WHERE [in, exists, not in, any, some, all] (SELECT [다중 column] FROM [table b 이름])`  
+🔎서브쿼리는 BETWEEN과 함께 사용될 수 없습니다. (서브쿼리 안에서는 BEWEEN을 사용할 수 있습니다.)  
+**\- Inline View 서브쿼리**  
+서브쿼리의 결과는 테이블로, 테이블에서 조회할 수 있습니다.  
+`SELECT * FROM (SELECT * FROM [table 이름]) as t`  
+**\- Correlated 서브쿼리**  
+서브쿼리가 메인 테이블을 참조합니다.  
+`SELECT *, (SELECT * FROM [table b 이름] WHERE a.column ...) FROM [table a 이름] as a)`  
 
 ### • Transaction
 Database를 수정 중 문제가 발생하면, 작업이 완전히 끝나지 않 Database는 중간의 데이터를 저장하고 있습니다. 또한 database에 다른 작업이 실행 중인데, 또 다른 작업이 끼어든다면 database가 꼬이게 됩니다. [Transaction](https://www.tutorialspoint.com/postgresql/postgresql_transactions.htm)은 여러개의 Database 작업을 하나로 묶어, Database를 요구대로 수정하거나 아예 바꾸지 않게 해주며, ACID(Atomicity, Consistency, Isolation, Durability) 특성을 가지고 있습니다.  
@@ -276,16 +373,112 @@ select
   date('2020-3-1') - date('2020-2-28')
 ```
 
-## pgAdmin
-### • Server(Database) 만들기
-<img src="/assets/images/pgAdmin_create_server1.png" alt="image" width="30%">
-<img src="/assets/images/pgAdmin_create_server2.png" alt="image" width="30%">
-<img src="/assets/images/pgAdmin_create_server3.png" alt="image" width="30%">
+### • sequence
+**\- Sequence 만들기**  
+```sql
+CREATE SEQUENCE IF NOT EXISTS [sequence 이름]
+```
+**\- Sequence 실행 및 조회**  
+`nextval`을 통해 다음 값을, `curval`을 통해 현재 값을 반환받을 수 있습니다.  
+```sql
+SELECT nextval([sequence 이름])
+```
+```sql
+SELECT curval([sequence 이름])
+```
+**\- Sequence 설정**  
+`setval`로 sequence의 값을 설정할 수 있습니다.
+```sql
+SELECT setval([sequence 이름], [설정할 값], [skip 여부])
+```
+`START WITH`로 sequence의 초기값을 설정할 수 있습니다.
+```sql
+CREATE SEQUENCE IF NOT EXISTS [sequence 이름] START WITH [시작 값]
+```
+`RESTART WITH`로 sequence 값을 다시 새로운 값부터 시작시킬 수 있습니다.
+```sql
+ALTER SEQUENCE [sequence 이름] RESTART WITH [시작 값]
+```
+`RENAME TO`로 sequence 이름을 바꿀 수 있습니다.
+```sql
+ALTER SEQUENCE [sequence 이름] RENAME TO [시작 값]
+```
+`INCREMENT`, `MINVALUE`, `MAXVALUE`, 'CYCLE'로 sequence의 증분, 최소, 최대값, 반복여부를 설정할 수 있습니다.
+```sql
+CREATE SEQUENCE IF NOT EXISTS [sequence 이름]
+  INCREMENT [증분]
+  MINVALUE [최소값]
+  MAXVALUE [최대값]
+  START [시작 값]
+  CYCLE
+```
+`AS`로 sequence의 자료형을 설정할 수 있습니다.
+```sql
+CREATE SEQUENCE IF NOT EXISTS [sequence 이름] AS [자료형]
+```
 
-### • Google Cloud SQL
-[Google Cloud SQL](https://cloud.google.com/sql)에서 SQL Database를 저장할 수 있습니다. 클라우드를 만드는 법은 [공식홈페이지](https://cloud.google.com/sql/docs/postgres/quickstart?hl=ko)에 기술되어 있습니다.
-- PostgreSQL 인스턴스 만들기
-- Cloud SQL 연결하기
+**\- Sequence 지우기**  
+```sql
+DROP SEQUENCE [sequence 이름]
+```
+
+**\- Sequence 반영하기**  
+```sql
+CREATE SEQUENCE IF NOT EXISTS [sequence 이름] OWNED BY [table 이름].[column 이름];
+
+CREATE TABLE [table 이름] (
+  [column 이름] [자료형] DEFAULT nextval([sequence 이름])
+)
+```
+```sql
+CREATE SEQUENCE IF NOT EXISTS [sequence 이름] OWNED BY [table 이름].[column 이름];
+ALTER TABLE [table 이름] ALTER COLUMN [column 이름] SET DEFAULT nexval([sequence 이름]);
+```
+
+**\- identity**  
+```
+[column 이름] [data type] GENERATED (ALWAYS|BY DEFAULT) AS IDENTITY
+```
+🔎 by default일 경우, override가 되기에 unique가 지켜지지 않습니다.
+serial vs identity
+
+### • aggregate function
+**\- count**  
+`count`를 통해 해당 column의 row 수를 구할 수 있습니다.  
+```sql
+SELECT COUNT([column 이름]) FROM [table 이름]
+SELECT COUNT(DISTINCT([column 이름])) FROM [table 이름]
+```
+**\- sum**  
+`sum`를 통해 해당 column의 합계를 구할 수 있습니다.  
+```sql
+SELECT SUM([column 이름]) FROM [table 이름]
+SELECT SUM(DISTINCT([column 이름])) FROM [table 이름]
+```
+**\- min/max**  
+`min`, `max`를 통해 해당 column의 최소/최대값을 구할 수 있습니다.  
+```sql
+SELECT MIN([column 이름]) FROM [table 이름]
+SELECT MAX([column 이름]) FROM [table 이름]
+```
+**\- greatest/least**  
+`greatest`, `least`를 통해 해당 list의 최소/최대값을 구할 수 있습니다.  
+```sql
+SELECT GRETEST(같은 자료형, 같은 자료형 ...) FROM [table 이름]
+SELECT LEAST(같은 자료형, 같은 자료형 ...) FROM [table 이름]
+```
+**\- avg**  
+`avg`를 통해 해당 column의 평균을 구할 수 있습니다.  
+```sql
+SELECT AVG([column 이름]) FROM [table 이름]
+SELECT AVG(DISTINCT([column 이름])) FROM [table 이름]
+```
+🔎 avg는 null은 무시합니다.  
+**\- 산술연산자**  
+`+ - / * %`를 통해 해당 column을 aggreate할 수 있습니다.  
+```sql
+SELECT [column 이름] [+ - / * %] [column 이름] ... FROM [table 이름]
+```
 
 ### • JSON
 [jsonb](https://postgresql.kr/blog/postgresql_jsonb.html)는 json의 binary 형식으로 아래와 같이 차이점이 있습니다.
@@ -326,6 +519,154 @@ table의 모든 행/열을 json으로 바꿉니다. (하나의 열로 변환됩�
 aggregate를 위해 array 형태의 json을 만듭니다.  
 `SELECT json_agg(b) FROM (SELECT book_info FROM book) as b`  
 
+## Optimization
+
+
+### • Index
+[index](https://www.tutorialspoint.com/postgresql/postgresql_indexes.htm)란 database engine이 조회를 빠르게 하기 위한 목차같은 또다른 테이블입니다.
+인덱스는 row의 컬럼으로 만듭니다.  
+**\- Index 만들기**  
+인덱스는 테이블의 column을 넣어 만듭니다. 이때 인덱스를 만들때 column 중복여부에 따라, Index / Unique Index를 정의할 수 있습니다. 일반 index는 `create index [index 이름] on [table 이름] [method 이름](column 이름 [index 정렬 기준] [], ...)`, unique index는 `create unique index [index 이름] on [table 이름] (column 이름, ...)`으로 만들 수 있습니다.
+🔎 모든 column을 넣으면 insert/update/delete 성능이 떨어집니다.
+```sql
+CREATE INDEX index_name ON table_name (column_a, column_b, ...);
+CREATE UNIQUE INDEX index_name ON table_name (column_a, column_b, ...);
+```
+모든 컬럼이 unique해야함
+
+index 이름 convention idx_[table 이름]_[column 이름]
+uniue index 이름 convention idx_u_ [table 이름]_[column 이름]
+많이 쓰이는 coulmun을 앞에 두어야함
+select * from pg_indexes; 
+select pg_indexes_size('users');
+select pg_size_pretty(pg_indexes_size('users'));
+select * from pg_stat_all_indexes where relname = 'users';
+
+**\- Index 삭제하기**  
+`drop index [concurrently] [index 이름] [cascade|restrict]`를 통해 index를 지울 수 있습니다.
+```sql
+DROP INDEX index_name;
+```
+
+## Execution Stage
+sql은 declarive language이기 때문에, sql을 작성하면 sql enigne이 최적화를 하여 database를 다룹니다. 따라서 sql 최적화를 위해 sql engine이 sql을 어떻게 처리하고 실행하는지 이해할 필요가 있습니다. sql engine은 크게 아래의 네 단계를 거쳐 sql을 실행합니다.  
+**1. parser**  
+sql문이 유효한지 해석합니다.  
+**2. rewriter**  
+sql engine이 이해할 수 있도록, original sql로 다시 구문을 작성합니다.  
+**3. optimizer**  
+optimizer는 아래 기준에 따라 database를 다루기 위한 최적의 경로를 찾습니다.  
+**4. executor**  
+optimizer에서 정해진 최적 경로에 따라, database를 다룹니다.  
+
+### • Explain
+**\- explain**  
+`explain` 키워드를 통해 쿼리 실행 계획을 볼 수 있습니다. explain 결과에서 노드는 (cost, rows , width) 속성을 가지고 있으며 아래 부터 읽습니다.  
+🔎 실제로 쿼리를 실행하지는 않습니다.
+```sql
+explain select * from table ...
+```
+
+**\- explain analyze**  
+`explain ananlyze` 키워드를 통해 쿼리 실행 결과를 볼 수 있습니다.  
+```sql
+explain analyze select * from table ...
+```
+explain (analyze) vs explain analyze?
+
+### • Optimizer
+optimizer는 아래 기준에 따라, 최적의 경로를 선택합니다.  
+**\- cost**  
+cost가 제일 적은 경로를 선택합니다.
+**\- thread**  
+thread database를 thread로 나누어 동시에 작업합니다.
+**\- node**  
+nodes database의 작업단계를 나눈 단위입니다.  
+
+### • Node Type
+Node는 stackable입니다.
+Parent Node
+  Childe Node 1
+    Childe Node 2
+     Childe Node2부터 시작하며 ouuput은 childe node1의 Input이 됩니다.
+
+node 종류
+
+gather node
+parrel seq scan node
+show max_parallel_workers_per_gather
+show seq_page_cost
+show cpu_tupe_cost
+
+select pg_relation_size
+select pg_size_pretty
+
+**\- sequential scan**  
+기본적인 node로, table을 첫행부터 끝까지 (scan)읽습니다.  
+🔎 모든 table을 읽어야 filtering이 가능하기에, `where`을 작성해도 sequential scan 과정이 들어갑니다.
+
+**\- index scan**  
+index table에서 조건에 맞는 row들을 찾은 후, 이를 기반으로 해당 table에서 row를 읽어옵니다.
+
+**\- index only scan**  
+index table에서 조건에 맞는 row를 바로 읽어옵니다.  
+가져오는 column과 조건이 index의 column으로만 되어 있으면,  
+
+**\- bitmap index scan**  
+
+**\- join node**
+join node는 hash join / merge join / nested loop join으로 나뉩니다.
+
+nested loop join
+inner(left) table을 기준으로 join 조건이 일치하는 outer(right) table의 행을 탐색/순회하며, 이를 inner table 행만큼 반복합니다. (이중 for문과 유사합니다.) 로직이 간단하기에 테이블이 커지면 시간이 오래걸리는 단점이 있습니다.
+driving(선행) table은 바뀔 수 있으며, driving table은 where이 있다면 필터링된 테이블로 join을 합니다.
+```js
+for (...) // driving
+  for (...) // driven
+```
+🔎 빅오는 n2, 랜덤 액세스...?
+
+merge join
+두테이블을 정렬하고 join
+
+
+
+hash join
+outer(right) table을 순회(scan)하여 join key를 해시키로 가지는 해시 테이블을 만듭니다. 후행 테이블은 만들어진 해시 테이블을, 같은 해시함수를 이용, 탐색하여 join하게 됩니다.
+빅오는 n + n
+(hash테이블 탐색은 bigo 1), 일치 조건 join만 수행
+
+https://hoon93.tistory.com/46
+https://www.postgresql.org/docs/9.4/planner-optimizer.html
+
+index scan, index onscan bitmap index sacn nested loop hash join mege join gather parallel
+
+select * from pg_am
+show work_mem
+
+**btree**
+balanced tree (balaced tree) logn 층 밸런스를 지킴
+https://helloinyong.tistory.com/296
+https://www.youtube.com/watch?v=NI9wYuVIYcA
+
+**hash index**
+= 연산에만 쓰임 
+
+**brin index**
+Block Range INdex
+**gin index**
+
+## pgAdmin
+### • Server(Database) 만들기
+<img src="/assets/images/pgAdmin_create_server1.png" alt="image" width="30%">
+<img src="/assets/images/pgAdmin_create_server2.png" alt="image" width="30%">
+<img src="/assets/images/pgAdmin_create_server3.png" alt="image" width="30%">
+
+### • Google Cloud SQL
+[Google Cloud SQL](https://cloud.google.com/sql)에서 SQL Database를 저장할 수 있습니다. 클라우드를 만드는 법은 [공식홈페이지](https://cloud.google.com/sql/docs/postgres/quickstart?hl=ko)에 기술되어 있습니다.
+- PostgreSQL 인스턴스 만들기
+- Cloud SQL 연결하기
+
 ## 참고 자료
 [• 유튜브 강의](https://www.youtube.com/watch?v=qw--VYLpxG4)  
 [• postgreSQL document](https://www.postgresql.org/docs/13/index.html)  
@@ -333,3 +674,20 @@ aggregate를 위해 array 형태의 json을 만듭니다.
 
 함수
 https://www.tutorialspoint.com/postgresql/postgresql_useful_functions.htm
+
+
+
+[index](https://velog.io/@gillog/SQL-Index%EC%9D%B8%EB%8D%B1%EC%8A%A4)  
+[index](https://brunch.co.kr/@skeks463/25)  
+[index](https://mangkyu.tistory.com/96)  
+update / delete하면 기존거는 사용안하고, 새로운게 삽입되서 무거워짐...
+
+
+https://wiki.postgresql.org/wiki/Main_Page
+
+
+\- Data Constraint
+Data의 [Constraint](https://www.postgresql.org/docs/13/ddl.html)를 정의할 수 있습니다.
+
+\- Data type
+[Data Type](https://www.postgresql.org/docs/13/datatype.html)을 정의할 수 있습니다.

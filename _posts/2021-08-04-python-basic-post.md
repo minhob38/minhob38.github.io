@@ -129,7 +129,7 @@ print(str_e)
 print('hello {}'.format('python'))
 print('hello {} {}'.format('python', 'world'))
 print('hello {0} {0}'.format('python', 'world'))
-print('hello {p} {w }'.f ormat(p='python', w='world'))
+print('hello {p} {w}'.f ormat(p='python', w='world'))
 ```
 ```python
 name = 'jerry'
@@ -153,7 +153,7 @@ list_c = [1, 2, 'a', 'b']
 list_d = [1, 'a', [2, 'b']]
 ```
 
-**\- 리스트 요소 가져오기 / 수정하기**
+**\- 리스트 요소 가져오기 / 수정하기**  
 리스트 요소는 인덱스로 접근할 수 있으며, 시작(왼쪽) 요소부터 0, 1, 2, 3 ...로 가져올 수 있습니다. 또한 음수 인덱스를 통해 끝요소부터 -1로 접근할 수 있습니다.  
 🔎 리스트는 가져온 요소에 새로운 값을 할당할 수 있습니다.
 ```python
@@ -228,6 +228,10 @@ del dic["b"]
 print(dic)
 ```
 
+values
+items (key, value) 튜플을 list로 반환
+keys list로 반환
+
 ### • 튜플
 튜플은 리스트와 비슷하지만, immutable한 차이가 있습니다.
 ```python
@@ -300,7 +304,7 @@ https://docs.python.org/2/tutorial/floatingpoint.html
 ## 조건문
 조건문이란 특정 조건에서 실행 되는 구문을 의미합니다.
 
-### 종류
+### • 종류
 **\- if문**  
 조건식이 참이면 구문을 실행하며, 실행될 구문은 들여쓰기(띄어쓰기)로 코딩되어야 합니다.
 ```python
@@ -312,8 +316,8 @@ if a > 3:
 a = 5
 
 if a > 3:
- print('python')
- print('1')
+    print('python')
+    print('1')
 
 if a > 3:
     print('python')
@@ -321,7 +325,7 @@ if a > 3:
 
 # error
 if (a > 3):
-  print('python')
+    print('python')
     print('3')
 
 ```
@@ -367,7 +371,7 @@ print(b)
 ## 반복문
 반복문이란 특정조건까지 반복되는 구문을 의미합니다.
 
-### 종류
+### • 종류
 **\- while 문**  
 조건식이 참이면 구문을 실행하며, 실행될 구문은 들여쓰기(띄어쓰기)로 코딩되어야 합니다.
 ```python
@@ -375,6 +379,13 @@ i = 0
 while i < 10:
   print(i)
   i = i + 1
+```
+```python
+while i < 10:
+  print(i)
+  i = i + 1
+else:
+  print('loop complete')
 ```
 
 **\- for 문**  
@@ -401,7 +412,7 @@ for i in tup:
 ```python
 list = [('a', 'b'), ('c', 'd')]
 
-for (a, b) in list:
+for (m, n) in list:
   print(a)
   print(b)
 ```
@@ -413,69 +424,133 @@ for (key, value) in dic.items():
   print(value)
 ```
 
-😺  튜플
-
-😺  리스트 내포
-
-range
-
-😺 파이썬은 range함수와 for문을 함께 많이 사용합니다.
-
-- range
-
-    range객체를???를 반환하며, stop은 포함되지 않습니다.
-
-    - syntax : `range(start, stop, [step])`
-
-    📔 참조자료 : [https://docs.python.org/ko/3/library/functions.html#func-range](https://docs.python.org/ko/3/library/functions.html#func-range)
-
-    ```python
-    a = range(5)
-    for i in a:
-      print(i)
-
-    b = range(1, 3)
-    for i in b:
-      print(i)
-
-    c = range(0, 10, 2)
-    for i in c:
-      print(i)
-    ```
-
-```python
-a = range(5) # a = 0, 1, 2, 3, 4
-for i in a:
-  print(i)
-
-b = range(1, 3) # b = 1, 2, 3
-for i in b:
-  print(i)
-```
-
-### continue & break
-
-- **break**
-
-break문을 감싸고 있는 반복문을 탈출합니다.
-
+### • continue & break & pass
+**\- break**  
+break문을 감싸고 있는 반복문을 탈출합니다.  
 ```python
 list = [1, 2, 3, 4, 5]
 
 for i in list:
-  if i == 3: break
-  print(i)
+    if i == 3: break
+    print(i)
 ```
 
-- **continue**
-
-continue문을 감싸고 있는 반복문 조건식으로 이동합니다.
-
-```jsx
+**\- continue**  
+continue문을 감싸고 있는 반복문 조건식으로 이동합니다.  
+```python
 i = 0
   
 while i < 10:
-   i = i + 1
-   if i % 2 == 0: continue 
-   print(i)
+    i = i + 1
+    if i % 2 == 0: continue 
+    print(i)
+```
+
+**\- pass**  
+반복문을 실행시키지 않습니다.  
+```python
+list = [1, 2, 3, 4, 5]
+
+for i in list:
+    pass
+
+print('eof')
+```
+
+
+### • range & enumerate & zip + in
+파이썬은 range, enumerate, zip 함수와 for문을 함께 많이 사용되며 for문이 실행되는 조건은 in 연산이 참일때 입니다.  
+**\- range**  
+[range](https://docs.python.org/ko/3/library/functions.html#func-range)는 range객체를 반환합니다.  
+*syntax : `range(start, stop, [step])`
+
+```python
+a = range(5)
+for i in a:
+  print(i
+b = range(1, 3)
+for i in b:
+    print(i
+c = range(0, 10, 2)
+for i in c:
+    print(i)
+```
+
+```python
+a = range(5) # a = 0, 1, 2, 3, 4
+for i in a:
+    print(i)
+
+b = range(1, 3) # b = 1, 2, 3
+for i in b:
+    print(i)
+```
+
+**\- enumerate**  
+[enumerate](https://docs.python.org/ko/3/library/functions.html#enumerate)는 튜플 반환
+```python
+str = 'abc'
+for char in enumerate(str):
+    print(char)
+```
+
+**\- zip**  
+```python
+list_a = [1, 2, 3]
+list_b = ['a', 'b', 'c']
+list_c = [4, 5, 6]
+
+for item in zip(list_a, list_b, list_c):
+    print(item)
+```
+**\- in**
+```
+'a' in 'abc'
+'a' in ['a', 'b', 'c']
+'a' in {'a':1, 'b':2, 'c':3}
+```
+
+from random inport shuffle
+
+## 함수
+함수는 입력과 출력 간 관계의 표현식이라 할 수 있으며, 또다른 의미로는 하나의 단위로 실행되는 문이라 할 수 있습니다.  
+🔎 만일 입력과 출력이 없다면 함수라 할 수 있을까요? 프로그래밍에서 함수는 수학적 정의와 다소 다른 점이 있다. 수학에서는 함수f는 입력 x와 출력y가 있어야 정의될 수 있습니다. 프로그래밍에서 입력과 출력의 정의를 '함수실행 = 입력, 어떠한 결과 = 출력'까지 확장한다면 전달하는 입력과 반환값이 없을지라도 함수라 할 수 있습니다.
+
+### • 선언
+`def` 키워드를 통해 함수를 선언할 수 있습니다.
+```python
+def func(a, b):
+    c = a + b
+    print(c)
+```
+
+### • 반환값
+`return` 키워드를 통해 반환값을 반환하고 함수를 종료시킵니다.
+```python
+def func(a, b):
+    c = a + b
+    return c
+```
+
+### • 기본값
+`arg = 기본값`을 통해 입력 인자에 기본값을 할당할 수 있습니다.
+```python
+def func(a = 1, b = 2):
+    c = a + b
+    return c
+```
+
+### • args / kwargs
+**\- args**  
+`*` 키워드를 통해 함수 안에서 입력인자를 튜플로 받을 수 있습니다. 이때, 임의의 인자의 개수를 전달할 수 있습니다.
+```python
+def func(*args):
+    print(args)
+```
+
+**\- kwargs**  
+`**` 키워드를 통해 함수 안에서 입력인자를 딕셔너리로 받을 수 있습니다. 이때, 임의의 인자의 개수를 전달할 수 있습니다.
+```python
+def func(**kwargs):
+    print(args)
 ```

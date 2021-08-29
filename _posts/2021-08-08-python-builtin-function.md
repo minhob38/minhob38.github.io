@@ -6,7 +6,9 @@ date: 2021-08-04 01:00:00 +0900
 last_modified_at: 2021-08-04 01:00:00 +0900
 ---
 
-# Python 문자열 / 리스트 함수
+# Python 내장 함수
+python은 많은 built-in 함수를 가지고 있습니다.  
+🔎 `help(built-in 함수)`를 통해 함수 설명을 볼 수 있습니다.
 ## 문자열 함수
 파이썬은 문자열을 다루기 위한 함수들을 가지고 있습니다.  
 **\- 문자열 더하기**
@@ -69,6 +71,17 @@ list.pop(1)
 list = [1, 2, 3]
 list.append(1)
 ```
+for문과 함께 사용될 수 있습니다.
+```python
+str = 'hello'
+for char in str:
+    list.append(char)
+```
+```python
+str = 'hello'
+list = [char for char in str]
+```
+
 **\- reverse**  
 [reverse](https://docs.python.org/ko/3/library/array.html?highlight=reverse#array.array.reverse)는 리스트를 요소 순서를 뒤집습니다.  
 🔎 `[::-1]` 또한 리스트 요소 순서를 뒤집습니다.
@@ -100,3 +113,43 @@ values로 딕셔너리의 value들을 조회할 수 있습니다.
 
 ```python
 len(['a', 'b', 'c']) # 3
+```
+
+## 함수
+### • map
+[map](https://docs.python.org/ko/3/library/functions.html#map)은 입력에 대해 함수를 반복실행하며, 함수의 반환값들을 반환합니다.
+```python
+inputs = [1, 2, 3]
+
+def func(a):
+  return a + 1
+
+map(func, input)
+list(map(func, input))
+```
+
+### • map
+[filter](https://docs.python.org/ko/3/library/functions.html#filter)는 입력에 대해 함수를 반복실행하며, 반환값이 True인 함수의 입력들을 반환합니다.
+```python
+inputs = [1, 2, 3]
+
+def func(a):
+  return a % 2 == 0
+
+map(func, input)
+list(map(func, input))
+```
+
+### • lambda
+람다 표현식은 함수를 한줄의 anonymous 함수형태로 선언합니다.  
+🔎 여러줄은 함수는 람다 표현식으로 만들 수 없습니다.
+```python
+def func(a):
+  return a + 1
+```
+
+```python
+func = lambda a: a + 1
+```
+
+legb

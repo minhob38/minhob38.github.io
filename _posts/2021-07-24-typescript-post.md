@@ -18,7 +18,8 @@ npm install --save-dev typescript
 
 ### • compile
 `tsc [file]`로 typescript에서 javascript로 compile합니다. 또한 `tsc --init`를 실행하여 [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)에 compile 환경을 설정합니다.  
-🔎 ts-node 패키지를 통해 typescript를 nodejs에서 편리하게 사용할 수 있습니다.
+🔎 ts-node 패키지를 통해 typescript를 nodejs에서 편리하게 사용할 수 있습니다.  
+`"start": tsc & nodemon -e ts --exec ts-node server.ts"`
 ```js
 // tsconfig.json
 {
