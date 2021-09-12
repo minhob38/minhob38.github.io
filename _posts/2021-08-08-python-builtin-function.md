@@ -43,7 +43,8 @@ print(str_a.isalnum(), str_b.isalnum(), str_c.isalnum())
 ```
 
 ## 리스트 함수
-파이썬은 리스트를 다루기 위한 함수들을 가지고 있습니다.  
+파이썬은 리스트를 다루기 위한 [함수](https://docs.python.org/ko/3/tutorial/datastructures.html#more-on-lists)들을 가지고 있습니다.  
+
 **\- 리스트 더하기**  
 `+`로 리스트끼리 더하면 서로 연결된 리스트가 됩니다.
 ```python
@@ -80,6 +81,13 @@ for char in str:
 ```python
 str = 'hello'
 list = [char for char in str]
+```
+**\- extend**  
+[extend]는 리스트 끝에 iterable 요소를 열거하여 추가합니다.
+```python
+list = [1, 2, 3]
+list.append([4, 5])
+print(list) # [1, 2, 3, 4, 5]
 ```
 
 **\- reverse**  

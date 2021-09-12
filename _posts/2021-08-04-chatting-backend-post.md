@@ -65,3 +65,14 @@ https://www.section.io/engineering-education/push-notification-in-nodejs-using-s
 
 socket mern
 https://www.youtube.com/watch?v=HggSXt1Hzfk
+
+
+socket api 문서화
+https://api.slack.com/rtm
+https://stackoverflow.com/questions/63639197/how-to-document-websockets
+
+
+https://techblog.woowahan.com/2547/
+
+
+클라이언트의 namespace는 socket 하나

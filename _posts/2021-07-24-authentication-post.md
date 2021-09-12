@@ -167,3 +167,6 @@ https://woowacourse.github.io/tecoble/post/2020-08-31-where_to_store_token/
 
 
 authenticate-> strategy -> ctx.login -> serializer -> session -> deserializer
+
+
+https://tansfil.tistory.com/59

@@ -581,3 +581,17 @@ n '5'; // error
 https://hyunseob.github.io/2017/12/12/typescript-type-inteference-and-type-assertion/
 
 타입단언
+
+https://joshua1988.github.io/ts/guide/interfaces.html#%EA%B0%9D%EC%B2%B4-%EC%84%A0%EC%96%B8%EA%B3%BC-%EA%B4%80%EB%A0%A8%EB%90%9C-%ED%83%80%EC%9E%85-%EC%B2%B4%ED%82%B9
+
+https://steadily-worked.tistory.com/536?category=935656
+
+https://steadily-worked.tistory.com/530?category=935656
+
+
+타입스크립트 꿀팀
+vscode
+
+import a, {b} from [library]
+
+a.~~~

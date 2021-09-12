@@ -480,15 +480,27 @@ SELECT AVG(DISTINCT([column 이름])) FROM [table 이름]
 SELECT [column 이름] [+ - / * %] [column 이름] ... FROM [table 이름]
 ```
 
+### • group
+\- GROUP BY
+[GROUP BY](https://www.tutorialspoint.com/postgresql/postgresql_group_by.htm)에서 COUNT, SUM 등의 [aggreation 함수](https://www.postgresql.org/docs/13/functions-aggregate.html)를 통해 group의 정보(통계)를 알 수 있습니다. [HAVING](https://www.tutorialspoint.com/postgresql/postgresql_having_clause.htm)과 함께 사용될 수 있습니다.  
+
+```sql
+SELECT [기준 column 이름] 통계식[column 이름] FROM [table 이름] GROUP BY [기준 column 이름]
+```
+FROM
+WHERE
+GROUP BY
+HAVING
+SELECT
+DISTINCT
+ORDER BY
+LIMIT
+
 ### • JSON
 [jsonb](https://postgresql.kr/blog/postgresql_jsonb.html)는 json의 binary 형식으로 아래와 같이 차이점이 있습니다.
 |json|jsonb|
-|-|-|
-|json 형식의 string|json 형식의 binary|
-|공백(\n?) 저장|공백(\n?) 제거|
-|full text search indexing 없음|full text search indexing 있음| <- 더 알아보자...
-|적은 json 함수 및 연산|많은 json 함수 및 연산|
-|생성이 빠름|미리 parsing된것처럼 빠름| <- 더 알아보자...
+|-|-|ㅣㅏ ㅂ
+
  
 **\- jsonb_build_object**  
 jsonb 객체를 만듭니다.
@@ -518,6 +530,74 @@ table의 모든 행/열을 json으로 바꿉니다. (하나의 열로 변환됩�
 **\- json_agg**  
 aggregate를 위해 array 형태의 json을 만듭니다.  
 `SELECT json_agg(b) FROM (SELECT book_info FROM book) as b`  
+
+## Function
+[postgresql 함수](https://www.tutorialspoint.com/postgresql/postgresql_functions.htm)를 정의하여 sql을 실행할 수 있습니다.
+### • 함수 선언
+```sql
+CREATE [OR REPLACE] FUNCTION function_name([입력 자료형]) RETURNS [반환 자료형] AS
+`
+  [sql 로직]
+` LANGUAGE SQL
+```
+**\- dollar sign**  
+`대신 $$를 사용할 수 있습니다.
+```sql
+CREATE [OR REPLACE] FUNCTION function_name([입력 자료형]) RETURNS [반환 자료형] AS
+$$
+  [sql 로직]
+$$
+LANGUAGE SQL
+```
+```sql
+CREATE [OR REPLACE] FUNCTION function_name([입력 자료형]) RETURNS [반환 자료형] AS
+${body}$
+  [sql 로직]
+${body}$
+LANGUAGE SQL
+```
+### • 반환값
+**\- void**  
+void(null)를 반환합니다.
+```sql
+CREATE [OR REPLACE] FUNCTION function_name([입력 자료형]) RETURNS void AS
+$$
+  [sql 로직]
+$$
+LANGUAGE SQL
+```
+**\- 단일 값 반환**  
+자료형에 맞는 단일값을 반환합니다.
+```sql
+CREATE [OR REPLACE] FUNCTION function_name([입력 자료형]) RETURNS [반환 자료형] AS
+$$
+  [sql 로직]
+$$
+LANGUAGE SQL
+```
+### • 매개변수
+**\- void**  
+void(null)를 반환합니다.
+```sql
+CREATE [OR REPLACE] FUNCTION function_name([인자 이름] [입력 자료형], [인자 이름] [입력 자료형] ...) RETURNS [반환 자료형] AS
+$$
+  [sql 로직]
+  ...
+  $1, $2 ...
+$$
+LANGUAGE SQL
+```
+```sql
+CREATE [OR REPLACE] FUNCTION function_name([인자 이름] [입력 자료형], [인자 이름] [입력 자료형] ...) RETURNS [반환 자료형] AS
+$$
+  [sql 로직]
+  ...
+  [인자이름], [인자이름] ...
+$$
+LANGUAGE SQL
+```
+
+
 
 ## Optimization
 
@@ -656,6 +736,46 @@ https://www.youtube.com/watch?v=NI9wYuVIYcA
 Block Range INdex
 **gin index**
 
+
+## Trigger 
+•
+trigger란 테이블에 이벤트(INSERT/UPDATE/DELETE/TRUCATE)가 발생할때 자동으로 실행되는 함수입니다.
+
+트리거 시점
+BEFORE
+
+AFTER
+
+INSTEAD
+
+테이블에 여러 트리거가 있으면 알파벳 순서로 실행됨
+
+트리거 종류
+Row Level Trigger
+
+Statement Level Trigger
+### • Trigger 만들기
+**\- function 만들기**
+```sql
+CREATE FUNCTION trigger_function()
+    RETURNS TRIGGER
+    LANGUAGE PLPGSQL
+AS $$
+BEGIN
+[trigger 로직]
+END;
+$$
+```
+**\- trigger - function 바인딩**
+```sql
+CREATE TRIGGER trigger_name
+    {BEFORE|AFTER} {event}
+ON table_name
+    [FOR [EACH] {ROW|STATEMENT}]
+    EXECUTE PROCEDURE trigger_function
+```
+
+
 ## pgAdmin
 ### • Server(Database) 만들기
 <img src="/assets/images/pgAdmin_create_server1.png" alt="image" width="30%">
@@ -691,3 +811,8 @@ Data의 [Constraint](https://www.postgresql.org/docs/13/ddl.html)를 정의할 �
 
 \- Data type
 [Data Type](https://www.postgresql.org/docs/13/datatype.html)을 정의할 수 있습니다.
+
+
+
+postgres in 5432 error
+https://dev.to/balt1794/postgresql-port-5432-already-in-use-1pcf

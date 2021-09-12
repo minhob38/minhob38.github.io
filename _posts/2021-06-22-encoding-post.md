@@ -39,3 +39,10 @@ UTF-8은 한글을 조합형태로 저장하기에 3byte가 필요합니다. 반
 ## Encoding Programming
 ### JavaScript
 JavaSript에선 iconv 라이브러리를 통해 인코딩을 다룰 수 있습니다.
+
+https://perfectacle.github.io/2019/11/24/aes/
+
+
+HEX
+BASE64
+https://effectivesquid.tistory.com/entry/Base64-%EC%9D%B8%EC%BD%94%EB%94%A9%EC%9D%B4%EB%9E%80

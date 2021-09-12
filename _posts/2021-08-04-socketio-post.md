@@ -8,6 +8,11 @@ last_modified_at: 2021-08-04 01:00:00 +0900
 
 ### Websocket
 기존 http 통신은 클라이언트가 요청을 보내면 서버가 응답을 하는 단방향 통신이였습니다. 이는 서버를 기준으로 실시간, 유저간 상호작용 등의 통신이 되지않기 때문에, 이러한 한계를 해결하고자 html5 표준으로 양방향으로 통신(bi-directional full duplex communication)이 가능한 websocket이 만들어졌습니다.  
+(7계층, tcp)
+
+## websocket 연결과정
+
+## websocket 프레임
 
 ## 환경설정
 ### • 설치
@@ -61,6 +66,7 @@ const handleClick = (ev) => {
 };
 ```
 
+## socketio basic
 ### • socket instance
 [socket instance](https://socket.io/docs/v4/server-socket-instance/)는 연결된 소켓의 정보를 가지고 있습니다.
 
@@ -136,10 +142,39 @@ io.on("connection", (socket) => {
 ```
 🔎 in과 to는 같습니다.
 
-### • adapter?
-### • namespace
-[namespace](https://socket.io/docs/v4/namespaces/)는 소켓로직을 분리할 수 있는 채널입니다.  
-**\- namespace 만들기 (server)**
+## middleware
+미들웨어는 모든 소켓 연결 및 요청에 실행되는 함수
+
+📔 [https://socket.io/docs/v4/middlewares/](https://socket.io/docs/v4/middlewares/)
+
+**- connection middlware**  
+[connection middleware](https://socket.io/docs/v4/server-api/#namespace-use-fn)는 socket이 해당 namespace에 연결할때 실행됩니다. `next()`로 다음 함수를 실행시키며, `next(인자)`로 오류를 발생시킵니다. 오류는 클라이언트에서 `connect_error`로 받을 수 있습니다.
+```js
+io.use((socket, next) => {
+  ...
+  next();
+});
+
+io.on("connection", (socket) => {
+  ...
+});
+```
+
+**- packet middleware**  
+[packet middleware](https://socket.io/docs/v4/server-api/#namespace-use-fn)는 socket이 packet을 보낼때 실행됩니다. `next()`로 다음 함수를 실행시키며, `next(인자)`로 오류를 발생시킵니다. 오류는 클라이언트에서 `error`로 받을 수 있습니다.
+```js
+io.on("connection", (socket) => {
+  socket.use((packet, next) => {
+    next();
+  });
+  ...
+});
+```
+
+
+## namespace
+[namespace](https://socket.io/docs/v4/namespaces/)는 소켓서버(로직)을 분리할 수 있는 채널입니다.
+**- namespace 만들기 (server)**
 ```js
 const chat = io.of("/chat");
 
@@ -161,8 +196,109 @@ const socket = io("http://localhost:3000");
 const socketA = io("http://localhost:3000/chat");
 ```
 
+**\- namespace 정보보기**
+
+
+## adapter
+[adapter](https://socket.io/docs/v4/adapter/)를 통해, 다른 프로세스에서 실행 중인 소켓과 통신할 수 있습니다.
+🔎 소켓은 프로세스 기반이기에, 같은 서버 애플리케이션일지라도 프로세스가 다르면 통신할 수 없습니다.
+
+### • adapter 만들기
+[adapter](https://socket.io/docs/v4/server-api/#server-adapter-value)로 adapter를 만들 수 있습니다.  
+
+**\- postgresql**
+socket서버를 postgreqsql(socket_io_attachments)과 연결하며, postgresql을 매개체로 서버끼리 통신할 수 있습니다.
+```js
+const { Server } = require("socket.io");
+const { createAdapter } = require("@socket.io/postgres-adapter");
+const { Pool } = require("pg");
+
+const io = new Server();
+
+const pool = new Pool({
+  user: "postgres",
+  host: "localhost",
+  database: "postgres",
+  password: "changeit",
+  port: 5432,
+});
+
+pool.query(`
+  CREATE TABLE IF NOT EXISTS socket_io_attachments (
+      id          bigserial UNIQUE,
+      created_at  timestamptz DEFAULT NOW(),
+      payload     bytea
+  );
+`);
+
+io.adapter(createAdapter(pool));
+io.listen(3000);
+```
+
+### • emiiter 만들기
+[emitter](https://socket.io/docs/v4/adapter/#Emitter-cheatsheet)는 다른 서버에서 emit 이벤트를 보낼 수 있습니다.
+
+**\- postgresql**
+서버를 postgreqsql(socket_io_attachments)과 연결하며, postgresql을 매개체로 서버끼리 통신할 수 있습니다.
+```js
+const { Emitter } = require("@socket.io/postgres-emitter");
+const { Pool } = require("pg");
+
+const pool = new Pool({
+  user: "postgres",
+  host: "localhost",
+  database: "postgres",
+  password: "changeit",
+  port: 5432,
+});
+
+const emitter = new Emitter(pool);
+
+emitter.emit("event", 'data')
+emitter.of('/nsp').in('room').emit("event", 'data')
+```
+
+
 ## 참고자료
 [• websocket vs socketio](https://www.educba.com/websocket-vs-socket-io/)  
 https://d2.naver.com/helloworld/1336
 
 https://gipyeonglee.tistory.com/99
+
+https://darrengwon.tistory.com/724
+
+
+https://sookocheff.com/post/networking/how-do-websockets-work/
+
+
+!!
+https://velog.io/@pbg0205/Socket%EC%86%8C%EC%BC%93
+
+
+소켓은 프로세스 기반이기에, 서버가 여러개면 데이터 공유가 불가하기에 db, redis로 공유
+
+https://hjw1456.tistory.com/1
+https://ahribori.com/article/59f28a92ec22820fdcd9185c
+
+
+redis
+https://edu.goorm.io/learn/lecture/557/%ED%95%9C-%EB%88%88%EC%97%90-%EB%81%9D%EB%82%B4%EB%8A%94-node-js/lesson/174390/redis-%EA%B8%B0%EB%B3%B8-%EC%82%AC%EC%9A%A9-%EB%B0%A9%EB%B2%95
+
+adapter
+https://stackoverflow.com/questions/40840394/what-does-adapter-means-in-socket-io
+
+https://rumor1993.github.io/articles/2020-03/Socket.io_%EB%B6%84%EC%82%B0%EC%B2%98%EB%A6%AC_1
+
+
+room sid 속성
+https://socket.io/docs/v4/rooms/#Implementation-details
+
+미들웨어
+https://socket.io/docs/v4/middlewares/
+https://socket.io/docs/v4/server-api/#namespace-use-fn
+https://socket.io/docs/v4/server-api/#socket-use-fn
+
+https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=chohs00&logNo=80163369076
+
+인증
+https://stackoverflow.com/questions/36788831/authenticating-socket-io-connections-using-jwt

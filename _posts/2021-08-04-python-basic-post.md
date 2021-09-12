@@ -467,7 +467,7 @@ print('eof')
 ```python
 a = range(5)
 for i in a:
-  print(i
+  print(i)
 b = range(1, 3)
 for i in b:
     print(i
@@ -554,3 +554,212 @@ def func(*args):
 def func(**kwargs):
     print(args)
 ```
+
+## 클래스
+객체지향프로그래밍이란 프로그램을 단순한 명령어의 집합으로 바라보는 기존 컴퓨터 프로그래밍과 달리, 관계성 있는 객체들의 집합으로 바라보는 프로그램 설계입니다. 객체지향프로그래밍을 위해서 객체의 특성을 담고 있는 클래스라는 추상적 개념을 정의합니다. 이러한 클래스에 구체적인 특성들을 정의해줌으로써 실존적 개념인 인스턴스를 얻을 수 있습니다.
+### • 선언
+`class` 키워드를 통해 클래스를 선언할 수 있으며, `__init__` 함수를 통해 인스턴스를 초기화 할 수 있습니다.
+또한 일반 변수, 함수 선언으로 속성, 메소드를 정의할 수 있습니다.
+```python
+class Car():
+    id = 'id'
+
+    def __init__(self,model,color):
+        self.color = color
+        self.model = model
+
+    def func(self)
+        print(self.color)
+
+my_car = Car('i30','blue')
+my_car.func()
+my_car.id
+Car.id
+```
+
+### • 상속
+```python
+class Vehicle():
+    def __init__(self, a):
+        self.a = a
+
+    def func(self)
+        print(self.a)
+
+class Car(Vehicle):
+    def __init__(self):
+        Vehicle.__init__(self, a)
+```
+
+__main__
+
+### • Dunder Method
+**\- __str__**  
+`print([instance 이름])`, `str([instance 이름])`을 입력했을때, 실행되는 함수를 정의합니다.  
+**\-__len__**  
+`len([instance 이름])`을 입력했을때, 실행되는 함수를 정의합니다.  
+**\-__del__**  
+`del([instance 이름])`을 입력했을때, 실행되는 함수를 정의합니다.  
+
+
+
+
+
+pypi
+pypi는 파이썬 개발자들이 패키지를 공유하는 생태계입니다.
+
+pip
+pip는 파이썬 패키지를 관리해주는 시스템입니다.
+
+`$ pip list`
+`$ pip install [패키지 이름]`
+`$ pip uninstall [패키지 이름]`
+
+pip -v
+pip intall --upgrade
+
+홈브루에서
+sudo easy-intall pip
+
+from [스크립트(모듈) 이름] import [함수 이름]
+import [스크립트(모듈) 이름]
+
+🔎 스크립트(모듈)은 *.py 파일입니다.
+
+패키지 만들기
+__init__.py
+
+
+---
+__name__
+python [***.py]이면 __name__ = "__main__"
+import할때 파일이 실행되기 때문에, 이를 방지하기 위해 __name__ 조건문을 작성함
+
+__main__
+
+```
+a/
+    __init__.py
+    b/
+        __init__.py
+        m.py
+        n.py
+    c/
+        __init__.py
+        p.py
+        q.py
+```
+```python
+# m.py
+def func_m():
+
+```
+
+```python
+import a.b.m
+a.b.m.func_m()
+```
+```python
+?
+import a
+a.b.m.func_m()
+```
+
+```python
+from a import b
+b.m.func_m()
+b.n.func_n()
+```
+
+```python
+from a.b import m
+m.func_m()
+```
+
+```python
+from a.b.m import func_m
+func_m()
+```
+
+## 예외처리
+`try`, `excpet`, `finally`로 예외처리를 할 수 있습니다.
+### • try
+정상적으로 작동하는 코드 영역입니다.
+```python
+try:
+    print('try before error')
+    a = 
+    print('try after error)
+except:
+    print('except')
+```
+
+### • except
+try에서 오류가 발생하면, 처리하는 코드 영역입니다. [error 종류](https://docs.python.org/3/library/exceptions.html)에 따라 except를 나눌 수 있습니다.
+```python
+try:
+    print('try before error')
+    raise Exception('error : (')
+    print('try after error')
+except:
+    print('except')
+```
+```python
+try:
+    print('try before error')
+    raise Exception('error : (')
+    print('try after error')
+except TypeError:
+    print('except type error')
+except: OSError:
+    print('except os error')
+except:
+    print('except error')
+```
+```python
+try:
+    print('try before error')
+    raise Exception('error : (')
+    print('try after error')
+except TypeError as e:
+    print(e)
+    print('except type error')
+except: OSError as e:
+    print('except os error')
+    print(e)
+except Exception as e:
+    print('except error')
+```
+
+### • else
+try에서 오류가 발생하지 않으면, 실행되는 코드 영역입니다. error 종류에 따라 except를 나눌 수 있습니다.
+```python
+try:
+    print('try')
+else:
+    print('else')
+```
+
+### • finally
+try에서 오류발생 여부와 관계없이 실행되는 코드 영역입니다.
+
+```python
+try:
+    print('try before error')
+    raise Exception('error : (')
+    print('try after error')
+except TypeError:
+    print('except')
+except: OSError:
+    print('except')
+finally:
+    print('finally')
+```
+
+
+pylint myexample.py -r y
+unittest
+`pip install pylint`
+
+
+PEP8코드스타일
