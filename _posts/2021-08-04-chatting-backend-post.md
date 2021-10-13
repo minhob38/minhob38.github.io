@@ -76,3 +76,14 @@ https://techblog.woowahan.com/2547/
 
 
 클라이언트의 namespace는 socket 하나
+
+
+
+채팅 db 구조
+
+https://vertabelo.com/blog/database-model-for-a-messaging-system/
+
+
+
+
+http://blog.jandi.com/ko/2018/07/27/membership_status/

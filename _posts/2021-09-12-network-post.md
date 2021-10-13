@@ -122,6 +122,30 @@ TCP는 데이터를 분할하여 보냅니다. 따라서 분할된 데이터에 
 ### •udp
 tcp(User Datagram Protoclo)는 데이터를 빠르게 전달하기 위한 비연결형 통신 프로토콜입니다. UDP 헤더에는 송신 단말 port, 수신 단말 Port 등이 담겨있습니다.
 
+## DNS
+DNS(Domain Name System)은 ip주소를 문자열의 도메인 주소로 변환하는 시스템입니다.
+클라이언트(브라우저)에서 도메인 주소를 입력하면, DNS 서버에 쿼리를 보내고 해당 ip 주소를 받습니다. 이 ip 주소를 가지고 서버에 요청을 보낼 수 있습니다.
+🔎 이떄 얻은 ip 주소를 캐시로 저장하여 다음 요청에서는 캐시에서 해당 ip주소를 찾습니다.
+|third-level domain | second-level domain | top-level domain|
+|-|-|-|
+|www|google|com|
+
+### • record
+**\- a record**  
+a record는 기본 record로 ipv4 주소와 맵핑됩니다.
+
+**\- aaaa record**  
+aaaa record는 ipv6 주소와 맵핑됩니다.
+
+**\- cname record**  
+cname record는 도메인 주소를 ip 주소가 아닌 또 다른 도메인 주소와 맵핑합니다. 이때 맵핑되는 도메인 주소는 ip 주소와 맵핑되어 있습니다.
+
+## CDN
+https://server-talk.tistory.com/52
+
+캐싱...
+https://cloud.google.com/cdn/?utm_source=google&utm_medium=cpc&utm_campaign=japac-KR-all-en-dr-bkws-all-all-trial-e-dr-1009882&utm_content=text-ad-none-none-DEV_c-CRE_286195723358-ADGP_Hybrid%20%7C%20BKWS%20-%20EXA%20%7C%20Txt%20~%20Networking%20~%20Cloud%20CDN_CDN-KWID_43700024981073026-kwd-332589974324&userloc_1009893-network_g&utm_term=KW_cloud%20cdn&gclid=CjwKCAjw7--KBhAMEiwAxfpkWB5IpAkFzHj4MIWiTX2PNkULNU8q0EP4uVOqpr-9OYPNbGxTW_8CaRoCgf0QAvD_BwE&gclsrc=aw.ds#section-6
+
 
 ### NAT/PAT
 

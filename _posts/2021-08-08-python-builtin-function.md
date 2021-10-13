@@ -161,3 +161,91 @@ func = lambda a: a + 1
 ```
 
 legb
+
+
+## built-in module
+### • collections
+**\- Counter**
+```python
+from collections import Counter
+
+list = ['a', 'a', 1, 1, 1]
+Counter(list) # {'a': 2, 1: 3}
+```
+**\- defaultdict**  
+**\- namedtuple**
+
+### • file
+```python
+f = open('myfile.txt', 'w+')
+f.write('...')
+f.close()
+```
+
+### • os
+```python
+import os
+```
+**\- 경로**
+```python
+os.getcwd()
+```
+**\- 목록**
+```python
+os.listdir()
+```
+os.walk?
+### • shutil
+```python
+import shutil
+```
+**\- 파일 옮기기**
+```python
+shutil.move([source], [destination])
+```
+
+### • datetime
+https://docs.python.org/3/library/datetime.html
+```python
+import datetime
+```
+**\- 시간 설정**
+```python
+datetime.time([hour, min, sec, microsec, timezone])
+```
+**\- 오늘 날짜**
+```python
+datetime.date.today()
+```
+
+### • time
+```python
+import time
+```
+
+### • timeit
+```python
+import timeit
+```
+
+### • math
+```python
+import math
+```
+
+### • random
+https://docs.python.org/3/library/random.html
+```python
+import random
+```
+
+### • debugger
+```python
+import pdb
+pdb.set_trace()
+```
+
+### • re
+```python
+import re
+```

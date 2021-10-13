@@ -49,8 +49,8 @@ $ npm start
 ```
 $ cd medis/bin
 $ node pack.js
-$ cd medis/dist//out/Medis-mas-X64
-$ Medis.app 파일을 Finder에서 실행
+$ cd medis/dist//ut/Medis-mas-X64
+$ Finder에서 Medis.app 실행
 ```
 
 ## database 다루기

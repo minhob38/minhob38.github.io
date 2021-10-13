@@ -302,3 +302,7 @@ https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=chohs00&logN
 
 인증
 https://stackoverflow.com/questions/36788831/authenticating-socket-io-connections-using-jwt
+
+
+
+https://medium.com/@tomokazukozuma/how-to-use-socket-io-protocol-42fa6dd93b0e

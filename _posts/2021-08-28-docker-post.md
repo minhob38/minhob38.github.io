@@ -1,13 +1,20 @@
 ---
-title: "Docker"
+title: "Docker / Kubernetis"
 categories: 
   - programming
 date: 2021-08-28 01:00:00 +0900
 last_modified_at: 2021-08-28 01:00:00 +0900
 ---
 
-### Docker
+# Docker
 docker는 애플리케이션이 운영체제(os)와 분리되어 실행될 수 있는 공간인 container를 기반으로 하는 오픈소스 가상화 플랫폼입니다.
+
+<img src="/assets/images/container-vs-vm.png" alt="image" width="80%">
+
+## vm / container
+[https://docs.microsoft.com/ko-kr/virtualization/windowscontainers/about/containers-vs-vm](https://docs.microsoft.com/ko-kr/virtualization/windowscontainers/about/containers-vs-vm)
+
+[https://www.redhat.com/ko/topics/containers/containers-vs-vms](https://www.redhat.com/ko/topics/containers/containers-vs-vms)
 
 ## 환경설정
 ### • 설치
@@ -34,7 +41,7 @@ image는 애플리케이션과 유사한 개념입니다.
 [images](https://docs.docker.com/engine/reference/commandline/build/)로 image 목록을 볼 수 있습니다.
 ```
 docker bulid [option] [경로]
-docker bulid -t [image 이름][:tag 이름]
+docker bulid [경로] -t [image 이름][:tag 이름]
 ```
 ### • image 목록 보기
 **\- images**  
@@ -295,7 +302,7 @@ $ docker-compose up [option] [--scale] [service 이름]
 **\- down**
 [down](https://docs.docker.com/compose/reference/down/)로 만들어진 compose를 종료하고 지웁니다.
 ```
-$ docker-compose up down
+$ docker-compose down
 ```
 🔎 `docker-compose -p [프로젝트 이름] down`으로 해당 프로젝트를 지울 수 있습니다.
 ### • compose 보기
@@ -348,18 +355,188 @@ container의 image를 정의합니다.
 **\- port**  
 container의 port를 정의합니다.
 
+## docker 예시
+### • docker cli
+```sh
+docker pull minho/my-server:lastest
+# docker image를 dockhub minho 저장소에서 my-server 이미지를 latest tag로 다운 받습니다.
+docker ps ~/code/devops.txt  minho/my-server:latest:/source
+# host ~/code/devops.txt를 minho/my-server:latest image의  /source 경로로 복사합니다.
+
+docker build -t myserver:latest ~/src/server
+# ~/src/server에 있는 Dockerfile로 image를 빌드합니다.
+
+docker run -d -p 8080:80 -v ~/src/client/build:/etc/nginx/pages --name mywebserver nginx:latest
+# host8080 포트와 container 포트80을 binding합니다.
+
+docker cp ~/src/confing/nginx/nginx.conf  /etc/nginx
+# host의 nginx 파일을 container /etc/nginx로 이동
+docker cp ~/src/confing/nginx  /etc/nginx
+
+docker \
+docer \
+...
+```
+### • DockerBuild
+
+
+
+sudo docker stop nginx &&
+sudo docker rm nginx &&
+sudo docker run -d -p 8080:80 -v ~/src/client/build:/etc/nginx/pages --name mywebserver nginx:latest
+sudo docker cp ~/src/config/nginx.conf nginx:/etc/nginx
+
+### • Docker-Compose.yml
+
+
 
 docker attach
 알아서 실행되는거는 -d 가능
 알아서 실행안되는거는 -d 불가
 
 ## swarm
+built-in orchestration
+여러 Host(docker engine)에 있는 container들을 관리
+container가 많아지면 각 container를 관리하기 힘들기에, lifecycle을 자동화하여 관리할 필요가 있음
+서버 스케일 아웃
+무중단배포(blude/green deploy)
 
-## kubernetis
+스웜모드는 클러스터링 솔류션
+스웜클래식은 옜날꺼
+
+스웜모드는 마이크로 서비스 아키텍처 서비스를 위한 클러스터링 기능 제공
+(분산 코디네이터, 메니저, 에이전트 기능)
+
+docker info | grep Swarm
+-> swarm: inactive
+
+노드는 호스트
+### • swarm cluster 만들기
+**\- init**  
+```
+docker swarm init
+```
+
+**\- join**  
+```
+docker swarm join
+```
+
+docker service create 
+docker service update
+
+### • node 보기
+```
+docker node ls
+```
+
+docker swarm --help
+docker node --help
+docker service --help
+
+play-with-docker.com <- host 만들어주는듯
+### • swarm service 만들기
+스웜모드의 단위는 컨테이너가 아닌 서비스(서비스는 같은 이미지에서 만들어진 컨테이너들의 집합, 다른 호스트)
+매니저 노드에서만 서비스를 만들 수 있음
+서비스에 있는 컨테이너에게 같은 명령을 내림
+
+레플리카 : 서비스에 있는 컨테이너
+
+# kubernetis
+쿠버네티스는 컨테이너 오케스트레이터
+컨테이터 오케스트레이터는 많은 서버를 하나처럼 다루는것
+k8s kube  
+kubectl
+
+https://kubernetes.io/ko/
+
+## 환경설정
+### • 설치
+kubernetis는 용도에 따라 설치 형태는 아래와 같습니다.
+개발을 위한 kubernetis는 docker deskop 또는 minikube로 설치합니다.
+**\- docker desktop**
+docker desktop (for Mac, for Window)에 kubernetis가 설치되어있습니다.
+**\- minikube**
+vm 및 container에서는 minikube로 설치합니다.
+**\- minikube**
+
+**\- kubespray**
+https://kubernetes.io/ko/docs/setup/production-environment/tools/
+**\- kubeadm**
+kubernetis가 공식적으로 지원하는 클러스터 구축 도구입니다.
+https://kubernetes.io/ko/docs/setup/production-environment/tools/kubeadm/
+**\- lops**
+
+**\- EKS(Elastic Kubernetes Service) / GKE(Google Kubernetes Engine)**
+
+
+
+### • kubelctl
+kubernetis api 사용을 위한, cli입니다.
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
+
+play-with-k8s.com
+katacoda.com
+
+
+### • 설치하기
+
+## pod
+하나의 node에서 실행되는 container들의 집합입니다.
+🔎 리눅스 네임스페이스를 공유한다?
+### • pod 만들기
+**\- run**
+[run](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#run)으로 pod에 image로부터 container를 만들고 실행시킵니다.
+```
+kubectl run
+```
+**\- create**
+[create](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#create)로 json/yml에서 pod에 container를 만들고 실행시킵니다.
+```
+kubectl create
+```
+**\- apply**
+[apply](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#apply)로 json/yml에 정의된 형상을 pod에 반영하며, pod이 없다면 container를 만듭니다.
+```
+kubectl create
+```
+### • pod 보기
+```
+kubectl get pods
+```
+```
+kubectl describe pods
+```
+
+### • pod 들어가기
+**\- exec**
+[exec](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#exec)으로 pod의 터미널을 실행시킬 수 있습니다.
+```
+kubectl exec pods
+
+
+### • 용어
+- kubernetes (k8s, kube)
+orchestartion system 
+- kube ctl
+kube cli
+- node
+kubernetis cluster을 이루는 서버를 가리키는 단위입니다.
+- kubelet
+node에서 실행되는 agent로 continer 생성/삭제 및 master/worker node 통신을 담당합니다.
+- control plane
+set of containers that manage the cluster
+
+pod
+하나의 node에서 실행되는 container들의 집합
+
 
 
 ## docker hub
 이미지 저장소
+
+docker info | grep -i root
 
 ## 참고자료
 [• docker 공식 문서](https://docs.docker.com/)  
@@ -437,3 +614,30 @@ https://okky.kr/article/650088
 docker run -d -e ROOT_URL=http://localhost -e MONGO_URL=mongodb://localhost:27017 --network="Host"
 
 https://subicura.com/
+
+https://forums.docker.com/t/net-host-does-not-work/17378/4
+
+https://www.44bits.io/ko/post/almost-perfect-development-environment-with-docker-and-docker-compose#build
+
+
+
+
+
+### postgresql docker
+
+chomod 777
+
+init알아서 실행됨
+
+https://www.postgresql.org/docs/9.5/app-psql.html
+\c
+https://stackoverflow.com/questions/60326148/how-to-create-table-postgresql-when-start-by-docker-compose
+
+https://levelup.gitconnected.com/creating-and-filling-a-postgres-db-with-docker-compose-e1607f6f882f
+
+https://levelup.gitconnected.com/creating-and-filling-a-postgres-db-with-docker-compose-e1607f6f882f
+
+환경변수
+https://linkeverything.github.io/container/docker-env/
+https://www.python2.net/questions-4917.htm
+https://docs.docker.com/compose/environment-variables/

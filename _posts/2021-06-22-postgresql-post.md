@@ -174,7 +174,7 @@ SELECT column, ... from table ORDER BY column, ... ASC;
 ```
 
 ### • Constraint 만들기
-table 및 column에 제한을 걸어, 테이블의 신뢰성을 높일 수 있습니다.  
+constraint(https://www.tutorialspoint.com/postgresql/postgresql_constraints.htm)는 table 및 column에 제한을 걸어, 테이블의 신뢰성을 높일 수 있습니다.  
 **\- NOT NULL**  
 해당 column은 null을 허용하지 않습니다. (값을 가져야합니다.)
 ```sql
@@ -225,7 +225,8 @@ CREATE TABLE [table b 이름] (
   [column b 이름] [data type] PRIMARY KEY
 );
 
-ALTER TABLE [table 이름] ADD [constraint 이름] CONSTRAINT PRIMARY KEY ([column 이름]);
+ALTER TABLE [table a 이름] ADD [constraint 이름] FOREIGN KEY ([column a 이름]) REFERENCE [table b 이름]([column b 이름]);]
+[ON DELETE CAST | RESTRICT]
 ```
 🔎 table a는 column a(foreign key)를 통해 table b(foreign table)를 참조합니다.
 
@@ -277,6 +278,7 @@ cross join은 왼쪽/오른쪽 테이블을 서로 교차한 행들을 연결하
 ```
 SELECT * FROM table_a CROSS JOIN table_b
 ```
+
 **\- Self Join**  
 **\- Nautral Join**  
 **\- COALESCE**  
@@ -576,8 +578,7 @@ $$
 LANGUAGE SQL
 ```
 ### • 매개변수
-**\- void**  
-void(null)를 반환합니다.
+**\- **  
 ```sql
 CREATE [OR REPLACE] FUNCTION function_name([인자 이름] [입력 자료형], [인자 이름] [입력 자료형] ...) RETURNS [반환 자료형] AS
 $$
@@ -595,6 +596,50 @@ $$
   [인자이름], [인자이름] ...
 $$
 LANGUAGE SQL
+```
+## 반복문
+### • loop
+
+### • for
+```sql
+for [count] in [시작]..[종료] [by [증분]
+loop
+  [...]
+end loop;
+```
+```
+do
+$$
+  --declare
+    --i integer;
+  begin
+	  for i in 1..10
+	  loop
+	  --select id from bookmarks limit 10;
+	  --loop
+	  --select * from bookmarks b
+	    update bookmarks set bookmark_number = 11;
+	  end loop;
+  end;  
+$$ language plpgsql;
+
+```
+
+
+### • for in
+```
+do
+$$
+  declare
+    rec ;
+  begin
+	  for rec in
+	    select id from bookmarks limit 10
+	  loop
+	  
+	  end loop;
+  end;  
+$$ language plpgsql;
 ```
 
 
@@ -700,6 +745,9 @@ join node는 hash join / merge join / nested loop join으로 나뉩니다.
 nested loop join
 inner(left) table을 기준으로 join 조건이 일치하는 outer(right) table의 행을 탐색/순회하며, 이를 inner table 행만큼 반복합니다. (이중 for문과 유사합니다.) 로직이 간단하기에 테이블이 커지면 시간이 오래걸리는 단점이 있습니다.
 driving(선행) table은 바뀔 수 있으며, driving table은 where이 있다면 필터링된 테이블로 join을 합니다.
+선행테이블은 순차적으로 접근하고, 후행 테이블은 랜덤 액세스
+데이터 수가 적을떄 유용
+선행테이블은 where로 최대한 거르고, 행이 적은걸로 선택
 ```js
 for (...) // driving
   for (...) // driven
@@ -816,3 +864,16 @@ Data의 [Constraint](https://www.postgresql.org/docs/13/ddl.html)를 정의할 �
 
 postgres in 5432 error
 https://dev.to/balt1794/postgresql-port-5432-already-in-use-1pcf
+
+
+https://d2.naver.com/helloworld/227936
+
+
+dbpool
+https://brownbears.tistory.com/289
+
+
+https://til.cybertec-postgresql.com/post/2019-09-02-Postgres-Constraint-Naming-Convention/
+
+조인 방식
+https://needjarvis.tistory.com/162

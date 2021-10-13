@@ -13,10 +13,21 @@ https://medium.com/@gwakhyoeun/%EC%99%9C-node-js%EB%8A%94-single-thread-%EC%9D%B
 
 https://darrengwon.tistory.com/763
 
+
+
+싱글쓰레드: 프로세스에 다른 작업이 들어와도 cpu core하나로 모든일을 처리
+쓰레드(카레 도마) 요리사가 카레만들고나서, 스테이크 만듬
+멀티쓰레드: 프로세스에 다른 작업이 들어오면, 다른 쓰레드로 할당하여 작업처리 (코어하나가 번갈아가면서...)
+쓰레드(카레 도마, 스테이크 도마) 요리사가 카레, 스테이크 번갈아가면서 요리
+프로세스: 주방(메모리)
+코어: 일하는 사람(cpu)
+https://m.blog.naver.com/hhw1990/221394005779
+
+
 ### Nodejs 클러스터
 [cluster](https://nodejs.org/api/cluster.html)를 통해 싱글스레드인 nodejs를 멀티스레드에서 실행시킬 수 있습니다.
 
-
+https://blog.naver.com/PostView.nhn?isHttpsRedirect=true&blogId=strike0115&logNo=221440344642&parentCategoryNo=&categoryNo=52&viewDate=&isShowPopularPosts=true&from=search
 
 클러스터 만들기
 folk

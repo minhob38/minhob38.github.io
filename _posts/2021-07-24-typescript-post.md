@@ -595,3 +595,52 @@ vscode
 import a, {b} from [library]
 
 a.~~~
+
+**\- 타입 추론**
+**\- 타입 호환**
+
+
+타입 단언 / 타입 캐스팅
+타입캐스팅은 없는타입으로 형변환(형을 부여하는 것)
+타입단언은 있는 타입에서 범위를 좁히는 것. 따라서 런타임에서는 영향 안줌
+as
+https://basarat.gitbook.io/typescript/type-system/type-assertion
+
+https://www.typescripttutorial.net/typescript-tutorial/type-casting/
+**\- 타입 가드**
+if문으로 타입의 범위를 좁혀감
+```
+let a: string | number
+
+function (a: string|number) {
+  if (typeof a === 'string') { //instanceof
+    a.substring()
+  } else {
+    Math.sqrt(a)
+  }
+}
+```
+타입가드함수
+https://radlohead.gitbook.io/typescript-deep-dive/type-system/typeguard
+
+
+
+
+## Cheating Sheet
+
+```js
+// destructing
+const { a, b } = c;
+->
+const { a, b }: { a: number, b: string } = c;
+
+// let, type guard
+let a: number | undefined
+
+// array
+let arr: number[]
+arr = []
+arr = [1]
+
+
+```
