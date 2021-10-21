@@ -51,6 +51,30 @@ pip install django[==version]
 
 ## Django Server 만들기 (basic)
 
+### • 환경변수
+https://github.com/jpadilla/django-dotenv
+
+```
+pip install django-dotenv
+```
+```
+# manage.py
+import dotenv
+
+if __name__ == "__main__":
+    dotenv.read_dotenv()
+    main()
+```
+```
+# 환경변수를 사용할 파일
+import os
+os.environ.get("A")
+```
+```
+// .env
+A = hello
+```
+
 ### • project 만들기
 
 아래 명령어를 통해 현재 경로에 project 경로와 project를 생성할 수 있습니다.
@@ -130,6 +154,7 @@ import json
 json.loads()
 json.dumps()
 ```
+https://docs.python.org/ko/3/library/json.html
 
 ### • model
 
@@ -236,6 +261,30 @@ https://docs.djangoproject.com/en/2.2/ref/models/instances/#str
 **settingpy**
 https://docs.djangoproject.com/en/3.2/ref/settings/
 
+
+
+### • scraping
+pip install requests
+import requests
+https://docs.python-requests.org/en/latest/user/quickstart/
+https://www.daleseo.com/python-requests/
+https://me2nuk.com/Python-requests-module-example/
+
+pip install beautifulsoup4
+from bs4 import BeautifulSoup
+
+
+beautiful soup
+https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+
+
+
+
+
+
+
+
+
 참고자료
 url/view
 https://lar542.github.io/Django/2019-06-17-first_django_ptoject/
@@ -248,3 +297,9 @@ https://velog.io/@hojin11choi/TIL-Django-JSON-request.body
 
 pipenv
 https://packaging.python.org/tutorials/managing-dependencies/#managing-dependencies
+
+
+폴더구조
+https://timmyomahony.com/blog/general-django-project-structure-or-folder-layout
+gitingore
+https://djangowaves.com/tips-tricks/gitignore-for-a-django-project/

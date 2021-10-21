@@ -306,3 +306,9 @@ https://stackoverflow.com/questions/36788831/authenticating-socket-io-connection
 
 
 https://medium.com/@tomokazukozuma/how-to-use-socket-io-protocol-42fa6dd93b0e
+
+
+
+용량
+https://github.com/socketio/socket.io/issues/3135
+https://socket.io/docs/v3/custom-parser/

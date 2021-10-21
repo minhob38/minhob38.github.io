@@ -297,7 +297,7 @@ SELECT * FROM table_a CROSS JOIN table_b
 `SELECT * FROM (SELECT * FROM [table 이름]) as t`  
 **\- Correlated 서브쿼리**  
 서브쿼리가 메인 테이블을 참조합니다.  
-`SELECT *, (SELECT * FROM [table b 이름] WHERE a.column ...) FROM [table a 이름] as a)`  
+`SELECT *, (SELECT * FROM [table b 이름] WHERE a.column ...) FROM [table a 이름] as a`  
 
 ### • Transaction
 Database를 수정 중 문제가 발생하면, 작업이 완전히 끝나지 않 Database는 중간의 데이터를 저장하고 있습니다. 또한 database에 다른 작업이 실행 중인데, 또 다른 작업이 끼어든다면 database가 꼬이게 됩니다. [Transaction](https://www.tutorialspoint.com/postgresql/postgresql_transactions.htm)은 여러개의 Database 작업을 하나로 묶어, Database를 요구대로 수정하거나 아예 바꾸지 않게 해주며, ACID(Atomicity, Consistency, Isolation, Durability) 특성을 가지고 있습니다.  
@@ -823,6 +823,123 @@ ON table_name
     EXECUTE PROCEDURE trigger_function
 ```
 
+## Table Partition
+
+## Schema
+Schema는 Database의 table, function 등의 집합입니다. schema를 통해 database를 정리할 수 있습니다.
+(Postgresql은 Database → Schema → Table의 집합관계를 가지고 있습니다.)
+
+
+
+## Security
+6개의 lever
+instance level
+database level
+schema level
+table level
+column level
+row level
+ 
+|Level|Security|
+|-|-|
+|Instance|Users, Roles, Database Creation, Login, Replication|
+|Database|Connection, Creating, etc|
+|Schema|Schema, etc|
+|Table|Selecting, Inserting, Updating, etc|
+|Column|Access|
+|Row|Access|
+
+
+instance
+인스턴스에 있는 모든 DB를 제어합니다.
+supersuer, createdb, createrole, login, replication
+
+role은 user와 같음
+```sql
+CREATE ROLE minho NOSUPERUSER NOCREATEDB NOCREATEROLE LOGIN PASSWORD 'qwerasdf';
+```
+
+```sql
+GRANT [스키마 이름?] TO [USER/ROLE 이름];
+```
+
+
+### • Database Level
+create: 새로운 스키마 생성, connect: database 연결, temp/temporary: temporary table 생성
+
+**\- connect**
+database에 접근할 수 있는 권한을 role에게 줍니다.
+```
+GRANT CONNECT ON DATABASE [database 이름] TO [role 이름]
+```
+
+**\- create**
+database에 schema를 만들 수 있는 권한을 role에게 줍니다.
+```
+GRANT CREATE ON DATABASE [database 이름] TO [role 이름]
+```
+
+### • Schema Level
+**\- create**
+schema에 table, function 등을 만들 수 있는 권한을 role에게 줍니다.
+```
+GRANT CREATE ON SCHEMA [schema 이름] TO [role 이름]
+```
+
+**\- usage**
+schema를 볼 수 있는 권한을 role에게 줍니다.
+```
+GRANT USAGE ON SCHEMA [schema 이름] TO [role 이름]
+```
+
+**\- revoke**
+role에서 schema 권한을 없앱니다.
+```
+REVOKE ALL ON SCHEMA [schema 이름] FROM [role 이름?]
+```
+
+### • Table Level
+**\- select**
+table에 select할 수 있는 권한을 role에게 줍니다.
+```
+GRANT SELECT ON TABLE [table 이름] TO [role 이름]
+```
+**\- insert**
+table에 insert 수 있는 권한을 role에게 줍니다.
+```
+GRANT INSERT ON TABLE [table 이름] TO [role 이름]
+```
+**\- update**
+table에 update할 수 있는 권한을 role에게 줍니다.
+```
+GRANT UPDATE ON TABLE [table 이름] TO [role 이름]
+```
+**\- DELETE**
+table에 delete할 수 있는 권한을 role에게 줍니다.
+```
+GRANT DELETE ON TABLE [table 이름] TO [role 이름]
+```
+**\- TRUNCATE**
+table에 truncate할 수 있는 권한을 role에게 줍니다.
+```
+GRANT TRUCATE ON TABLE [table 이름] TO [role 이름]
+```
+**\- TRIGGER**
+table에 trigger할 수 있는 권한을 role에게 줍니다.
+```
+GRANT TRIGGER ON TABLE [table 이름] TO [role 이름]
+```
+**\- REFERENCES**
+table에 외래키를 만들 수 있는 권한을 role에게 줍니다.
+```
+GRANT REFERENCES ON TABLE [table 이름] TO [role 이름]
+```
+**\- ALL**
+모든 table에 해당 db 권한을 role에게 줍니다.
+```
+GRANT [table 권한] ON ALL TABLE IN SCHEMA [schema 이름] TO [role 이름]
+```
+
 
 ## pgAdmin
 ### • Server(Database) 만들기
@@ -834,6 +951,64 @@ ON table_name
 [Google Cloud SQL](https://cloud.google.com/sql)에서 SQL Database를 저장할 수 있습니다. 클라우드를 만드는 법은 [공식홈페이지](https://cloud.google.com/sql/docs/postgres/quickstart?hl=ko)에 기술되어 있습니다.
 - PostgreSQL 인스턴스 만들기
 - Cloud SQL 연결하기
+
+
+## Cheating Sheet
+```sql
+-- table 만들기
+create table storages (
+    id bigint not null generated always as identity,
+    repo_id bigint not null,
+    name varchar not null,
+    created_at timestamp default now(),
+    is_edited,
+    constraint storages_id_pkey primary key (id),
+    constraint storages_repo_id_fkey foreign key (repo_id) references repositories(id) on delete cascade
+);
+
+-- primary key 추가하기
+alter table storages add constraint storages_name_pkey primary key (name);
+-- primary key 삭제하기
+alter table storages drop constraint storages_name_pkey;
+
+-- foregin key 추가하기
+alter table storages add constraint storages_repo_id_fkey foreign key (name) references repositories(id) on delete cascade;
+-- foregin key 삭제하기
+alter table storages drop constraint storages_repo_id_fkey;
+
+-- not null constraint 추가하기
+alter table storages alter column is_edited set not null;
+-- not null constraint 삭제하기
+alter table storages alter column is_edited drop not not null;
+
+-- default 설정하기
+alter table storages alter column is_edited set default true;
+-- default 삭제하기
+alter table storages alter column is_edited drop default;
+
+-- table 이름 바꾸기
+
+
+-- data type 바꾸기
+
+-- column 추가하기
+alter table storages add column mime_type varchar set default 'hello';
+-- column 삭제하기
+alter table storages drop column is_edited;
+-- column 이름 바꾸기
+
+-- index 추가하기
+
+-- 함수 만들기
+
+-- for문 만들기
+
+-- json 만들기
+
+-- join vs subquery
+```
+
+
 
 ## 참고 자료
 [• 유튜브 강의](https://www.youtube.com/watch?v=qw--VYLpxG4)  
@@ -877,3 +1052,10 @@ https://til.cybertec-postgresql.com/post/2019-09-02-Postgres-Constraint-Naming-C
 
 조인 방식
 https://needjarvis.tistory.com/162
+
+
+
+최신 데이터 가져오기
+https://stackoverflow.com/questions/36701331/postgres-join-max-date
+https://www.geekytidbits.com/postgres-distinct-on/
+https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=hsjnkkw&logNo=70179719126

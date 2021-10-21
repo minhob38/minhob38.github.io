@@ -122,6 +122,70 @@ pipe는 한 명령어의 출력을 다른 명령어의 입력으로 쓰이게 �
 `head -[숫자] [file 이름]`으로 file 내용을 위로부터 숫자행만큼 볼 수 있습니다.
 `tail -[숫자] [file 이름]`으로 file 내용을 아래부터 숫자행만큼 볼 수 있습니다.
 
+
+
+### • file text 다루기
+**\- cut**
+cut은 file안의 text를 잘라 출력합니다. (column 단위)
+`cut -c[숫자] [file 이름]`: 해당 숫자열의 text를 출력합니다.
+
+**\- awk**
+awk은 file안의 text를 잘라 출력합니다. (field 단위)
+`awk `${print $[숫자]}`: 해당 숫자 filed의 text를 출력합니다.
+
+**\- grep**
+grep(Global Regular Expression Print)은 정규식을 만족시키는 행들을 출력합니다. (line 단위)
+`grep [keyword] [file 이름]`
+egrep
+
+**\- sort**
+sort는 file안의 text를 정렬합니다. (line 단위)
+`sort  [file 이름]`
+
+**\- unique**
+sort는 file안의 중복되는 text를 필터링하여, unique한 text를 보여줍니다. (line 단위)
+`unique  [file 이름]`
+
+**\- wc**
+wc는 file안의 line, word, byte 수를 세워 보여줍니다.
+`wc  [file 이름]`
+
+**\- diff**
+file안의 text를 비교합니다.(line 단위)
+`diff  [file 이름] [file 이름]`
+
+**\- cmp**
+file안의 text를 비교합니다.(byte 단위)
+`cmp  [file 이름] [file 이름]`
+
+
+cat [file a 이름] [file b 이름] > [합친 file 이름]
+
+### • file compression
+**\- tar**
+file을 하나로 묶어줍니다.
+`tar cvf [압축file이름.tar] [file 경로]` 압축하기
+`tar xvf [압축file이름.tar]` 압축풀기
+**\- gzip**
+압축합니다.
+gzip [압축file이름.tar]
+
+https://mamu2830.blogspot.com/2021/05/Linux-tar-gzip-bzip2-xz.html
+
+**\- gzip -d (gunzip)**
+압추풀기
+
+
+**\- truncate**
+file을 정의된 크기로 자릅니다.
+`truncate`
+
+
+
+**\- **
+
+
+
 ### • file permission
 file 권한으로 r(ead)/w(rite)/(e)x(ecute)가 있습니다.
 r/w/x의 권한으로 u(ser)/g(roup)/o(ther)가 있습니다.

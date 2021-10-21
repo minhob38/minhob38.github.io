@@ -26,6 +26,8 @@ bcrypt 알고리즘을 통해 평문의 비밀번호를 해시화합니다. bcry
 \- salt key : `$2b$10$iviWS8fuFn/ND0pIG.40wu`  
 \- hash key : `$2b$10$iviWS8fuFn/ND0pIG.40wuedPTL9xy1AQw/9uvhmvaXNnFM.pe/B.`  
 🔎 nodejs의 [bcrypt](https://www.npmjs.com/package/bcrypt)입니다.
+https://javascript.plainenglish.io/how-bcryptjs-works-90ef4cb85bf4
+https://auth0.com/blog/hashing-in-action-understanding-bcrypt/
 
 ## Token 기반 인증
 ### • token

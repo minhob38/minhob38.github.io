@@ -9,6 +9,8 @@ last_modified_at: 2021-06-22 01:00:00 +0900
 # Encoding
  컴퓨터는 자료를 숫자로 저장하기에 문자를 표현하기 위해서, `A → 인코딩 → 65`처럼 문자별로 숫자를 할당해야합니다. 이처럼 컴퓨터가 문자를 표현(읽기/쓰기)할 수 있도록 문자를 숫자에 맵핑시키는 것을 인코딩이라 합니다. 만일 인코딩을 다르게 한다면 프로그램에 따라 문자가 다르게 보일 수 있습니다. 따라서 규격이 필요하며 이러한 인코딩 규격에는 UTF-8, UTF-16, EUC-KR 등이 있습니다.
 
+(인코딩이란 간단히 자료를 숫자로 바꾸는 것입니다.)
+
 유니코드 / 아스키 코드
 
 ## 문자표
@@ -46,3 +48,12 @@ https://perfectacle.github.io/2019/11/24/aes/
 HEX
 BASE64
 https://effectivesquid.tistory.com/entry/Base64-%EC%9D%B8%EC%BD%94%EB%94%A9%EC%9D%B4%EB%9E%80
+
+원 데이터를 6bit 단위로 인코딩, 따라서 글자수가 3글자(24bit)였는데 4(6bit * 4= 64bit)글자로 인코딩 4/3 33% 용량 증가
+base64
+
+binary data를 ascii 64진법으로 변환
+https://devuna.tistory.com/41
+https://effectivesquid.tistory.com/entry/Base64-%EC%9D%B8%EC%BD%94%EB%94%A9%EC%9D%B4%EB%9E%80
+https://pks2974.medium.com/base-64-%EA%B0%84%EB%8B%A8-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0-da50fdfc49d2
+
