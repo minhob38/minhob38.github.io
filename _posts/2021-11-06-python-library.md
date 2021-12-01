@@ -5,6 +5,7 @@ categories:
 date: 2021-08-04 01:00:00 +0900
 last_modified_at: 2021-08-04 01:00:00 +0900
 ---
+https://itmining.tistory.com/122
 
 # Python 내장 함수
 python은 많은 built-in 함수를 가지고 있습니다.  
@@ -86,7 +87,7 @@ list = [char for char in str]
 [extend]는 리스트 끝에 iterable 요소를 열거하여 추가합니다.
 ```python
 list = [1, 2, 3]
-list.extend([4, 5])
+list.append([4, 5])
 print(list) # [1, 2, 3, 4, 5]
 ```
 
@@ -106,7 +107,6 @@ insert
 remove  
 count  
 extend  
-https://wikidocs.net/14
 
 ## 딕셔너리 함수
 파이썬은 딕셔너리를 다루기 위한 함수들을 가지고 있습니다.  
@@ -124,7 +124,7 @@ values로 딕셔너리의 value들을 조회할 수 있습니다.
 len(['a', 'b', 'c']) # 3
 ```
 
-## 튜플 함수
+## 튜프 함수
 파이썬은 튜플을 다루기 위한 함수들을 가지고 있습니다.  
 **\- 튜플 더하기**  
 `+`로 리스트끼리 더하면 서로 연결된 튜플이 됩니다.
@@ -226,8 +226,6 @@ datetime.time([hour, min, sec, microsec, timezone])
 ```python
 datetime.date.today()
 ```
-
-srtftime
 
 ### • time
 ```python

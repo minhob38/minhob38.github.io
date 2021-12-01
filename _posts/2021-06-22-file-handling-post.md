@@ -1,5 +1,5 @@
 ---
-title: "nodejs file 다루기"
+title: "python / nodejs file 다루기"
 categories:
   - programming
 date: 2021-06-22 01:00:00 +0900
@@ -79,7 +79,7 @@ const $fileBox = document.querySelector("#file-box");
     const reader = new FileReader();
     reader.onload = (e) => console.log(e.target.result);
 
-    reader.readAsTest(ev.target.files[0])
+    reader.readAsText(ev.target.files[0])
   })
 </script>
 ```
@@ -102,11 +102,36 @@ const uint8s = new Uint8Array(buffer);
 ```
 http://hacks.mozilla.or.kr/2017/11/a-cartoon-intro-to-arraybuffers-and-sharedarraybuffers/
 
-new FormData()
+
+
+```
+const formData = new Form()
+fetch("http://localhost:3000", {
+  method: "POST",
+  body: formData
+})
+
+// new Form을 넣어서 보내면, 자동으로 mulipart로감
+```
 
 https://code.tutsplus.com/tutorials/how-to-create-a-resumable-video-uploader-in-nodejs--net-25445
 
 
+
+## python
+### • 파일 열기
+**\- open**
+file 객체를 반환합니다.
+```python
+f = open([file 경로], [모드])
+```
+🔎 모드는 w(쓰기)/r(읽기)/a(추가)가 있습니다.
+
+### • 파일 닫기
+open으로 열려있는 file객체를 close로 닫아줍니다.
+```python
+f.close()
+```
 
 ## nodejs (file module)
 
@@ -235,6 +260,10 @@ field 이름은 form에서 정의됨
 
 
 
+
+
+
+
 ## nodejs (socketio)
 
 https://stackoverflow.com/questions/59478402/how-do-i-send-image-to-server-via-socket-io
@@ -278,3 +307,192 @@ https://medium.com/@olamilekan001/image-upload-with-google-cloud-storage-and-nod
 https://masteringjs.io/tutorials/node/google-cloud-storage
 
 https://ichi.pro/ko/nodejsleul-sayonghayeo-google-cloud-storage-beokis-e-pail-eul-eoblodeuhaneun-bangbeob-25584973883807
+
+
+
+
+
+
+
+
+quill custom button
+https://github.com/zenoamaro/react-quill/issues/111
+
+quill image upload
+https://reference-m1.tistory.com/359
+https://www.c-sharpcorner.com/article/how-to-add-image-upload-control-in-react-quill-rich-text-editor/
+https://kaloraat.com/articles/react-quill-wysiwyg-rich-text-editor-image-upload-to-server
+
+quill manual
+https://velog.io/@onezerokang/Quill%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%ED%85%8D%EC%8A%A4%ED%8A%B8-%EC%97%90%EB%94%94%ED%84%B0-%EB%A7%8C%EB%93%A4%EA%B8%B0-API5
+
+### 데이터 보내기
+new Form
+```js
+// client
+const handleChangeFileInputREST = async (ev) => {
+  const file = ev.target.files[0];
+  const formData = new FormData();
+  formData.append("image", file);
+  const res = await fetch("/portfolios/memos", {
+    method: "POST",
+    body: formData,
+  });
+console.log(await res.json());
+};
+```
+```js
+// server
+multer
+```
+
+
+BinaryArray
+```js
+// client
+const handleChangeFileInput = (ev) => {
+  setFiles(ev.currentTarget.value);
+  const reader = new FileReader();
+  const file = ev.currentTarget.files[0];
+  console.log(file.type);
+  console.log(file.name);
+  console.log(file.size);
+  reader.readAsArrayBuffer(ev.currentTarget.files[0]);
+  reader.onload = () => {
+    console.log(reader.result);
+    currentSocket.emit("file-upload", {
+      type: "file-upload",
+      payload: { binary: reader.result, mime: file.type, name: file.name },
+      auth: { token },
+    });
+  };
+};
+```
+```js
+// server
+export async function fileUpload(data) {
+    try {
+        const namespace = this.nsp
+        const { binary, mime, name } = data.payload
+
+        const filePath = path.join(__dirname, 'files')
+        const lastDotIdx = name.lastIndexOf('.')
+        const extension = name.substring(lastDotIdx)
+
+        fs.openSync(`${filePath}/${name}`, 'w')
+        fs.writeFileSync(`${filePath}/${name}`, binary)
+
+        const serviceKey = path.join(
+            __dirname,
+            '..',
+            'config/gcp_bucket_key.json'
+        )
+
+        const storage = new Storage({ keyFilename: serviceKey })
+        const bucketname = 'vos-bucket'
+        const res = await storage
+            .bucket(bucketname)
+            .upload(`${filePath}/${name}`, {
+                destination: `memo_files/${name}`
+            })
+
+        const url = res[0].metadata.mediaLink
+        // namespace.in(bookmarkId).emit('file-upload', {
+        //     type: 'file-upload',
+        //     status: 'success',
+        //     message: 'file uploaded',
+        //     payload:"..."
+        // })
+        // https://storage.googleapis.com/vos-bucket/memo_files/a
+        // console.log(res)
+    } catch (error) {
+        this.emit('edit-memo', {
+            type: 'edit-memo',
+            status: 'error',
+            message: error.message
+        })
+    }
+}
+```
+
+
+https://www.youtube.com/watch?v=vZPk0wHdnSk
+
+### GCP Bucket 연동
+
+
+
+multer
+https://any-ting.tistory.com/20
+
+
+
+### thumbnail 만들기
+https://stackoverflow.com/questions/38410079/how-to-generate-thumb-pdf-file-only-first-page-in-node-js
+
+
+# nodejs pdf to image
+https://codinghub.medium.com/how-to-convert-pdf-file-pages-to-png-images-node-js-dccec010bf13
+
+
+https://openbase.com/categories/js/best-nodejs-pdf-generator-libraries
+
+pdf-kit
+https://stackoverflow.com/questions/48903816/how-to-save-png-format-to-pdf-format-using-pdfkit-in-nodejs-code-included
+
+https://www.youtube.com/watch?v=iDbh3nMf9bs
+
+
+pdf library study
+https://openbase.com/categories/js/best-nodejs-pdf-generator-libraries
+- pdfmake
+텍스트를 치고 pdf를 만드는 방법
+- pdfkit
+텍스트를 치고 pdf를 만드는 방법
+
+- jspdf
+텍스트를 치고 pdf를 만드는 방법
+
+- pdfjs-dist
+- html-pdf
+- pdf-parse
+
+
+pspdfkit
+
+
+docx-pdf //오래됨
+sharp
+
+libre-office
+libre가 설치되어있어야함
+
+
+https://www.pdftron.com/blog/nodejs/generate-pdf-convert-docx-to-pdf-with-nodejs/
+
+pdftron
+https://www.youtube.com/watch?v=OfCarU-t89M
+
+
+
+
+pdf 결론
+os레벨에서 pdf 변환
+linux
+cupspdf
+unoconv
+lowriter
+alpine에 설치
+https://superuser.com/questions/156189/how-to-convert-word-doc-to-pdf-in-linux
+
+https://stackoverflow.com/questions/65194122/in-a-node-alpine-environment-performing-a-pdf-conversion-using-libreoffice-brea
+
+https://ourcodeworld.com/articles/read/867/how-to-convert-a-word-file-to-pdf-docx-to-pdf-in-libreoffice-with-the-cli-in-ubuntu-2004
+https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=dme1004&logNo=220712110937
+
+
+
+## 참고자료
+[• python 파일 읽기/쓰기](https://wikidocs.net/26)
+https://www.huskyhoochu.com/npm-husky-the-git-hook-manager/
+https://blog.pumpkin-raccoon.com/85

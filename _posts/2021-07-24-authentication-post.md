@@ -172,3 +172,15 @@ authenticate-> strategy -> ctx.login -> serializer -> session -> deserializer
 
 
 https://tansfil.tistory.com/59
+
+
+파이썬 jwt
+pip install PyJWT
+pip install bcrypt
+
+
+
+https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/
+
+
+https://stackoverflow.com/questions/64903200/refresh-tokens-on-multiple-devices

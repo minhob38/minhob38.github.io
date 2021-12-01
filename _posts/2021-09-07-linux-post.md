@@ -71,8 +71,8 @@ pipe는 한 명령어의 출력을 다른 명령어의 입력으로 쓰이게 �
 `[command] |`
 
 ### • directory(folder) 만들기
-
 `mkdir [directory 이름]`: directory(folder)를 만듭니다.
+`mkdir -p [directory 이름]`: 상위 directory(folder)도 함께 만듭니다.
 
 
 ### • file 복사

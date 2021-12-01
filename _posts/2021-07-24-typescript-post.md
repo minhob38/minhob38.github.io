@@ -40,6 +40,11 @@ npm install --save-dev typescript
 }
 ```
 
+static file
+https://vccolombo.github.io/blog/tsc-how-to-copy-non-typescript-files-when-building/
+
+
+
 ## Types
 typescript는 타입을 정의하여, 정적으로 타입오류를 찾아주어 개발을 편리하게 해줍니다. 이때 보통 변수선언(var/const/let), 함수선언(매개변수, 반환값) 시 타입을 지정해 줍니다.
 ### • 기본 Type
@@ -644,3 +649,16 @@ arr = [1]
 
 
 ```
+
+
+http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&ejkGb=KOR&barcode=9788966263134
+
+
+
+intersection은 속성이 아닌 타입에 대해 & 개념
+c = a & b (a와 b를 모두 만족하는 타입 c -> 따라서 a,b 속성을 모두 가짐)
+c = a | b (a 또는 b를 만족하는 타입 c -> 따라서 a,b 겹치는 속성을 가짐)
+
+https://velog.io/@soulee__/TypeScript-Union-Type
+
+https://ahnheejong.gitbook.io/ts-for-jsdev/03-basic-grammar/intersection-type

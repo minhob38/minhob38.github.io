@@ -151,6 +151,46 @@ https://cloud.google.com/cdn/?utm_source=google&utm_medium=cpc&utm_campaign=japa
 
 ## http
 
+http code
+https://stackoverflow.com/questions/3297048/403-forbidden-vs-401-unauthorized-http-responses
+
+
+
+# 네트워크 http로 옮기자.
+웹소켓 nginx 프록싱 http://nginx.org/en/docs/http/websocket.html
+
+https://www.zerocho.com/category/HTTP/post/5b3ba2d0b3dabd001b53b9db
+
+## header
+https://developer.mozilla.org/ko/docs/Web/HTTP/Headers
+
+### 종단간 헤더 / 홉간 헤더
+
+
+**\- x-forwarded-for**
+http proxy나 loadbalancer를 통하기 전의 클라이언트의 원ip 주소입니다.
+https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/X-Forwarded-For
+
+
+**\- host**
+서버(요청받는)의 주소입니다.
+https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Host
+
+**\- upgrade**
+http 1.1의 header로 변환할 프로토콜을 정의합니다. (http -> https, http -> websocket)
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Upgrade
+
+**\- connection**
+현재 전송이 완료된 후, 네트워크 접속을 유지할지를 제어합니다.
+https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Connection
+
+
 ## 방화벽
 
 ## proxy
+
+
+
+
+rest
+https://sanghaklee.tistory.com/61

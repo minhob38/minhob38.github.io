@@ -46,7 +46,7 @@ https://perfectacle.github.io/2019/11/24/aes/
 
 
 HEX
-BASE64
+BASE64 (자료를 acscii 코드로 바꿈 (64bit로 표현))
 https://effectivesquid.tistory.com/entry/Base64-%EC%9D%B8%EC%BD%94%EB%94%A9%EC%9D%B4%EB%9E%80
 
 원 데이터를 6bit 단위로 인코딩, 따라서 글자수가 3글자(24bit)였는데 4(6bit * 4= 64bit)글자로 인코딩 4/3 33% 용량 증가
@@ -57,3 +57,17 @@ https://devuna.tistory.com/41
 https://effectivesquid.tistory.com/entry/Base64-%EC%9D%B8%EC%BD%94%EB%94%A9%EC%9D%B4%EB%9E%80
 https://pks2974.medium.com/base-64-%EA%B0%84%EB%8B%A8-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0-da50fdfc49d2
 
+
+
+byte자료형
+https://dojang.io/mod/page/view.php?id=2462
+
+
+
+
+https://it-eldorado.tistory.com/61
+
+https://stackoverflow.com/questions/4526273/what-does-enctype-multipart-form-data-mean
+
+base64 vs multipart
+https://stackoverflow.com/questions/47095294/what-is-difference-between-base64-and-multipart

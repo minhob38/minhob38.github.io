@@ -107,7 +107,8 @@ error_log
 pid
 
 ### • virtual host 만들기
-http block에 virtual host를 정의합니다.
+http block에 virtual host를 정의합니다. listen에서 nginx에 들을 port를 정의합니다. (만일 listen 88로 설정되어 있는데, 80요청이 들어오면 요청을 받지 않습니다.)
+server_name은 더 보자!
 ```
 # nginx.conf
 
@@ -115,7 +116,7 @@ events {}
 
 http {
   server {
-    listen 80 #[서버 주소];
+    listen 80 #[서버 주소]; 
     server_name myserver #[서버이름];
     root /etc/nginx/pages #[절대경로];
 
@@ -475,3 +476,50 @@ https://www.nginx.com/blog/nginx-nodejs-websockets-socketio/
 
 static nginx
 https://docs.nginx.com/nginx/admin-guide/web-server/serving-static-content/
+
+
+https://docs.nginx.com/nginx/admin-guide/web-server/web-server/
+
+
+
+
+```
+events {}
+
+http {
+  log_format server_log 'request:$request | status:$status | '
+                        'proxy_add_x_forwarded_for: $proxy_add_x_forwarded_for | host: $host | '
+                        'http_upgrade: $http_upgrade | http_connection: $http_connection | ';
+
+  server {
+    listen 80;
+    server_name myserver;
+
+    include /etc/nginx/mime.types;
+
+    access_log /etc/nginx/logs/access.log server_log;
+
+    location / {
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $host;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+      proxy_pass http://34.64.177.34:3001;
+    }
+
+    location /client {
+      alias /etc/nginx/statics/;
+      index index.html; #uri .../client/'s default static file
+    }
+
+    location /static/js {
+      alias /etc/nginx/statics/static/js/;
+    }
+
+    location = /students {
+      return 200 'my students';
+    }
+  }
+}
+```

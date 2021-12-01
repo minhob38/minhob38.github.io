@@ -312,3 +312,55 @@ https://medium.com/@tomokazukozuma/how-to-use-socket-io-protocol-42fa6dd93b0e
 용량
 https://github.com/socketio/socket.io/issues/3135
 https://socket.io/docs/v3/custom-parser/
+
+옵션
+https://runebook.dev/ko/docs/socketio/client-initialization
+
+admin
+https://github.com/socketio/socket.io-admin-ui/blob/main/lib/index.ts#L80
+
+instrument에 정의되지 않은 namespace 접근할때는, 일반 소켓 접속과 같음
+반면 정의된 namespace라면 그냥 모든권한을 가짐 (미들웨어 안거침, connection 이벤트 ㄴㄴ)
+
+
+
+
+redix nginx
+https://blog.jscrambler.com/scaling-node-js-socket-server-with-nginx-and-redis
+
+
+socket transport issue
+https://github.com/socketio/socket.io/issues/3025
+
+
+cloud run?
+https://cloud.google.com/run/docs/configuring/request-timeout
+https://stackoverflow.com/questions/66633358/gcp-cloud-run-socket-io-timeout
+
+
+enginio code
+https://stackoverflow.com/questions/36031347/socketio-chrome-inspector-frames
+https://github.com/socketio/engine.io-protocol/blob/master/README.md
+
+같은 domain이면 하나만 생기는듯?
+
+https://medium.com/containers-on-aws/scaling-a-realtime-chat-app-on-aws-using-socket-io-redis-and-aws-fargate-4ed63fb1b681
+
+https://blog.naver.com/PostView.nhn?isHttpsRedirect=true&blogId=1ilsang&logNo=221563459499&categoryNo=126&parentCategoryNo=0&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
+
+https://stackoverflow.com/questions/10814481/how-to-debug-a-socket-hang-up-error-in-nodejs/11542134#11542134
+
+
+
+socketio connection
+https://newbedev.com/maximum-concurrent-socket-io-connections
+
+
+
+https://tech.kakao.com/2021/09/29/mocking-fe/
+
+
+
+
+load test
+https://artillery.io/blog/load-testing-socketio-with-artillery/

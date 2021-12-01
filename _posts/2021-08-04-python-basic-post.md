@@ -261,15 +261,15 @@ items (key, value) 튜플을 list로 반환
 keys list로 반환
 
 ### • 튜플
-
 튜플은 리스트와 비슷하지만, immutable한 차이가 있습니다.
-
 ```python
 tup = (1, 'a', True)
 print(tup[0]) # 1
 
 tup[0] = 10 # error
 ```
+🔎 튜플은 원소가 원소가 두개 이상이어야 합니다. (1) → 1, (1,) → (1,)
+
 
 ### • set
 
@@ -541,7 +541,7 @@ a = range(5) # a = 0, 1, 2, 3, 4
 for i in a:
     print(i)
 
-b = range(1, 3) # b = 1, 2, 3
+b = range(1, 3) # b = 1, 2
 for i in b:
     print(i)
 ```
@@ -637,6 +637,7 @@ def func(**kwargs):
 
 `class` 키워드를 통해 클래스를 선언할 수 있으며, `__init__` 함수를 통해 인스턴스를 초기화 할 수 있습니다.
 또한 일반 변수, 함수 선언으로 속성, 메소드를 정의할 수 있습니다.
+🔎 메소드 정의 시, 첫번째 인자는 python이 self로 할당합니다.
 
 ```python
 class Car():
@@ -703,6 +704,8 @@ import [스크립트(모듈) 이름]
 🔎 스크립트(모듈)은 \*.py 파일입니다.
 
 패키지 만들기
+https://myjorney.tistory.com/52
+
 **init**.py
 
 ---
@@ -758,6 +761,8 @@ m.func_m()
 from a.b.m import func_m
 func_m()
 ```
+
+🔎 같은 경로에 있으면, from . import [모듈/함수 이름], from [모듈/함수 이름] import [모듈/함수 이름]
 
 ## 예외처리
 
@@ -928,3 +933,7 @@ unittest
 `pip install pylint`
 
 PEP8코드스타일
+
+
+python -m
+https://jins-sw.tistory.com/22

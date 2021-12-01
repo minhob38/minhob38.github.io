@@ -46,7 +46,7 @@ echo $[매개변수 이름] $[매개변수 이름]
 
 
 
-## jenkins CI/CD 환경설정
+## jenkins CI/CD 환경설정 (gcp랑 합쳐야할듯?)
 
 
 CI / CD

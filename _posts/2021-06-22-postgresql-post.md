@@ -530,7 +530,7 @@ jsonb의 해당 key를 문자열로 반환합니다.
 table의 모든 행/열을 json으로 바꿉니다. (하나의 열로 변환됩니다)  
 `SELECT row_to_json(book) FROM book`  
 **\- json_agg**  
-aggregate를 위해 array 형태의 json을 만듭니다.  
+aggregate를 위해 array 형태의 json을 만듭니다.  (row_to_json이 배열에 담겨있는 형태입니다.)
 `SELECT json_agg(b) FROM (SELECT book_info FROM book) as b`  
 
 ## Function
@@ -540,7 +540,8 @@ aggregate를 위해 array 형태의 json을 만듭니다.
 CREATE [OR REPLACE] FUNCTION function_name([입력 자료형]) RETURNS [반환 자료형] AS
 `
   [sql 로직]
-` LANGUAGE SQL
+`
+LANGUAGE SQL
 ```
 **\- dollar sign**  
 `대신 $$를 사용할 수 있습니다.
@@ -577,6 +578,27 @@ $$
 $$
 LANGUAGE SQL
 ```
+
+**\- 다중행 반환**  
+자료형에 맞는 단일값을 반환합니다.
+```sql
+CREATE [OR REPLACE] FUNCTION function_name([입력 자료형]) RETURNS SETOF [반환 자료형] AS
+$$
+  [sql 로직]
+$$
+LANGUAGE SQL
+```
+
+**\- 테이블 반환**  
+자료형에 맞는 단일값을 반환합니다.
+```sql
+CREATE [OR REPLACE] FUNCTION function_name([입력 자료형]) RETURNS TABLE ([column 이름 반환 자료형]) AS
+$$
+  [sql 로직]
+$$
+LANGUAGE SQL
+```
+
 ### • 매개변수
 **\- **  
 ```sql
@@ -824,22 +846,85 @@ ON table_name
 ```
 
 ## Table Partition
+table이 커지면, 조회 성능 등이 떨어지기에 table을 분리합니다. partition을 하면 기존 table은 master table이 되고 분리된 table은 partition table이 됩니다. 이때 master table의 data는 partition table로 옮겨집니다. master table 조회 시에는, partition table들의 data를 모두 보여줍니다. crud는 master table에 crud를 하면, partition table에 반영됩니다.
+🔎 postgresql이 partition 기준에 따라, 데이터를 자동으로 partition table에 할당해주므로 select / update / delete / insert는 master table에 하는게 좋습니다.
+🔎 where에 partition 기준 조건을 걸어, postgreql이 어떤 partition table에 작업할지 정의해주어야 합니다.
+```sql
+select * from [master table] -- 전체 partition table들의 data 보여줍니다.
+select * from only [master table] -- master table의 data를 보여줍니다.
+
+select * from [partition table] -- 해당 partition table의 data를 보여줍니다. (only와 결과가 같습니다.)
+select * from only [partition table] -- 해당 partition table의 data를 보여줍니다.
+```
+
+master tabe\le
+### • partition type
+partition 종류에는 range / list / hash 세 종류가 있습니다.
+**\- range**
+범위가 있는 column을 기준으로 table을 분리할 수 있습니다.
+🔎 날짜별로 table을 분리할 때 좋습니다.
+```sql
+create table [master table 이름](
+  id int serial,
+  birth_date date not null,
+) partition by range (birth_date)
+
+create table [partion table 이름] partition of [master table 이름]
+    for values from [column 시작 값] to [column 끝 값];
+```
+
+**\- list**
+리스크가 있는 column을 기준으로 table을 분리할 수 있습니다.
+🔎 코드별로 table을 분리할 때 좋습니다.
+```sql
+create table [master table 이름](
+  id int serial,
+  country_code varchar(2) not null,
+) partition by list (country_code)
+
+create table [partion table 이름] partition of [master table 이름]
+    for values in ([column 값 이름]);
+```
+
+**\- hash**
+hash 값을 기준으로 table을 분리할 수 있습니다.
+🔎 코드별로 table을 분리할 때 좋습니다.
+```sql
+create table [master table 이름](
+  id int serial,
+) partition by hash (id)
+
+create table [partion table 이름] partition of [master table 이름]
+    for values with (modulus [나눌수], remainder [나머지]);
+```
+
+**\- default**
+table을 partition 한 뒤에는, 데이터가 partition 조건에 맞아야 삽입할 수 있습니다. 기준에 맞지 않는 데이터들은 default partition table에 삽입되게 됩니다.
+```sql
+create table [master table 이름](
+  id int serial,
+) partition by hash (id)
+
+create table [partion table 이름] partition of [master table 이름]
+    default;
+```
+
+
+
 
 ## Schema
 Schema는 Database의 table, function 등의 집합입니다. schema를 통해 database를 정리할 수 있습니다.
 (Postgresql은 Database → Schema → Table의 집합관계를 가지고 있습니다.)
 
-
-
 ## Security
 6개의 lever
 instance level
 database level
-schema level
+schema level 
 table level
 column level
 row level
- 
+
 |Level|Security|
 |-|-|
 |Instance|Users, Roles, Database Creation, Login, Replication|
@@ -940,6 +1025,49 @@ GRANT REFERENCES ON TABLE [table 이름] TO [role 이름]
 GRANT [table 권한] ON ALL TABLE IN SCHEMA [schema 이름] TO [role 이름]
 ```
 
+### • Column Level
+**\- select**
+column에 select할 수 있는 권한을 role에게 줍니다.
+```
+GRANT SELECT ([column 이름]) ON [table 이름] TO [role 이름]
+```
+**\- insert**
+column에 insert 수 있는 권한을 role에게 줍니다.
+```
+GRANT INSERT ([column 이름]) ON [table 이름] TO [role 이름]
+```
+**\- update**
+column에 update할 수 있는 권한을 role에게 줍니다.
+```
+GRANT UPDATE ([column 이름]) ON [table 이름] TO [role 이름]
+```
+**\- references**
+column에 외래키를 만들 수 있는 권한을 role에게 줍니다.
+```
+GRANT REFERENCES ([column 이름]) ON [table 이름] TO [role 이름]
+```
+
+### • Row Level
+
+### • PGCRYPTO
+
+
+## Managing Table
+### • table 복사하기
+**\- 데이터와 함께 복사하기**
+```sql
+CREATE TABLE [새로운 table 이름] as (SELECT * FROM [원본 table 이름]);
+```
+**\- 데이터 없이 복사하기**
+```sql
+CREATE TABLE [새로운 table 이름] as (SELECT * FROM [원본 table 이름]) WITH NO DATA;
+```
+
+
+
+
+
+
 
 ## pgAdmin
 ### • Server(Database) 만들기
@@ -961,7 +1089,7 @@ create table storages (
     repo_id bigint not null,
     name varchar not null,
     created_at timestamp default now(),
-    is_edited,
+    is_edited boolean,
     constraint storages_id_pkey primary key (id),
     constraint storages_repo_id_fkey foreign key (repo_id) references repositories(id) on delete cascade
 );
@@ -997,15 +1125,58 @@ alter table storages add column mime_type varchar set default 'hello';
 alter table storages drop column is_edited;
 -- column 이름 바꾸기
 
+-- 정렬하기
+
+-- update 하기
+update storages set is_edited = false where id = 3;
+
 -- index 추가하기
 
--- 함수 만들기
+-- 함수 만들기 (value 반환)
+create or replace funcion fn_get_name(p_id bigint, p_is_edited boolean) returns varchar as
+$$
+  select name from storages where id = p_id and is_edited = is_p_edited;
+$$
+language sql
+
+-- 함수 만들기 (table 반환)
+create or replace funcion fn_get_name(p_id bigint, p_is_edited boolean) returns varchar as
+$$
+  select name from storages where id = p_id and is_edited = is_p_edited;
+$$
+language sql
+
 
 -- for문 만들기
 
 -- json 만들기
 
 -- join vs subquery
+
+
+-- import csv
+-- export csv
+
+-- transaction
+
+-- trigger
+
+-- unique 만들기
+alter table storages add constraint unique_repo_id_name unique (repo_id, name)
+
+
+
+-- duplicate table
+create table new_storages as (select * from storages);
+create table new_storages as (select * from storages) with no data;
+
+
+-- 용량보기
+select pg_size_pretty(pg_database_size([테이블 이름]));
+select pg_size_pretty(pg_relation_size('storages')); -- data
+select pg_size_pretty(pg_index_size('storages')); -- index
+select pg_size_pretty(pg_total_relation_relation_size('storages')); -- data + index
+
 ```
 
 
@@ -1059,3 +1230,14 @@ https://needjarvis.tistory.com/162
 https://stackoverflow.com/questions/36701331/postgres-join-max-date
 https://www.geekytidbits.com/postgres-distinct-on/
 https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=hsjnkkw&logNo=70179719126
+
+role vs member
+https://www.postgresql.org/docs/11/role-membership.html
+
+
+sql style guid
+https://www.sqlstyle.guide/#overview
+
+
+unique
+https://www.postgresqltutorial.com/postgresql-unique-constraint/

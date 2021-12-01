@@ -36,12 +36,15 @@ docker info [image 이름]
 
 ## image
 image는 애플리케이션과 유사한 개념입니다.
+
+
+docker image inspect
 ### • image 만들기
 **\- bulild**  
 [images](https://docs.docker.com/engine/reference/commandline/build/)로 image 목록을 볼 수 있습니다.
 ```
 docker bulid [option] [경로]
-docker bulid [경로] -t [image 이름][:tag 이름]
+docker bulid [경로] -t [image 이름][:tag 이름] [경로]
 ```
 ### • image 목록 보기
 **\- images**  
@@ -360,14 +363,14 @@ container의 port를 정의합니다.
 ```sh
 docker pull minho/my-server:lastest
 # docker image를 dockhub minho 저장소에서 my-server 이미지를 latest tag로 다운 받습니다.
-docker ps ~/code/devops.txt  minho/my-server:latest:/source
+docker cp ~/code/devops.txt  minho/my-server:latest:/source
 # host ~/code/devops.txt를 minho/my-server:latest image의  /source 경로로 복사합니다.
 
 docker build -t myserver:latest ~/src/server
 # ~/src/server에 있는 Dockerfile로 image를 빌드합니다.
 
 docker run -d -p 8080:80 -v ~/src/client/build:/etc/nginx/pages --name mywebserver nginx:latest
-# host8080 포트와 container 포트80을 binding합니다.
+# host 포트 8080과 container 포트80을 binding합니다.
 
 docker cp ~/src/confing/nginx/nginx.conf  /etc/nginx
 # host의 nginx 파일을 container /etc/nginx로 이동
@@ -641,3 +644,15 @@ https://levelup.gitconnected.com/creating-and-filling-a-postgres-db-with-docker-
 https://linkeverything.github.io/container/docker-env/
 https://www.python2.net/questions-4917.htm
 https://docs.docker.com/compose/environment-variables/
+
+
+
+
+네트워크
+https://bluese05.tistory.com/38
+https://sangwook.github.io/2015/01/16/docker-container-network.html
+
+--net=container ?
+https://simpleisit.tistory.com/125
+
+경계를 짓기 어려울때 사용 (like 프록새)
