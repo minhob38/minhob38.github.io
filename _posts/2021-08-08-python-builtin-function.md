@@ -32,6 +32,8 @@ len('python') # 6
 str = "PYthoN"
 print(str, str.lower())
 ```
+**\- split**
+문자열을 구분자로 나누어 리스트로 반환
 
 **\- isalnum**  
 [isalnum](https://docs.python.org/ko/3/library/stdtypes.htmhighlight=isalnum#str.isalnum)은 모든 문자열이 알파벳, 숫자로 이루어져 있으면 True를 반환하며, 그렇지 않으면 False를 반환합니다(문자열이 없어도 False를 반환합니다.  
@@ -227,7 +229,8 @@ datetime.time([hour, min, sec, microsec, timezone])
 datetime.date.today()
 ```
 
-srtftime
+### • strftime
+date 객체를 문자열로 바꿉니다.
 
 ### • time
 ```python

@@ -16,12 +16,14 @@ docker는 애플리케이션이 운영체제(os)와 분리되어 실행될 수 �
 **\- hostname**
 
 ### • command 설명
+
 **\- man**  
 `man [command 이름]`으로 command의 설명을 볼 수 있습니다.  
 **\- whatis**  
 `whatis [command 이름]`으로 command의 설명을 볼 수 있습니다.  
 **\- --help**  
-`[command 이름] --help`으로 command의 설명을 볼 수 있습니다.  
+`[command 이름] --help`으로 command의 설명을 볼 수 있습니다.
+
 ### • network
 
 **\- ifconfig / ip**
@@ -55,14 +57,15 @@ ssh -l iafzal 192.168.1.x
 
 **\-vi**
 
-
 **\- > 또는 >>**
 `[command] > [file 이름]` command 결과가 file에 write됩니다.
 
 **\- echo > 또는 >>**
 `echo "..." > [file 이름]`
->는 overwrite
->>는 append
+
+> 는 overwrite
+>
+> > 는 append
 
 **\- tee**
 `[command] | tee [file 이름]`tee는 출력 및 reditect를 실행합니다.
@@ -71,13 +74,11 @@ pipe는 한 명령어의 출력을 다른 명령어의 입력으로 쓰이게 �
 `[command] |`
 
 ### • directory(folder) 만들기
+
 `mkdir [directory 이름]`: directory(folder)를 만듭니다.
 `mkdir -p [directory 이름]`: 상위 directory(folder)도 함께 만듭니다.
 
-
 ### • file 복사
-
-
 
 ### • file 종류
 
@@ -98,33 +99,34 @@ pipe는 한 명령어의 출력을 다른 명령어의 입력으로 쓰이게 �
 `locate [file 이름]`: 해당 file을 찾으며, file을 포함한 경로를 보여줍니다.  
 🔎 find가 모든 경로를 탐색하는 것과 달리, locate는 db에 경로를 저장하고 있어보다 탐색 속도가 빠릅니다 하지만, db가 최신화되어 있지 않을 수 있기에 updatedb를 통해 db를 업데이트 할 수 있습니다.
 
-
 ### • file 복사하기
-`cp [file 이름] / [directory 이름]`: file을 지웁니다.
+
+`cp [file 이름] / [directory 이름]`: file을 복사합니다.
 
 ### • file 이동하기
-`cp [현재 file 이름] [새로운 file 이름]`: file을 지웁니다.
-`cp [file 이름] / [directory 이름]`: file을 지웁니다.
+
+`mv [현재 file 이름] [새로운 file 이름]`: file 이름을 바꿉니다.
+`mv [file 이름] / [directory 이름]`: file을 이동시킵니다.
 
 ### • file 지우기
+
 `rm [file 이름]`: file을 지웁니다.
 
-
 ### • directory 지우기
+
 `rm -r [directory 이름]`: directory를 지웁니다.
 `rmdir [directory 이름]`: directory를 지웁니다.
 
-
 ### • file 보기
+
 `cat [file 이름]`으로 file 내용을 볼 수 있습니다. (scroll)
 `more [file 이름]`으로 file 내용을 볼 수 있습니다. (page)
 `less [file 이름]`으로 file 내용을 볼 수 있습니다. (line)
 `head -[숫자] [file 이름]`으로 file 내용을 위로부터 숫자행만큼 볼 수 있습니다.
 `tail -[숫자] [file 이름]`으로 file 내용을 아래부터 숫자행만큼 볼 수 있습니다.
 
-
-
 ### • file text 다루기
+
 **\- cut**
 cut은 file안의 text를 잘라 출력합니다. (column 단위)
 `cut -c[숫자] [file 이름]`: 해당 숫자열의 text를 출력합니다.
@@ -140,28 +142,28 @@ egrep
 
 **\- sort**
 sort는 file안의 text를 정렬합니다. (line 단위)
-`sort  [file 이름]`
+`sort [file 이름]`
 
 **\- unique**
 sort는 file안의 중복되는 text를 필터링하여, unique한 text를 보여줍니다. (line 단위)
-`unique  [file 이름]`
+`unique [file 이름]`
 
 **\- wc**
 wc는 file안의 line, word, byte 수를 세워 보여줍니다.
-`wc  [file 이름]`
+`wc [file 이름]`
 
 **\- diff**
 file안의 text를 비교합니다.(line 단위)
-`diff  [file 이름] [file 이름]`
+`diff [file 이름] [file 이름]`
 
 **\- cmp**
 file안의 text를 비교합니다.(byte 단위)
-`cmp  [file 이름] [file 이름]`
-
+`cmp [file 이름] [file 이름]`
 
 cat [file a 이름] [file b 이름] > [합친 file 이름]
 
 ### • file compression
+
 **\- tar**
 file을 하나로 묶어줍니다.
 `tar cvf [압축file이름.tar] [file 경로]` 압축하기
@@ -175,26 +177,21 @@ https://mamu2830.blogspot.com/2021/05/Linux-tar-gzip-bzip2-xz.html
 **\- gzip -d (gunzip)**
 압추풀기
 
-
 **\- truncate**
 file을 정의된 크기로 자릅니다.
 `truncate`
 
-
-
 **\- **
 
-
-
 ### • file permission
+
 file 권한으로 r(ead)/w(rite)/(e)x(ecute)가 있습니다.
 r/w/x의 권한으로 u(ser)/g(roup)/o(ther)가 있습니다.
 -rwxrwxrwx
 (u/g/o 순서)
 **\- chmod**
 chmod로 permission을 바꿀 수 있습니다.
-`chmod [a|u|g|o][+|-][r|w|x] [file 이름]`
--는 권한삭제 + 권한추가
+`chmod [a|u|g|o][+|-][r|w|x] [file 이름]` -는 권한삭제 + 권한추가
 
 ```
 chmod ugo+r [file 이름]
@@ -202,6 +199,7 @@ chmod 444 [file 이름]
 chmod ugo+r [file 이름]
 
 ```
+
 |-|-|-|
 |number|permission|symbol|
 |0|no permission|---|
@@ -214,6 +212,7 @@ chmod ugo+r [file 이름]
 |7|read + write + execute|rwx|
 
 ### • file ownership
+
 user/group의 소유권만 있음
 
 **\- chown**
@@ -224,7 +223,6 @@ group owner를 바꿉니다.
 `chgrp [group 이름] [file 이름]`
 
 🔎 root user만 변경할 수 있습니다. (`su`)
-
 
 ### • 비밀번호
 
@@ -277,10 +275,63 @@ chmod
 
 systemctl
 
+### • if문
+
+```
+if [ 조건식 ];then
+    ...
+fi
+```
+
 ## 참고자료
 
 [• ...]
 
 find ./ -name "bank\*" -type d | xargs rm -rf
 
+## cheating sheet
 
+### • 계정정보보기
+
+```sh
+$ id
+```
+
+### • 비밀번호 바꾸기
+
+```sh
+$ passwd root
+```
+
+### • file 이름 바꾸기
+
+```sh
+$ mv a b
+# $ mv [원본] [수정본]
+```
+
+### • file 권한 바꾸기
+
+```sh
+$ chmod 777 golang.txt # 모든 권한주기
+# $ chmod [permission] [file 이름]
+```
+
+### • os 보기
+
+cat /etc/\*release
+
+### • 문자열찾기
+
+sed -n "/:3001/p" nginx.conf
+
+문자열바꾸기
+sed -i -e "s/:3001;/:3001 down;/gi" nginx.conf
+
+### • if문
+
+```
+if [ 조건식 ];then
+    ...
+fi
+```

@@ -34,19 +34,7 @@ last_modified_at: 2021-08-04 01:00:00 +0900
 
 자료형이란 데이터를 표현하는 기준을 의미하며, 파이썬에는 숫자형 / 문자열 / 리스트 / 튜플 / 딕셔너리 / 집합 / 불이 있습니다.
 
-- 😺 변수들의 자료형은 type 함수를 통해 알 수 있습니다.
-
-  - **typeof**
-
-  피연산자 자료형을 문자열로 반환합니다.
-
-  - syntax : `typeof operand`, `typeof(operand)`
-
-  ```jsx
-  console.log(typeof "a");
-  console.log(typeof []);
-  console.log(typeof typeof 3);
-  ```
+😺 변수들의 자료형은 type 함수를 통해 알 수 있습니다.
 
 ### • 숫자형
 
@@ -192,7 +180,7 @@ print(list_d[2][1])
 
 list_a[2] = 4
 print(list_a)
-#list_a[2:3] = 4, 5 #초과된 인덱스에 할당 가능
+#list_a[2:3] = 4, 5 #초과된 인덱스에 할당 가능 - X
 print(list_a)
 ```
 
@@ -261,15 +249,17 @@ items (key, value) 튜플을 list로 반환
 keys list로 반환
 
 ### • 튜플
+
 튜플은 리스트와 비슷하지만, immutable한 차이가 있습니다.
+
 ```python
 tup = (1, 'a', True)
 print(tup[0]) # 1
 
 tup[0] = 10 # error
 ```
-🔎 튜플은 원소가 원소가 두개 이상이어야 합니다. (1) → 1, (1,) → (1,)
 
+🔎 튜플은 원소가 두개 이상이어야 합니다. (1) → 1, (1,) → (1,)
 
 ### • set
 
@@ -386,7 +376,7 @@ else:
     print('else')
 ```
 
-**\- if ~ else if ~ else문**  
+**\- if ~ elif ~ else문**  
 조건식이 참인 if & else if문 실행하며, 모두 거짓인 경우 else문을 실행합니다.  
 🔎 참인 if & else if문 다음에는 조건식 연산을 건너뜁니다.
 
@@ -440,7 +430,7 @@ else:
 ```
 
 **\- for 문**  
-조건식이 참이면 구문을 실행하며, 실행될 구문은 들여쓰기(띄어쓰기)로 코딩되어야 합니다.  
+반복가능한 객체에 대해 반복문을 실행합니다.  
 `for 인덱스 in 리스트(또는 튜플, 문자열): 실행문`
 
 ```python
@@ -579,7 +569,7 @@ from random inport shuffle
 ## 함수
 
 함수는 입력과 출력 간 관계의 표현식이라 할 수 있으며, 또다른 의미로는 하나의 단위로 실행되는 문이라 할 수 있습니다.  
-🔎 만일 입력과 출력이 없다면 함수라 할 수 있을까요? 프로그래밍에서 함수는 수학적 정의와 다소 다른 점이 있다. 수학에서는 함수f는 입력 x와 출력y가 있어야 정의될 수 있습니다. 프로그래밍에서 입력과 출력의 정의를 '함수실행 = 입력, 어떠한 결과 = 출력'까지 확장한다면 전달하는 입력과 반환값이 없을지라도 함수라 할 수 있습니다.
+🔎 만일 입력과 출력이 없다면 함수라 할 수 있을까요? 프로그래밍에서 함수는 수학적 정의와 다소 다른 점이 있습니다. 수학에서는 함수f는 입력 x와 출력y가 있어야 정의될 수 있습니다. 프로그래밍에서 입력과 출력의 정의를 '함수실행 = 입력, 어떠한 결과 = 출력'까지 확장한다면 전달하는 입력과 반환값이 없을지라도 함수라 할 수 있습니다.
 
 ### • 선언
 
@@ -626,7 +616,7 @@ def func(*args):
 
 ```python
 def func(**kwargs):
-    print(args)
+    print(kwargs)
 ```
 
 ## 클래스
@@ -643,7 +633,7 @@ def func(**kwargs):
 class Car():
     id = 'id'
 
-    def __init__(self,model,color):
+    def __init__(self, model, color):
         self.color = color
         self.model = model
 
@@ -673,13 +663,13 @@ class Car(Vehicle):
 
 **main**
 
-### • Dunder Method
+### • Dunder(Magic) Method
 
-**\- **str****  
+**\- **str\***\*  
 `print([instance 이름])`, `str([instance 이름])`을 입력했을때, 실행되는 함수를 정의합니다.  
-**\-**len****  
+**\-**len\*\***  
 `len([instance 이름])`을 입력했을때, 실행되는 함수를 정의합니다.  
-**\-**del****  
+**\-**del\*\*\*\*  
 `del([instance 이름])`을 입력했을때, 실행되는 함수를 정의합니다.
 
 pypi
@@ -769,11 +759,11 @@ func_m()
 https://hleecaster.com/python-exception/
 모든 에러는 Exeption
 
-`try`, `excpet`, `finally`로 예외처리를 할 수 있습니다.
+`try`, `except`, `finally`로 예외처리를 할 수 있습니다.
 
 ### • try
 
-정상적으로 작동하는 코드 영역입니다.
+정상적으로 동작하는 코드 영역입니다.
 
 ```python
 try:
@@ -933,7 +923,6 @@ unittest
 `pip install pylint`
 
 PEP8코드스타일
-
 
 python -m
 https://jins-sw.tistory.com/22

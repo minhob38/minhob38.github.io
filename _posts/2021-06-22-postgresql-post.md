@@ -1063,7 +1063,9 @@ CREATE TABLE [새로운 table 이름] as (SELECT * FROM [원본 table 이름]);
 CREATE TABLE [새로운 table 이름] as (SELECT * FROM [원본 table 이름]) WITH NO DATA;
 ```
 
+create table trecord (like othertable including all); -- 추가로 데이터도 넣어주기 insert into trecord (select * from othertable);
 
+출처: https://mine-it-record.tistory.com/428 [나만의 기록들]
 
 
 
@@ -1114,8 +1116,15 @@ alter table storages alter column is_edited set default true;
 -- default 삭제하기
 alter table storages alter column is_edited drop default;
 
--- table 이름 바꾸기
+-- unique 설정하기
+alter table storages add constraint user_id_group_id_unique unique (user_id, group_id)
 
+alter column is_edited set default true;
+-- default 삭제하기
+alter table storages alter column is_edited drop default;
+
+-- table 이름 바꾸기
+alter table storages raname to storages_b;
 
 -- data type 바꾸기
 
@@ -1126,6 +1135,7 @@ alter table storages drop column is_edited;
 -- column 이름 바꾸기
 
 -- 정렬하기
+select * from storages order by created_at asc, id desc;
 
 -- update 하기
 update storages set is_edited = false where id = 3;

@@ -1,13 +1,15 @@
 ---
 title: "NGINX"
-categories: 
+categories:
   - programming
 date: 2021-09-12 01:00:00 +0900
 last_modified_at: 2021-09-12 01:00:00 +0900
 ---
+
 https://velog.io/@moonyoung/Nginx%EC%99%80-Apache
 
 ---
+
 아파치는 thread를 나누어, cpu 효율이 떨어짐 -> 성능 저하
 nginx는 하나의 일을 하나의 cpu가 하는 느낌... -> 성능 저하는 없음
 
@@ -16,16 +18,20 @@ nginx는 하나의 일을 하나의 cpu가 하는 느낌... -> 성능 저하는 
 
 usr/share/nginx/html
 
-
 # nginx
+
 nginx란 이벤트 기반으로, 동시접속(concurrency) 요청에 특화된 웹서버입니다.
 https://www.nginx.com/
 https://nginx.org/
+
 ## web server
+
 ### • web server
+
 http요청을 받아 서버에 저장되어 있는 static pages(html, css, js, image 등)를 응답하는 서버입니다
 
 ### • web application server
+
 http요청을 받아 서버 애플리케이션을 통해, 로직 및 database를 거쳐 dynamic pages를 응답하는 서버입니다.
 
 🔎 api 서버와는 다릅니다.
@@ -47,14 +53,17 @@ was는 http 요청을 받아 동적으로 가공하여 응답합니다.
 
 nginx는 이벤트 기반
 
-
 ## 환경설정
+
 ### • 설치하기
+
 https://nginx.org/en/docs/install.html
+
 ```shell
 $ apt-get update
 $ apt-get install nginx
 ```
+
 ```
 $ ps aux | grep nginx
 ```
@@ -62,39 +71,50 @@ $ ps aux | grep nginx
 🔎 ubuntu 기반의 설명입니다.
 
 ### • 실행하기
+
 systemd?
 
 nginx -h 스크립트 도움말을 보여줍니다.
 
-
 systemctl reload nginx
+
 ### • 종료하기
+
 nginx -s stop
 
-
 ## nginx 내부변수
+
 http://nginx.org/en/docs/varindex.html
 
 ## basic configuration
+
 nginx는 nginx.conf에 정의된 diretive를 기반으로 작동합니다.
 🔎 nginx -t로 형식이 올바른지 확인합니다.
 `etc/nginx/nginx.conf`
 
 http://nginx.org/en/docs/beginners_guide.html
+
 ### • directive
+
 nginx의 name / parameter로 이루어진 설정의 단위입니다.
 **\- simple directive**  
 simple directive는 `;`로 끝납니다.
+
 ```
 [name] = [parameter]
 ```
-**\- block directive
+
+\*\*\- block directive
 simple directive는 `{}`로 끝납니다.
+
 ```
 [name] = { }
 ```
+
 ### • context
+
 또다른 directive를 가진 directive를 context라 합니다.
+
 ```
 [이름] = {
   [name] = [parameter]
@@ -107,8 +127,10 @@ error_log
 pid
 
 ### • virtual host 만들기
+
 http block에 virtual host를 정의합니다. listen에서 nginx에 들을 port를 정의합니다. (만일 listen 88로 설정되어 있는데, 80요청이 들어오면 요청을 받지 않습니다.)
 server_name은 더 보자!
+
 ```
 # nginx.conf
 
@@ -116,7 +138,7 @@ events {}
 
 http {
   server {
-    listen 80 #[서버 주소]; 
+    listen 80 #[서버 주소];
     server_name myserver #[서버이름];
     root /etc/nginx/pages #[절대경로];
 
@@ -134,7 +156,9 @@ http {
   }
 }
 ```
+
 아래는 해당 nginx.conf에 해당하는 파일 디렉토리입니다. 이때 localhost/index.html(= localhost/), localhost/a.html, localhost/b.html로 접속합니다.
+
 ```
 etc
  |-nginx
@@ -143,6 +167,7 @@ etc
        |-a.html
        |-b.html
 ```
+
 **\- listen**  
 virtual host의 address입니다.  
 **\- server_name**  
@@ -157,27 +182,27 @@ virtual host의 이름입니다.
 1\. exact match `=`  
 2\. preferential prefix match `^~`  
 3\. regex match `~*`  
-4\. prefix match ``  
+4\. prefix match ``
 
 🔎 정적파일을 보낼떄는 ext match로 하면 안됨...
 location = /a 로하면, /a/index.html을 못찾기떄문...
 
 location /a -> /a/b/c/d url 처리가능 (prefilx라서) 처리후에는 /b/c/d가 파일 찾는데 사용
-location /a/의 차이
-
-
+location /a와 /a/의 차이는 /ab요청이 오면 /a는 응답이 가능하고 /a/a는 처리가 안됩니다.
 
 ### • variables
+
 `set`을 통해 변수를 선언할 수 있으며, 변수는 앞에 `$`가 붙습니다.
+
 ```
 set $[변수 이름] $[변수 값]
 ```
+
 🔎 아래는 nginx의 미리 만들어져있는 변수들입니다.
 https://nginx.org/en/docs/varindex.html
 
-http_ http://nginx.org/en/docs/http/ngx_http_core_module.html#var_http_
-http_[header 이름]
-
+http* http://nginx.org/en/docs/http/ngx_http_core_module.html#var_http*
+http\_[header 이름]
 
 ```
 # nginx.conf
@@ -204,16 +229,18 @@ http {
 
 ### • rewrite / redirect
 
-### • _try_files
+### • \_try_files
+
 https://nginx.org/en/docs/http/ngx_http_core_module.html#try_files
 
-
 ### • logging
+
 기본적으로 `/var/log/nginx/`에 `access.log`, `error.log`가 저장됩니다.
 **\- error log**  
 https://nginx.org/en/docs/ngx_core_module.html#error_log
 **\- access log**  
 https://nginx.org/en/docs/http/ngx_http_log_module.html#access_log
+
 ```
 # nginx.conf
 events {}
@@ -227,7 +254,9 @@ http {
   }
 }
 ```
+
 ### • inheritance ?
+
 **\- standard directive**  
 해당 context안에서 한번만 정의될 수 있는 directive입니다. (eg: root)
 **\- array directive**  
@@ -237,13 +266,15 @@ http {
 
 ## performance
 
-### • master process / worker process  ?
+### • master process / worker process ?
+
 nginx는 비동기로 설계되었습니다. master process 요청을 처리하지 않고 worker process에 전달합니다. worker process는 하나의 cpu를 차지하여 요청을 처리합니다.
 https://nginx.org/en/docs/ngx_core_module.html
 https://nginx.org/en/docs/ngx_core_module.html#worker_processes
 https://nginx.org/en/docs/ngx_core_module.html#worker_connections
-ulimit -n 
+ulimit -n
 lscpu
+
 ```
 # nginx.conf
 worker_processes 1 # [숫자] 최대 cpu core 개수 만큼
@@ -258,9 +289,11 @@ http {
   }
 }
 ```
-worker_process * worker_connections
+
+worker_process \* worker_connections
 
 ### • buffers / timeout ?
+
 ```
 # nginx.conf
 worker_processes 1 # [숫자]
@@ -293,11 +326,13 @@ sendfile on;
 ### • adding dynamic module
 
 ### • header
+
 캐시
 **\- add_header**  
-**\- expires**  
+**\- expires**
 
 ### • gzip
+
 **\- gzip**
 **\- gzip_comp_level**
 **\- gzip_types**
@@ -305,20 +340,23 @@ sendfile on;
 ### • fastCGI cache
 
 ### • http2
+
 openssl req -x509 -days 10 -nodes -newkey?
+
 ### • http2_push?
 
-
 ## reverse proxy / load balancing
+
 ### • reverse proxy
+
 reverse proxy는 browser와 server의 중간에 있는 서버입니다.
 reverse proxy 설명 더넣기...
-
 
 **\- proxy_pass**  
 https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass
 설정한 uri로 요청을 전달합니다.
 uri/ vs uri
+
 ```
 # nginx.conf
 events {}
@@ -332,10 +370,13 @@ http {
   }
 }
 ```
+
 ### • loadbalancing
+
 https://nginx.org/en/docs/http/load_balancing.html
 **\- upstream**  
 https://nginx.org/en/docs/http/ngx_http_upstream_module.html#upstream
+
 ```
 # nginx.conf
 events {}
@@ -354,18 +395,18 @@ http {
   }
 }
 ```
+
 round robin으로 load balancing합니다.
 **\- ip_hash**  
 같은 ip는 이전 서버로 보냅니다.
 **\- lest_conn**  
 connection이 적은 서버로 보냅니다.
 
-
-
 nginx -c?
+
 ```nginx.conf
 user       www www;  ## Default: nobody
-worker_processes  5;  ## Default: 1  
+worker_processes  5;  ## Default: 1
 error_log  logs/error.log;
 pid        logs/nginx.pid;
 worker_rlimit_nofile 8192;
@@ -436,15 +477,13 @@ http {
 }
 ```
 
-
 ## react 연결
 
 ## 무중단 배포
+
 https://dev-jwblog.tistory.com/42
 
-
 https://www.nginx.com/nginx-wiki/build/dirhtml/start/topics/examples/systemd/
-
 
 https://whatisthenext.tistory.com/123
 
@@ -454,7 +493,6 @@ https://codechacha.com/ko/deploy-react-with-nginx/
 https://velog.io/@ksso730/Nginx-Apache-%EB%B9%84%EA%B5%90
 
 stack academy
-
 
 https://nginx.org/en/docs/beginners_guide.html
 
@@ -470,18 +508,13 @@ https://ohgyun.com/556
 nginx설정값
 https://developer88.tistory.com/299
 
-
 !!!! socket nginx
 https://www.nginx.com/blog/nginx-nodejs-websockets-socketio/
 
 static nginx
 https://docs.nginx.com/nginx/admin-guide/web-server/serving-static-content/
 
-
 https://docs.nginx.com/nginx/admin-guide/web-server/web-server/
-
-
-
 
 ```
 events {}
@@ -523,3 +556,69 @@ http {
   }
 }
 ```
+
+nginx.conf 위치
+
+- nginx:/etc/nginx
+
+service nginx restart
+service nginx reload
+nginx -s reload
+nginx -s quit
+nginx -s stop
+nginx -s reopen
+
+## cheating sheet
+
+### • nginx location
+
+nginx는 location 처리시, 자세한 location에 맞추어 응답합니다.
+
+```
+events {}
+
+http {
+  server {
+    listen 80;
+    server_name myserver;
+
+    location / {
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $host;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+      proxy_pass http://34.64.177.34:3001;
+    }
+
+      location = /a {
+          return 200 '/a';
+      }
+      location = /a/ {
+          return 200 '/a/';
+      }
+      # /b***인 path를 처리합니다.
+      location /b {
+          return 200 '/b';
+      }
+      # /b***인 path에 포함되지만, /b/c가 자세하기 /b/c***인 path를 처리합니다.
+      location /b/c {
+          return 200 '/b/c';
+      }
+      location /c {
+          return 200 '/c';
+      }
+      location /c/ {
+          return 200 '/c/';
+      }
+      location /cd {
+          return 200 '/cd';
+      }
+  }
+}
+
+```
+
+### • nginx api
+
+### • nginx static page

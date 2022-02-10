@@ -110,7 +110,7 @@ RuntimeError: You called this URL via POST, but the URL doesn't end in a slash a
 ```
 
 ## view
-### • view function
+### • function based view
 Class Based View
 https://docs.djangoproject.com/en/3.2/topics/class-based-views/intro/
 
@@ -121,25 +121,45 @@ def view(request):
     ...
     return HttpResponse
 ```
+### • class based view
+```python
+class MyView(self, request):
+    def get(self, request):
+    ...
+        return HttpResponse
+```
+
 
 ### • 요청받기
 **\- HttpRequest**  
 request는 HttpRequest입니다.  
 **\- path parameter**   
-path parametet는 url에 <>로 넣으며, view 함수의 **kwargs 인자로 전달됩니다.
+path parametet는 url에 <>로 넣으며, view 함수의 인자로 전달됩니다.
 ```python
 urlpatterns = [
     path('/school/<id>', view.school)
-    path('/class/<id>', view.school)
+    path('/class/<int:id>', view.school)
 ]
 
 def school(request, id):
   if request.method == "GET":
 
-def class(request, **kwargs):
+def class(request, id):
   if request.method == "GET":
-...
 ```
+**\- query parameter**   
+query parameter는 view 함수의 request.GET으로 받을 수 있습니다.
+```python
+urlpatterns = [
+    path('/school?class=3&student=11', view.school)
+]
+
+def school(request):
+  if request.method == "GET":
+      query = request.GET.get('class', 'student')
+      query = request.GET['class']
+```
+
 **\- json parsing**  
 json.loads는 json을 dictionary로 바꾸어줍니다.
 
@@ -157,7 +177,7 @@ json.dumps는 dictionary를 json으로 바꾸어줍니다.
 
 
 ## Model
-django에서 model을 통해 database를 다룰 수 있습니다.
+django에서 model 기반 orm을 통해 database를 다룰 수 있습니다.
 
 ### • migration
 model로부터 table을 만드는 것을 migration이라 합니다.
@@ -172,48 +192,72 @@ python manage.py makemigrations
 
 makemigration을 하면, migrations 폴더에 xxxx_initail.py가 생김
 
+### • migration
+database로부터 model을 만듭니다.
+```
+ python manage.py inspectdb > models.py
+```
 
 https://velog.io/@ybear90/Django-Django-ORM-queryset-%EC%A0%95%EB%A6%ACmodel-filter-all-get-filter-exists-create-save
 
-쿼리셋
-https://docs.djangoproject.com/en/3.2/ref/models/querysets/
 
 ### • model 만들기
-해당 app의 model.py에 
+해당 app의 model.py에 model을 만들 수 있습니다.
+```python
+from django.db import models
 
+class User(models.Model):
+    id = models.AutoField(primary_key = True)
+    email = models.TextField(unique = True)
+```
 
 ### • model data 삽입하기
+**\- create**
+```
+user = User(email=email, password=password)
+user.save()
+```
+**\- create**
+```
+user = User.object.create(email=email, password=password)
+```
+
+
 ### • model data 조회하기
-**\- exists**
-[exists](https://docs.djangoproject.com/en/3.2/ref/models/querysets/#exists)는 table에 조건에 맞는 행이 있는지 True/False로 반환합니다.
+**\- all**
+```
+users = User.objects.filter(email=email)
+```
+**\- filter**
+```
+users = User.objects.filter(email=email)
+```
 **\- get**
+get은 조건에 맞는 행을 반환하며, 없으면 오류를 발생시킵니다.
+exists는 table에 조건에 맞는 행이 있는지 True/False로 반환합니다.
+```
+isUser = User.objects.get(email=email).exists()
+```
+**\- exists**
+exists는 table에 조건에 맞는 행이 있는지 True/False로 반환합니다.
+```
+isUser = User.objects.filter(email=email).exists()
+```
+
 ### • model data 삭제하기
+```
+user = User.objects.filter(email=email).delete()
+```
 ### • model data 수정하기
-### • model 기타 삭제하기
+해보고 수정하기
+```
+user = User.objects.filter(email=email)
+user.password = password
+user.save()
+```
 **\- str**
 https://docs.djangoproject.com/en/2.2/ref/models/instances/#str
 ---
-
-### • model
-
-db 여러개 연결
-raw query
-
-
-https://docs.djangoproject.com/en/3.0/topics/db/models/
-https://docs.djangoproject.com/en/3.0/ref/models/meta/
-modle field
-https://docs.djangoproject.com/en/3.0/ref/models/fields/#field-types
-
-### • migration? sqlite3?
-
-
-
-
-
-
-
-https://sqlitebrowser.org
 
 ### • django admin
 
@@ -242,7 +286,24 @@ lint
 ```
 
 
+## django rest framework
+apiview
+viewsets.modleviewset
 
+
+@api_view(["POST"])
+@parser_classes([FormParser])
+
+
+### • class based view
+\** -
+
+
+## middleware
+process_view(request, view_func, view_args, view_kwargs )
+process_template_response(request,response)
+
+process_exception(request, exception)
 
 
 
@@ -283,15 +344,22 @@ https://djangowaves.com/tips-tricks/gitignore-for-a-django-project/
 ## 참고자료
 [• mdn django 정의](https://developer.mozilla.org/ko/docs/Learn/Server-side/Django/Introduction)  
 [• django 공식홈페이지](https://www.djangoproject.com/)  
-[• django model](https://docs.djangoproject.com/en/3.2/topics/db/models/)
+[• django model](https://docs.djangoproject.com/en/3.2/topics/db/models/)  
 [• django urls](https://docs.djangoproject.com/ko/3.2/topics/http/urls/)  
-[• django  view](https://docs.djangoproject.com/en/3.2/topics/http/views/)
+[• django view](https://docs.djangoproject.com/en/3.2/topics/http/views/)  
 [• django request/response](https://docs.djangoproject.com/en/3.2/ref/request-response/)  
-[• python json](https://docs.python.org/ko/3/library/json.html)
+[• python json](https://docs.python.org/ko/3/library/json.html)  
+[• tutorial djangogirls](https://tutorial.djangogirls.org/ko/django_models/)  
+[• django queryset blog](https://velog.io/@ybear90/Django-Django-ORM-queryset-%EC%A0%95%EB%A6%ACmodel-filter-all-get-filter-exists-create-save)  
+[• django model field](https://docs.djangoproject.com/en/3.2/ref/models/fields/#django.db.models.Field)
+[• django model queryset](https://docs.djangoproject.com/en/3.2/ref/models/querysets/)
+[• django multiple database](https://docs.djangoproject.com/en/3.2/topics/db/multi-db/)
+
+[• drf class based view](https://www.django-rest-framework.org/api-guide/views/#class-based-views)
+[• drf function based view](https://www.django-rest-framework.org/api-guide/views/#function-based-views)
 
 
-[• tutorial djangogirls](https://tutorial.djangogirls.org/ko/django_models/)
-[• django queryset blog](https://velog.io/@ybear90/Django-Django-ORM-queryset-%EC%A0%95%EB%A6%ACmodel-filter-all-get-filter-exists-create-save)
+https://www.django-rest-framework.org/api-guide/serializers/
 
 장고 패키지/모듈 경로
 
