@@ -57,3 +57,5 @@ https://stackoverflow.com/questions/57416217/cryptojs-encrypt-in-aes-256-cbc-ret
 https://stackoverflow.com/questions/29512858/cryptojs-and-key-iv-length
 
 https://randomkeygen.com/
+
+https://perfectacle.github.io/2019/11/24/aes/
