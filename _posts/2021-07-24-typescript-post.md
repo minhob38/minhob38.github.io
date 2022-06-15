@@ -543,7 +543,7 @@ $input.value = 'hello';
 
 ## Generics
 
-Generic이란...
+Generic은 type의 함수입니다.
 
 ### • Generic Function 만들기
 
@@ -554,8 +554,6 @@ function merge<T extends object, U extends object>(objA: T, objB: U) {
 
 const mergedObj = merge({ name: "jerry" }, { age: "30" });
 ```
-
-keyof constraint
 
 ```js
 function func<T extends object, U extends keyof T>(obj: T, key: U) {
