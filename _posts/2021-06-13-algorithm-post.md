@@ -3,7 +3,7 @@ title: "Climbing Stairs"
 categories: 
   - algorithm
 date: 2021-06-13 01:00:00 +0900
-last_modified_at: 2021-06-13 01:00:00 +0900
+last_modified_at: 2023-03-16 01:00:00 +0900
 ---
 
 계단에 올라갈 수 있는 조합의 수를 구하는 문제입니다.
