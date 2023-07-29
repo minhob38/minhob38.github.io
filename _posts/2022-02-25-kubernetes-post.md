@@ -1,5 +1,5 @@
 ---
-title: "Kubernetis"
+title: "Kubernetes"
 categories:
   - programming
 date: 2021-08-28 01:00:00 +0900
