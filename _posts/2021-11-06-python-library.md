@@ -2,10 +2,9 @@
 title: "Python"
 categories: 
   - programming
-date: 2021-08-04 01:00:00 +0900
+date: 2023-03-24 01:00:00 +0900
 last_modified_at: 2021-08-04 01:00:00 +0900
 ---
-https://itmining.tistory.com/122
 
 # Python 내장 함수
 python은 많은 built-in 함수를 가지고 있습니다.  
