@@ -3,7 +3,7 @@ title: "Maximum Subarray"
 categories: 
   - algorithm
 date: 2021-06-12 01:00:00 +0900
-last_modified_at: 2021-06-12 01:00:00 +0900
+last_modified_at: 2023-03-17 01:00:00 +0900
 ---
 
 인접한 요소들로 구성된 sub array의 최대값을 구하는 문제입니다. 
