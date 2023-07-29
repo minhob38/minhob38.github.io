@@ -2,7 +2,7 @@
 title: "Django"
 categories:
   - programming
-date: 2021-09-12 01:00:00 +0900
+date: 2023-03-23 01:00:00 +0900
 last_modified_at: 2021-09-12 01:00:00 +0900
 ---
 # Django
