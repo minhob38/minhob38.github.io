@@ -2,7 +2,7 @@
 title: "깊은 복사 / 얕은 복사"
 categories: 
   - programming
-date: 2021-06-07 01:00:00 +0900
+date: 2023-03-14 01:00:00 +0900
 last_modified_at: 2021-06-07 01:00:00 +0900
 ---
 
